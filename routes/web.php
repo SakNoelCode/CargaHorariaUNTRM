@@ -16,6 +16,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [homeController::class,'show'])->name('home');
 
+Route::get('/declaraciones',function(){
+    return view('prueba');
+});
+
+//Rutas para el inicio de sesión
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
