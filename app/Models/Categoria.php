@@ -14,4 +14,9 @@ class Categoria extends Model
     protected $fillable = ['descripcion'];
 
     protected $guarded = ['id'];
+
+    //Relaciones Eloquent
+    public function docente(){
+        return $this->hasMany('App\Models\Docente');
+    }
 }

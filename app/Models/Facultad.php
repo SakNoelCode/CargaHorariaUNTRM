@@ -14,4 +14,9 @@ class Facultad extends Model
     protected $fillable = ['descripcion'];
 
     protected $guarded = ['id'];
+
+    //Relaciones Eloquent
+    public function escuela(){
+        return $this->hasMany('App\Models\Escuela');
+    }
 }

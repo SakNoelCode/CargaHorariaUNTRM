@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [homeController::class,'show'])->name('home');
 
 Route::get('/declaraciones',function(){
-    return view('prueba');
+    return view('');
 });
 
 //Rutas para el inicio de sesión

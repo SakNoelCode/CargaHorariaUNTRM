@@ -15,4 +15,9 @@ class Periodo extends Model
 
     protected $guarded = ['id'];
 
+    //Relaciones Eloquent
+    public function declaracionJurada(){
+        return $this->hasMany('App\Models\DeclaracionJurada');
+    }
+
 }

@@ -14,4 +14,9 @@ class Local extends Model
     protected $fillable = ['descripcion'];
 
     protected $guarded = ['id'];
+
+    //Relaciones Eloquent
+    public function aula(){
+        return $this->hasMany('App\Models\Aula','local_id','id');
+    }
 }

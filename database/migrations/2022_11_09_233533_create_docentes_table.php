@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('condicion_id')->nullable()->constrained('condiciones')->onDelete('set null');
             $table->foreignId('categoria_id')->nullable()->constrained('categorias')->onDelete('set null');
             $table->foreignId('modalidad_id')->nullable()->constrained('modalidades')->onDelete('set null');
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('user_id')->unique()->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

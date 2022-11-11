@@ -14,4 +14,14 @@ class JefeDepartamento extends Model
     protected $fillable = ['user_id','escuela_id'];
 
     protected $guarded = ['id'];
+
+    //Relaciones Eloquent
+    public function escuela(){
+        return $this->belongsTo('App\Models\Escuela');
+    }
+
+    //Relaciones Eloquent
+    public function user(){
+        return $this->belongsTo('App\Models\User');
+    }
 }

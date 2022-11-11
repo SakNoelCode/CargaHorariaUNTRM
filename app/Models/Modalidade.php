@@ -14,4 +14,9 @@ class Modalidade extends Model
     protected $fillable = ['descripcion','horas'];
 
     protected $guarded = ['id'];
+
+    //Relaciones Eloquent
+    public function docente(){
+        return $this->hasMany('App\Models\Docente');
+    }
 }

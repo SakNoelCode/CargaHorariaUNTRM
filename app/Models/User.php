@@ -58,4 +58,13 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    //Relaciones Eloquent
+    public function jefeDepartamento(){
+        return $this->hasOne('App\Models\JefeDepartamento');
+    }
+
+    public function role(){
+        return $this->belongsTo('App\Models\Role');
+    }
 }

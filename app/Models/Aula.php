@@ -14,4 +14,9 @@ class Aula extends Model
     protected $fillable = ['descripcion','local_id'];
 
     protected $guarded = ['id'];
+
+    //Relaciones Eloquent
+    public function local(){
+        return $this->belongsTo('App\Models\Local','local_id','id');
+    }
 }
