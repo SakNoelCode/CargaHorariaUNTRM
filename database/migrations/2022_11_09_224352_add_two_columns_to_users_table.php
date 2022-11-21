@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('dni',8)->after('email')->nullable();
-            $table->foreignId('rol_id')->nullable()->constrained('roles')->onDelete('cascade');
+            $table->string('status')->after('dni')->default('ACTIVO');
+            $table->foreignId('rol_id')->after('password')->nullable()->constrained('roles')->onDelete('cascade');
         });
     }
 

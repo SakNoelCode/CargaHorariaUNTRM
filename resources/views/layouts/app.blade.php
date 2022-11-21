@@ -13,8 +13,10 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
-    <link href="{{ asset('js/app.js') }}" rel="stylesheet" />
+    <!--link href="{{ asset('css/app.css') }}" rel="stylesheet" ----/>
+    <link href="{{ asset('js/app.js') }}" rel="stylesheet" ----->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!--Swet Alert-->
 
 
     <!-- Styles -->
@@ -39,6 +41,28 @@
     @stack('modals')
 
     @livewireScripts
+
+    <script>
+        //Escuchar evento para mostrar una alerta
+        Livewire.on('alert', function(message) {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+
+            Toast.fire({
+                icon: 'success',
+                title: message
+            })
+        });
+    </script>
 </body>
 
 </html>

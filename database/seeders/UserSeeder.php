@@ -22,8 +22,8 @@ class UserSeeder extends Seeder
         User::insert([
             [
                 'name' => 'Arcangel',
-                'email' => '7494215681@untrm.edu.pe',
-                'dni' => '74942156',
+                'email' => '7494213381@untrm.edu.pe',
+                'dni' => '74942133',
                 'password' => bcrypt('12345678'),
                 'rol_id' => '1'
             ],
@@ -37,7 +37,7 @@ class UserSeeder extends Seeder
             [
                 'name' => 'Docente',
                 'email' => 'docente@untrm.edu.pe',
-                'dni' => '12345678',
+                'dni' => '12344321',
                 'password' => bcrypt('12345678'),
                 'rol_id' => '3'
             ]

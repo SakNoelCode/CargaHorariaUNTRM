@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\homeController;
+use App\Http\Livewire\EditDocente;
 use Illuminate\Support\Facades\Route;
+use App\Http\Livewire\ShowUsers;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,9 +18,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [homeController::class,'show'])->name('home');
 
-Route::get('/declaraciones',function(){
-    return view('');
-});
+//Route::get('/users',ShowUsers::class);
+Route::get('/users',function(){
+    return view('admin.users.index');
+})->middleware('auth')->name('users');
+
+//Route::get('/editarusuario/{id}/{tipo}',EditDocente::class)->name('docente.edit');
 
 //Rutas para el inicio de sesión
 Route::middleware([

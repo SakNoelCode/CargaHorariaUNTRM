@@ -38,4 +38,9 @@ class Docente extends Model
     public function declaracionJurada(){
         return $this->hasMany('App\Models\DeclaracionJurada');
     }
+
+    //Relaciones Eloquent
+    public function user(){
+        return $this->belongsTo('App\Models\User');
+    }
 }

@@ -26,7 +26,9 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'dni',
         'password',
+        'rol_id'
     ];
 
     /**
@@ -66,5 +68,9 @@ class User extends Authenticatable
 
     public function role(){
         return $this->belongsTo('App\Models\Role');
+    }
+
+    public function docente(){
+        return $this->hasOne('App\Models\Docente');
     }
 }
