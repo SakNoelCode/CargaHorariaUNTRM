@@ -165,7 +165,7 @@
                             @livewire('edit-docente',['id'=>$user->id],key($user->id))
                             @endif
                             @if ($user->descripcion=="jefe departamento")
-                            <a class="text-indigo-600 hover:text-indigo-900 cursor-pointer">Editar</a>
+                            @livewire('edit-jefe-departamento',['id'=>$user->id],key($user->id))
                             @endif
                         </td>
                     </tr>
