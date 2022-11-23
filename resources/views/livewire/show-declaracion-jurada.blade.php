@@ -1,13 +1,14 @@
 <div>
-    <h1 style="margin: auto;">
-        Hello Wordl
-    </h1>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
 
-    <button class="bg-violet-500 hover:bg-violet-600 active:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-300 ...">
-        Save changes
-    </button>
+        <x-table>
+            <!-----Busqueda----->
+            <div class="px-6 py-4">
+                <x-jet-input class="w-full" type='text' wire:model='search' placeholder="Busque mediante nombre o correo"></x-jet-input>
+            </div>
 
-    <p>
-        
-    </p>
+
+        </x-table>
+
+    </div>
 </div>

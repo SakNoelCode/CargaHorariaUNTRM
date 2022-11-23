@@ -11,24 +11,56 @@
                 </div>
 
                 <!-- Navigation Links -->
+                <!------DashBoard----->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-jet-nav-link>
                 </div>
 
+                <!----Menu Admin--->
+                @if (Auth::user()->rol_id == 1)
                 <!------Users------>
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-jet-nav-link href="{{ route('users') }}" :active="request()->routeIs('users')">
                         {{ __('Usuarios') }}
                     </x-jet-nav-link>
                 </div>
+                @endif
 
+                <!----Menu Jefe Departamento--->
+                @if (Auth::user()->rol_id == 2)
+                <!------------------Declaraciones Juradas Jefe Departamento---->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link href="#" :active="request()->routeIs('')">
+                    <x-jet-nav-link href="{{route('declaracionesjuradasJefeDepartamento')}}" :active="request()->routeIs('declaracionesjuradasJefeDepartamento')">
                         {{ __('Declaraciones Juradas') }}
                     </x-jet-nav-link>
                 </div>
+
+                <!------------------Cargas Lectivas Jefe Departamento---->
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-jet-nav-link href="{{route('cargasLectivasJefeDepartamento')}}" :active="request()->routeIs('cargasLectivasJefeDepartamento')">
+                        {{ __('Carga Horaria') }}
+                    </x-jet-nav-link>
+                </div>
+                @endif
+
+                <!----Menu Docente----->
+                @if (Auth::user()->rol_id == 3)
+                <!------------------Declaraciones Juradas Docente---->
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-jet-nav-link href="{{route('declaracionesjuradasDocente')}}" :active="request()->routeIs('declaracionesjuradasDocente')">
+                        {{ __('Declaraciones Juradas') }}
+                    </x-jet-nav-link>
+                </div>
+
+                <!------------------Cargas Lectivas Docente---->
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-jet-nav-link href="{{route('cargasLectivasDocente')}}" :active="request()->routeIs('cargasLectivasDocente')">
+                        {{ __('Carga Horaria') }}
+                    </x-jet-nav-link>
+                </div>
+                @endif
 
             </div>
 
@@ -153,18 +185,57 @@
 
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
+        <!--DashBoard--->
         <div class="pt-2 pb-3 space-y-1">
             <x-jet-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-jet-responsive-nav-link>
         </div>
 
+        <!----Menu Admin--->
+        @if (Auth::user()->rol_id == 1)
+        <!--Users--->
         <div class="pt-2 pb-3 space-y-1">
-            <x-jet-responsive-nav-link href="" :active="request()->routeIs('')">
+            <x-jet-responsive-nav-link href="{{ route('users') }}" :active="request()->routeIs('users')">
+                {{ __('Usuarios') }}
+            </x-jet-responsive-nav-link>
+        </div>
+        @endif
+
+        <!----Menu Jefe Departamento--->
+        @if (Auth::user()->rol_id == 2)
+        <!------------------Declaraciones Jefe Departamento---->
+        <div class="pt-2 pb-3 space-y-1">
+            <x-jet-responsive-nav-link href="{{route('declaracionesjuradasJefeDepartamento')}}" :active="request()->routeIs('declaracionesjuradasJefeDepartamento')">
                 {{ __('Declaraciones Juradas') }}
             </x-jet-responsive-nav-link>
         </div>
 
+        <!------------------Cargas Lectivas Jefe Departamento---->
+        <div class="pt-2 pb-3 space-y-1">
+            <x-jet-responsive-nav-link href="{{route('cargasLectivasJefeDepartamento')}}" :active="request()->routeIs('cargasLectivasJefeDepartamento')">
+                {{ __('Carga Horaria') }}
+            </x-jet-responsive-nav-link>
+        </div>
+        @endif
+
+        <!----Menu Docente--->
+        @if (Auth::user()->rol_id == 3)
+        <!------------------Declaraciones Juradas Docente---->
+        <div class="pt-2 pb-3 space-y-1">
+            <x-jet-responsive-nav-link href="{{route('declaracionesjuradasDocente')}}" :active="request()->routeIs('declaracionesjuradasDocente')">
+                {{ __('Declaraciones Juradas') }}
+            </x-jet-responsive-nav-link>
+        </div>
+
+        <!------------------Cargas Lectivas Docente---->
+        <div class="pt-2 pb-3 space-y-1">
+            <x-jet-responsive-nav-link href="{{route('cargasLectivasDocente')}}" :active="request()->routeIs('cargasLectivasDocente')">
+                {{ __('Carga Horaria') }}
+            </x-jet-responsive-nav-link>
+        </div>
+        @endif
+        
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="flex items-center px-4">
