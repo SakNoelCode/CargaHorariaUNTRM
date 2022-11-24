@@ -23,7 +23,7 @@ class Docente extends Model
 
     public function modalidade()
     {
-        return $this->belongsTo('App\Models\Modalidade');
+        return $this->belongsTo('App\Models\Modalidade','modalidad_id');
     }
 
     public function categoria()
@@ -32,7 +32,7 @@ class Docente extends Model
     }
 
     public function condicione(){
-        return $this->belongsTo('App\Models\Condicione');
+        return $this->belongsTo('App\Models\Condicione','condicion_id');
     }
 
     public function declaracionJurada(){

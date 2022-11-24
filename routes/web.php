@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\homeController;
+use App\Http\Controllers\wordController;
 use App\Http\Livewire\EditDocente;
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\ShowUsers;
@@ -23,21 +24,28 @@ Route::get('/users', function () {
     return view('admin.users.index');
 })->middleware('auth')->name('users');
 
-Route::get('/declaracionesjuradasDocente',function(){
+Route::get('/declaracionesjuradasDocente', function () {
     return view('docente.declaracionjurada.index');
 })->middleware('auth')->name('declaracionesjuradasDocente');
 
-Route::get('/cargasLectivasDocente',function(){
+Route::get('/cargasLectivasDocente', function () {
     return view('docente.cargalectiva.index');
 })->middleware('auth')->name('cargasLectivasDocente');
 
-Route::get('/declaracionesjuradasJefeDepartamento',function(){
+Route::get('/declaracionesjuradasJefeDepartamento', function () {
     return view('jefedepartamento.declaracionjurada.index');
 })->middleware('auth')->name('declaracionesjuradasJefeDepartamento');
 
-Route::get('/cargasLectivasJefeDepartamento',function(){
+Route::get('/cargasLectivasJefeDepartamento', function () {
     return view('jefedepartamento.cargalectiva.index');
 })->middleware('auth')->name('cargasLectivasJefeDepartamento');
+
+
+Route::post(
+    'dowloadDeclaracionJurada/{id}',
+    [wordController::class, 'downloadDeclaracion']
+)
+    ->name('declaracionJurada.dowload');
 
 //Rutas para el inicio de sesión
 Route::middleware([

@@ -12,7 +12,7 @@
                 </x-slot>
                 <x-slot name='botones'>
                     <div class="px-6 py-4 flex justify-end">
-                        @livewire('create-docente')
+                        @livewire('create-declaracion-jurada')
                     </div>
                 </x-slot>
             </x-cabecerabox>

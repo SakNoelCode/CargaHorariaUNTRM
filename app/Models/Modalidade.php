@@ -17,6 +17,6 @@ class Modalidade extends Model
 
     //Relaciones Eloquent
     public function docente(){
-        return $this->hasMany('App\Models\Docente');
+        return $this->hasMany('App\Models\Docente','modalidad_id');
     }
 }

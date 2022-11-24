@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('estado',45);
             $table->tinyInteger('estado_enviado')->nullable();
-            $table->string('documento',255);
+            $table->string('documento',255)->nullable();
             $table->string('observaciones',255)->nullable();
             $table->foreignId('periodo_id')->constrained('periodos')->onDelete('cascade');
             $table->foreignId('docente_id')->constrained('docentes')->onDelete('cascade');

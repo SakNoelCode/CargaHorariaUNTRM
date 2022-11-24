@@ -2,12 +2,20 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\DeclaracionJurada;
 use Livewire\Component;
 
 class ShowDeclaracionJurada extends Component
 {
+    protected $listeners = [
+        'render'
+    ];
+
+    public $numeracion = 1;
+
     public function render()
     {
-        return view('livewire.show-declaracion-jurada');
+        $declaraciones = DeclaracionJurada::all();
+        return view('livewire.show-declaracion-jurada', ['declaraciones' => $declaraciones]);
     }
 }

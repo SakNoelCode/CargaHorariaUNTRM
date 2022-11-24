@@ -16,7 +16,8 @@ class Condicione extends Model
     protected $guarded = ['id'];
 
     //Relaciones Eloquent
-    public function docente(){
-        return $this->hasMany('App\Models\Docente');
+    public function docente()
+    {
+        return $this->hasMany('App\Models\Docente','condicion_id');
     }
 }

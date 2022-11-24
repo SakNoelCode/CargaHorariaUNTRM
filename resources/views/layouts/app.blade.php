@@ -11,6 +11,9 @@
     <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
 
+    <!-- Font Awesome -->
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <!--link href="{{ asset('css/app.css') }}" rel="stylesheet" ----/>
@@ -61,6 +64,15 @@
                 icon: 'success',
                 title: message
             })
+        });
+
+        //Escuchar evento y mostar una alerta grande
+        Livewire.on('alertBox', function(title, message, icon) {
+            Swal.fire(
+                title,
+                message,
+                icon
+            )
         });
     </script>
 </body>
