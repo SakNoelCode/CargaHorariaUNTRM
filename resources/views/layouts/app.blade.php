@@ -21,9 +21,10 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!--Swet Alert-->
 
-
     <!-- Styles -->
     @livewireStyles
+
+    @stack('css');
 </head>
 
 <body class="font-sans antialiased">
@@ -44,6 +45,8 @@
     @stack('modals')
 
     @livewireScripts
+
+    @stack('js')
 
     <script>
         //Escuchar evento para mostrar una alerta

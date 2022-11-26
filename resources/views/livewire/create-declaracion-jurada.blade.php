@@ -24,7 +24,7 @@
                     <option value="{{$item->id}}">{{$item->descripcion}}</option>
                     @endforeach
                 </select>
-                <x-jet-input-error for='periodo_id'/>
+                <x-jet-input-error for='periodo_id' />
             </div>
 
         </x-slot>
@@ -34,5 +34,5 @@
             <x-jet-secondary-button class="mr-4" wire:click="cleanFields">Cancelar</x-jet-secondary-button>
             <x-jet-button wire:click='save' wire:loading.attr='disabled' wire:target='save'>Generar</x-jet-button>
         </x-slot>
-        </x-jet-dialog>
+    </x-jet-dialog-modal>
 </div>

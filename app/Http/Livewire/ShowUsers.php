@@ -35,4 +35,8 @@ class ShowUsers extends Component
 
         return view('livewire.show-users', ['users' => $users]);
     }
+
+    public function updatingSearch(){
+        $this->resetPage();
+    }
 }
