@@ -12,7 +12,7 @@ class ShowDeclaracionJurada extends Component
 {
     use WithFileUploads;
     use WithPagination;
-    public $isOpenEdit = false;
+    public $isOpen = false;
     public $numberOfRecords = "5";
     public $idDeclaracion, $nameDocente, $periodo, $estado, $documento;
     public $idDocumento;
@@ -53,7 +53,7 @@ class ShowDeclaracionJurada extends Component
         $this->documento = $declaracionJurada->documento;
         $this->idDocumento = rand();
 
-        $this->isOpenEdit = true;
+        $this->isOpen = true;
     }
 
     public function update()
@@ -84,18 +84,20 @@ class ShowDeclaracionJurada extends Component
         return response()->download($file_path);
     }
 
-   /* public function updatingIsOpenEdit()
-    {
-        if ($this->isOpenEdit == false) {
-            $this->resetErrorBag();
-            $this->resetValidation();
-        }
-    }
-*/
     public function cleanFields()
     {
         $this->reset([
-            'isOpenEdit'
+            'isOpen'
         ]);
+
+        //Resetear Validacion
+        $this->resetValidation('documento');
+        $this->resetErrorBag('documento');
+    }
+
+    //Ciclo de vida(resetear la pagina cada vez que busquemos un valor)
+    public function UpdatingNumberOfRecords()
+    {
+        $this->resetPage();
     }
 }

@@ -1,5 +1,5 @@
 <div>
-    
+
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
 
         <x-table>
@@ -90,7 +90,7 @@
 
 
     <!-----------------------------Modal Editar--------------------->
-    <x-jet-dialog-modal wire:model='isOpenEdit'>
+    <x-jet-dialog-modal wire:model='isOpen'>
         <x-slot name='title'>
             Detalles de la declaracion jurada
         </x-slot>
@@ -139,7 +139,7 @@
 
         <x-slot name='footer'>
             <x-jet-action-message class="mr-4" wire:loading on='update'>Cargando....</x-jet-action-message>
-            <x-jet-secondary-button class="mr-4" wire:click="$set('isOpenEdit',false)">Cancelar</x-jet-secondary-button>
+            <x-jet-secondary-button class="mr-4" wire:click="cleanFields">Cancelar</x-jet-secondary-button>
 
             @if ($estado == 'enviado')
             <x-jet-button disabled>Enviar</x-jet-button>
@@ -152,7 +152,6 @@
 
     @push('js')
     <script>
-        
     </script>
     @endpush
 </div>

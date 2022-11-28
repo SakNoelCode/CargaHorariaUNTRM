@@ -53,8 +53,12 @@ class CreateDeclaracionJurada extends Component
     //Función que nos permite resetear valores al cerrar el modal
     public function updatingIsOpen()
     {
-        if($this->isOpen==false){
+        if ($this->isOpen == false) {
             $this->cleanFields();
+
+            //reset validation
+            $this->resetErrorBag();
+            $this->resetValidation();
         }
     }
 
