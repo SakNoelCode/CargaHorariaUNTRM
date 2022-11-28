@@ -11,8 +11,9 @@ use Livewire\Component;
 
 class EditJefeDepartamento extends Component
 {
+    public $originalName,$originalDni,$originalEmail,$originalEscuelaId,$originalStatus=false;
     public $isOpen = false;
-    public $idUser, $idJefe, $name, $dni, $email, $status = false;
+    public $idUser, $idJefe, $name, $dni, $email, $status;
     public $escuela_id;
 
     //validation rules
@@ -31,21 +32,31 @@ class EditJefeDepartamento extends Component
     {
         $user = User::find($id);
         $this->idUser = $user->id;
-        $this->name = $user->name;
-        $this->dni = $user->dni;
-        $this->email = $user->email;
+        $this->originalName = $user->name;
+        $this->originalDni = $user->dni;
+        $this->originalEmail = $user->email;
         $this->idJefe = $user->jefeDepartamento->id;
-        $this->escuela_id = $user->jefeDepartamento->escuela_id;
+        $this->originalEscuelaId = $user->jefeDepartamento->escuela_id;
 
         if ($user->status == 'ACTIVO') {
-            $this->status = true;
+            $this->originalStatus = true;
         }
+
+        $this->asignarValores();
+    }
+
+    public function asignarValores(){
+        $this->name = $this->originalName;
+        $this->dni= $this->originalDni;
+        $this->email = $this->originalEmail;
+        $this->escuela_id = $this->originalEscuelaId;
+        $this->status = $this->originalStatus;
     }
 
     public function render()
     {
         $escuelas = Escuela::all();
-        return view('livewire.edit-jefe-departamento',compact('escuelas'));
+        return view('livewire.edit-jefe-departamento', compact('escuelas'));
     }
 
     public function save()
@@ -89,5 +100,15 @@ class EditJefeDepartamento extends Component
         $this->reset([
             'isOpen'
         ]);
+    }
+
+    public function updatingIsOpen()
+    {
+        if ($this->isOpen == false) {
+            $this->asignarValores();
+            //Borrar avisos de validación
+            $this->resetErrorBag();
+            $this->resetValidation();
+        }
     }
 }

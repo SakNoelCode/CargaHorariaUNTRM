@@ -1,8 +1,9 @@
 <div>
+    
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
 
         <x-table>
-            <!-----Busqueda----->
+            <!-----mostrar registros----->
             <div class="px-6 py-4 flex items-center">
                 <span class="mr-2">Mostrar</span>
                 <select wire:model='numberOfRecords' class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
@@ -87,7 +88,9 @@
 
     </div>
 
-    <x-jet-dialog-modal wire:model='isOpen_edit'>
+
+    <!-----------------------------Modal Editar--------------------->
+    <x-jet-dialog-modal wire:model='isOpenEdit'>
         <x-slot name='title'>
             Detalles de la declaracion jurada
         </x-slot>
@@ -107,20 +110,20 @@
             <!----Nombre Docente--->
             <div class="mb-4">
                 <x-jet-label value='Docente:' />
-                <x-jet-input disabled type='text' class="w-full" wire:model='nameDocente' />
+                <x-jet-input disabled type='text' class="w-full bg-gray-100" wire:model='nameDocente' />
             </div>
 
             <!--Periodo-->
             <div class="mb-4">
                 <x-jet-label value='Periodo: ' />
-                <x-jet-input disabled type='text' class="w-full" wire:model='periodo' />
+                <x-jet-input disabled type='text' class="w-full bg-gray-100" wire:model='periodo' />
             </div>
 
             <!------Documento------>
             @if ($estado != 'enviado')
             <div class="mb-4">
                 <x-jet-label value='Documento: ' />
-                <x-jet-input type='file' accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" class="w-full" wire:model.defer='documento' />
+                <x-jet-input id="{{$idDocumento}}" type='file' accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" class="w-full cursor-pointer" wire:model.defer='documento' />
                 <x-jet-input-error for='documento' />
             </div>
             @else
@@ -136,7 +139,7 @@
 
         <x-slot name='footer'>
             <x-jet-action-message class="mr-4" wire:loading on='update'>Cargando....</x-jet-action-message>
-            <x-jet-secondary-button class="mr-4" wire:click="$set('isOpen_edit',false)">Cancelar</x-jet-secondary-button>
+            <x-jet-secondary-button class="mr-4" wire:click="$set('isOpenEdit',false)">Cancelar</x-jet-secondary-button>
 
             @if ($estado == 'enviado')
             <x-jet-button disabled>Enviar</x-jet-button>

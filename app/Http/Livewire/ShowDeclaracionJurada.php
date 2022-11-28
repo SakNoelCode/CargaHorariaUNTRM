@@ -12,12 +12,13 @@ class ShowDeclaracionJurada extends Component
 {
     use WithFileUploads;
     use WithPagination;
-    public $isOpen_edit = false;
+    public $isOpenEdit = false;
     public $numberOfRecords = "5";
     public $idDeclaracion, $nameDocente, $periodo, $estado, $documento;
+    public $idDocumento;
 
     protected $queryString = [
-        'numberOfRecords' => ['except'=> "5"]
+        'numberOfRecords' => ['except' => "5"]
     ];
 
     protected $listeners = [
@@ -50,8 +51,9 @@ class ShowDeclaracionJurada extends Component
         $this->periodo = $declaracionJurada->periodo->descripcion;
         $this->estado = $declaracionJurada->estado;
         $this->documento = $declaracionJurada->documento;
+        $this->idDocumento = rand();
 
-        $this->isOpen_edit = true;
+        $this->isOpenEdit = true;
     }
 
     public function update()
@@ -70,17 +72,30 @@ class ShowDeclaracionJurada extends Component
         $DeclaracionJurada->documento = $filename;
         $DeclaracionJurada->save();
 
-        $this->reset([
-            'isOpen_edit',
-            'documento'
-        ]);
+        $this->cleanFields();
 
         $this->emit('alertBox', 'Documento enviado', 'Espere la revisión de su documento', 'success');
     }
 
+    //descargar documento enviado
     public function download()
     {
         $file_path = public_path('storage/documents/' . $this->documento);
         return response()->download($file_path);
+    }
+
+   /* public function updatingIsOpenEdit()
+    {
+        if ($this->isOpenEdit == false) {
+            $this->resetErrorBag();
+            $this->resetValidation();
+        }
+    }
+*/
+    public function cleanFields()
+    {
+        $this->reset([
+            'isOpenEdit'
+        ]);
     }
 }

@@ -9,11 +9,15 @@ use Livewire\WithPagination;
 class ShowUsers extends Component
 {
     use WithPagination;
-    public $search;
-    public $open_edit = true; 
+    public $search, $numberOfRecords = "5";
+    public $open_edit = true;
 
     //Escuchar eventos 
     protected $listeners = ['render_table_users' => 'render'];
+
+    protected $queryString = [
+        'numberOfRecords' => ['except' => '5']
+    ];
 
     public function render()
     {
@@ -31,12 +35,14 @@ class ShowUsers extends Component
             ->orderBy('u.id', 'desc')
             ->where('u.name', 'like', '%' . $this->search . '%')
             ->orWhere('u.email', 'like', '%' . $this->search . '%')
-            ->paginate(5);
+            ->paginate($this->numberOfRecords);
 
         return view('livewire.show-users', ['users' => $users]);
     }
 
-    public function updatingSearch(){
+    //Cuando busque un registro la página se resetea
+    public function updatingSearch()
+    {
         $this->resetPage();
     }
 }

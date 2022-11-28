@@ -10,7 +10,7 @@ use Livewire\Component;
 class CreateDeclaracionJurada extends Component
 {
     public $isOpen = false;
-    public $nameDocente, $periodo_id = '',$idDocente;
+    public $nameDocente, $periodo_id = '', $idDocente;
 
     protected $rules = [
         'periodo_id' => 'required'
@@ -31,7 +31,7 @@ class CreateDeclaracionJurada extends Component
     public function save()
     {
         $this->validate();
-        
+
         //Crear Declaracion
         $declaracion = new DeclaracionJurada();
         $declaracion->estado = 'generado';
@@ -41,13 +41,21 @@ class CreateDeclaracionJurada extends Component
         $declaracion->save();
 
         //renderizar tabla
-        $this->emitTo('show-declaracion-jurada','render');
+        $this->emitTo('show-declaracion-jurada', 'render');
 
         //mostrar alerta
-        $this->emit('alertBox','Generacion éxitosa','Descarga el documento generado para que lo firmes','success');
+        $this->emit('alertBox', 'Generacion éxitosa', 'Descarga el documento generado para que lo firmes', 'success');
 
         //resetear valores
         $this->cleanFields();
+    }
+
+    //Función que nos permite resetear valores al cerrar el modal
+    public function updatingIsOpen()
+    {
+        if($this->isOpen==false){
+            $this->cleanFields();
+        }
     }
 
     public function cleanFields()

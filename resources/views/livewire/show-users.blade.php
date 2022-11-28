@@ -37,9 +37,26 @@
 
         <x-table>
 
-            <div class="px-6 py-4">
-                <x-jet-input class="w-full" type='text' wire:model='search' placeholder="Busque mediante nombre o correo"></x-jet-input>
+            <!-----Cabecera Tabla----->
+            <div class="px-6 py-4 flex items-center">
+
+                <!-----Mostrar registros----->
+                <span class="mr-2">Mostrar</span>
+                <select wire:model='numberOfRecords' class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="100">100</option>
+                </select>
+                <span class="ml-2">registros</span>
+
+                <div class="ml-4" wire:loading.flex wire:target='numberOfRecords'>cargando...</div>
+
+                <!-----Búsqueda----->
+                <x-jet-input class="w-full ml-8" type='text' wire:model='search' placeholder="Busque mediante nombre o correo"></x-jet-input>
+
             </div>
+
             @if ($users->count())
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">

@@ -1,8 +1,10 @@
 <div>
+    <!--------Boton ------->
     <x-jet-button wire:click="$set('IsOpen',true)">
         Crear nuevo Docente
     </x-jet-button>
 
+    <!--------Modal------->
     <x-jet-dialog-modal wire:model='IsOpen'>
         <x-slot name='title'>
             Crear nuevo docente

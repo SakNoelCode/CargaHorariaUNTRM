@@ -12,7 +12,7 @@
             <!----Nombre Docente--->
             <div class="mb-4">
                 <x-jet-label value='Docente: ' />
-                <x-jet-input disabled type='text' class="w-full" wire:model='nameDocente' />
+                <x-jet-input disabled type='text' class="w-full bg-gray-100" wire:model='nameDocente' />
             </div>
 
             <!--Periodo-->

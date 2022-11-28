@@ -16,9 +16,12 @@ class EditDocente extends Component
 {
     public $IsOpen = false;
 
+    //Variables que almacenarán los valores originales del docente
+    public $originalName,$originalDni,$originalEmail,$originalEscuelaId,$originalCondicionId,$originalCategoriaId,$originalModalidadId,$originalStatus=false;
+   
     public $idUser, $idDocente, $name, $dni, $email;
     public $escuela_id, $condicion_id, $categoria_id, $modalidad_id;
-    public $status = false;
+    public $status;
 
     //validation rules
     protected function rules()
@@ -39,18 +42,32 @@ class EditDocente extends Component
     {
         $user = User::find($id);
         $this->idUser = $user->id;
-        $this->name = $user->name;
-        $this->dni = $user->dni;
-        $this->email = $user->email;
+        $this->originalName = $user->name;
+        $this->originalDni = $user->dni;
+        $this->originalEmail = $user->email;
         $this->idDocente = $user->docente->id;
-        $this->escuela_id = $user->docente->escuela_id;
-        $this->condicion_id = $user->docente->condicion_id;
-        $this->categoria_id = $user->docente->categoria_id;
-        $this->modalidad_id = $user->docente->modalidad_id;
+        $this->originalEscuelaId = $user->docente->escuela_id;
+        $this->originalCondicionId = $user->docente->condicion_id;
+        $this->originalCategoriaId = $user->docente->categoria_id;
+        $this->originalModalidadId = $user->docente->modalidad_id;
 
         if ($user->status == 'ACTIVO') {
-            $this->status = true;
+            $this->originalStatus = true;
         }
+
+        $this->asignarValores();
+    }
+
+    //Asiganr los valores originales a los modelos que se van a mostrar en la vista
+    public function asignarValores(){
+        $this->name = $this->originalName;
+        $this->dni = $this->originalDni;
+        $this->email = $this->originalEmail;
+        $this->escuela_id = $this->originalEscuelaId;
+        $this->condicion_id = $this->originalCondicionId;
+        $this->categoria_id = $this->originalCategoriaId;
+        $this->modalidad_id = $this->originalModalidadId;
+        $this->status = $this->originalStatus;
     }
 
     public function render()
@@ -113,5 +130,16 @@ class EditDocente extends Component
         $this->reset([
             'IsOpen'
         ]);
+    }
+
+    public function updatingisOpen()
+    {
+        if ($this->IsOpen == false) {
+
+            $this->asignarValores();
+            //Borrar avisos de validación
+            $this->resetErrorBag();
+            $this->resetValidation();
+        }
     }
 }

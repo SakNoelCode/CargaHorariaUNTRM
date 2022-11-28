@@ -24,7 +24,7 @@
     <!-- Styles -->
     @livewireStyles
 
-    @stack('css');
+    @stack('css')
 </head>
 
 <body class="font-sans antialiased">

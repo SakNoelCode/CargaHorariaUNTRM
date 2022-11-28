@@ -100,4 +100,15 @@ class CreateDocente extends Component
             'escuela_id', 'condicion_id', 'categoria_id', 'modalidad_id'
         ]);
     }
+
+    public function updatingisOpen()
+    {
+        if ($this->IsOpen == false) {
+            $this->cleanFields();
+
+            //Borrar avisos de validación
+            $this->resetErrorBag();
+            $this->resetValidation();
+        }
+    }
 }

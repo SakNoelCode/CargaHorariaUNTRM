@@ -72,4 +72,16 @@ class CreateJefeDepartamento extends Component
             'escuela_id'
         ]);
     }
+
+    //Se ejecuta Cuando la variable isOpen cambia
+    public function updatingIsOpen()
+    {
+        if ($this->isOpen == false) {
+            $this->cleanFields();
+
+            //Resetear validaciones
+            $this->resetErrorBag();
+            $this->resetValidation();
+        }
+    }
 }
