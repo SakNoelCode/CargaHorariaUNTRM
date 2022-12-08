@@ -2,23 +2,26 @@
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-            <!------BOX Cabecera---->
-            <x-cabecerabox>
-                <x-slot name='title'>
-                    Declaraciones Juradas
-                </x-slot>
-                <x-slot name='descripcion'>
-                    En esta sección podrá revisar y aprobar las declaraciones juradas.
-                </x-slot>
-                <x-slot name='botones'>
-                    <div class="px-6 py-4 flex justify-end">
-                        @livewire('create-docente')
+            <!------BOX Cabecera Sin Botones---->
+            <div class="pt-4">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="bg-white overflow-hidden sm:rounded-lg">
+                        <div class="p-6 sm:px-20 bg-white border-b">
+                            <div class="text-2xl">
+                                Declaraciones Juradas
+                            </div>
+
+                            <div class="mt-3 text-gray-500">
+                                En esta sección podrá revisar y gestionar las declaraciones juradas hechas por los docentes.
+                            </div>
+                        </div>
                     </div>
-                </x-slot>
-            </x-cabecerabox>
+                </div>
+            </div>
 
             <!---Box Tabla--->
-            @livewire('show-declaracion-jurada')
+            @livewire('show-declaracion-jurada-jefe')
+
 
         </div>
 

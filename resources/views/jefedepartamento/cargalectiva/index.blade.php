@@ -18,7 +18,6 @@
             </x-cabecerabox>
 
             <!---Box Tabla--->
-            @livewire('show-declaracion-jurada')
 
 
         </div>
