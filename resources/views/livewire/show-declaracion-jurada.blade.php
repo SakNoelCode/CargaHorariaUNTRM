@@ -48,16 +48,25 @@
                         </td>
                         <td class="px-6 py-4">
                             @if ($item->estado == 'generado')
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-300">
                                 {{$item->estado}}
                             </span>
                             @endif
                             @if ($item->estado == 'enviado')
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-300">
                                 {{$item->estado}}
                             </span>
                             @endif
-
+                            @if ($item->estado == 'rechazado')
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-300">
+                                {{$item->estado}}
+                            </span>
+                            @endif
+                            @if ($item->estado == 'observado')
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-300">
+                                {{$item->estado}}
+                            </span>
+                            @endif
                         </td>
                         <td class="px-6 py-4 text-sm font-medium">
                             <form action="{{ route('declaracionJurada.dowload',['id' => $item->id])}}" method="post">

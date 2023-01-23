@@ -29,15 +29,22 @@ class UserSeeder extends Seeder
             ],
             [
                 'name' => 'JefeDepartamento',
-                'email' => 'jefedepartamento@untrm.edu.pe',
+                'email' => 'jefe@untrm.edu.pe',
                 'dni' => '12345678',
                 'password' => bcrypt('12345678'),
                 'rol_id' => '2'
             ],
             [
-                'name' => 'Docente',
-                'email' => 'docente@untrm.edu.pe',
+                'name' => 'Ivan Adrianzén',
+                'email' => 'd1@untrm.edu.pe',
                 'dni' => '12344321',
+                'password' => bcrypt('12345678'),
+                'rol_id' => '3'
+            ],
+            [
+                'name' => 'Carlos Santa Cruz',
+                'email' => 'd2@untrm.edu.pe',
+                'dni' => '12344326',
                 'password' => bcrypt('12345678'),
                 'rol_id' => '3'
             ]

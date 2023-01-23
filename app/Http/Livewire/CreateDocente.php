@@ -104,6 +104,7 @@ class CreateDocente extends Component
     public function updatingisOpen()
     {
         if ($this->IsOpen == false) {
+            //dd('Ola');
             $this->cleanFields();
 
             //Borrar avisos de validación
