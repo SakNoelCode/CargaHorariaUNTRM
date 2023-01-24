@@ -67,6 +67,11 @@
                                 {{$item->estado}}
                             </span>
                             @endif
+                            @if ($item->estado == 'aprobado')
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-300">
+                                {{$item->estado}}
+                            </span>
+                            @endif
                         </td>
                         <td class="px-6 py-4 text-sm font-medium">
                             <form action="{{ route('declaracionJurada.dowload',['id' => $item->id])}}" method="post">
@@ -114,6 +119,18 @@
                 @if($estado == 'enviado')
                 <x-jet-label value='Espere a que su documento se revise' />
                 @endif
+
+                @if($estado == 'aprobado')
+                <x-jet-label value='Su solicitud ha sido aprobada, espere la designación de carga horaria' />
+                @endif
+
+                @if($estado == 'observado')
+                <x-jet-label value='Su solicitud contiene algunas errores, envía una nueva versión tomando en cuenta las observaciones' />
+                @endif
+
+                @if($estado == 'rechazado')
+                <x-jet-label value='Su solicitud ha sido rechazada, genere nuevamente una declaración' />
+                @endif
             </div>
 
             <!----Nombre Docente--->
@@ -128,14 +145,25 @@
                 <x-jet-input disabled type='text' class="w-full bg-gray-100" wire:model='periodo' />
             </div>
 
+            <!------Observaciones------>
+            @if ($estado=='observado')
+            <div class="mb-4">
+                <x-jet-label value='Observaciones' />
+                <textarea disabled wire:model='observaciones' rows="3" class="bg-gray-100 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm w-full"></textarea>
+            </div>
+            @endif
+
+
             <!------Documento------>
-            @if ($estado != 'enviado')
+            @if ($estado == 'generado' || $estado=='observado')
             <div class="mb-4">
                 <x-jet-label value='Documento: ' />
                 <x-jet-input id="{{$idDocumento}}" type='file' accept=".doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" class="w-full cursor-pointer" wire:model.defer='documento' />
                 <x-jet-input-error for='documento' />
             </div>
-            @else
+            @endif
+
+            @if ($estado == 'enviado')
             <div class="mb-4">
                 <x-jet-label value='Documento enviado: (descargar)' />
                 {{---{{var_export($documento)}}---}}
@@ -143,18 +171,16 @@
             </div>
             @endif
 
-
         </x-slot>
 
         <x-slot name='footer'>
             <x-jet-action-message class="mr-4" wire:loading on='update'>Cargando....</x-jet-action-message>
-            <x-jet-secondary-button class="mr-4" wire:click="cleanFields">Cancelar</x-jet-secondary-button>
+            <x-jet-secondary-button class="mr-4" wire:click="$set('isOpen',false)">Cancelar</x-jet-secondary-button>
 
-            @if ($estado == 'enviado')
-            <x-jet-button disabled>Enviar</x-jet-button>
-            @else
+            @if ($estado == 'generado' || $estado=='observado')
             <x-jet-button wire:click='update' wire:loading.attr='disabled' wire:target='update,documento'>Enviar</x-jet-button>
             @endif
+
         </x-slot>
     </x-jet-dialog-modal>
 

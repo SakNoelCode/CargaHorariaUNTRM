@@ -17,6 +17,14 @@ class ShowDeclaracionJuradaJefe extends Component
     //Variables del la declaracion jurada
     public $idDeclaracion, $nameDocente, $periodo, $observaciones, $estado;
 
+
+    /**
+     * Query String para la variable numberOfRecords
+     */
+    protected $queryString = [
+        'numberOfRecords' => ['except' => '5']
+    ];
+
     /**
      * Validation rules
      * 
@@ -32,7 +40,7 @@ class ShowDeclaracionJuradaJefe extends Component
 
     public function render()
     {
-        $declaraciones = DeclaracionJurada::orderBy('id', 'desc')
+        $declaraciones = DeclaracionJurada::orderBy('updated_at', 'desc')
             ->where('estado_enviado', 1)
             ->orWhere('estado', 'observado')
             ->orWhere('estado', 'rechazado')
@@ -147,4 +155,11 @@ class ShowDeclaracionJuradaJefe extends Component
         //No es necesario renderizar a la tabla porque es automatico
     }
 
+    /**
+     * Ciclo de vida(resetear la pagina cada vez que busquemos un valor)
+     */
+    public function UpdatingNumberOfRecords()
+    {
+        $this->resetPage();
+    }
 }
