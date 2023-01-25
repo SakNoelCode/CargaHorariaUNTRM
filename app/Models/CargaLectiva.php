@@ -15,12 +15,17 @@ class CargaLectiva extends Model
 
     protected $guarded = ['id'];
 
-    //Relaciones Eloquent
+    /*Relaciones Eloquent
     public function docente(){
         return $this->belongsTo('App\Models\Docente');
-    }
+    }*/
 
+    /**
+     * Relación eloquent a la inversa 1:1
+     * Recuperar la declaración Jurada de la carga Lectiva
+     * @return App\Models\DeclaracionJurada
+     */
     public function declaracionJurada(){
-        return $this->belongsTo('App\Models\DeclaracionJurada');
+        return $this->belongsTo('App\Models\DeclaracionJurada','declaracionJurada_id');
     }
 }

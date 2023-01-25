@@ -24,7 +24,10 @@ class DeclaracionJurada extends Model
         return $this->belongsTo('App\Models\Periodo');
     }
 
+    /**
+     * Acceder a la carga lectiva de la declaración Jurada 1:1
+     */
     public function cargaLectiva(){
-        return $this->hasMany('App\Models\CargaLectiva');
+        return $this->hasOne('App\Models\CargaLectiva','declaracionJurada_id');
     }
 }
