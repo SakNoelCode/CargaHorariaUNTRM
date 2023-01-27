@@ -125,6 +125,7 @@ class ShowDeclaracionJuradaJefe extends Component
      */
     public function update()
     {
+        $isAprobado = false;
 
         $this->validate();
 
@@ -141,6 +142,7 @@ class ShowDeclaracionJuradaJefe extends Component
         //Si la declaracion jurada es aceptada
         if ($this->estado == 'aprobado') {
             CargaLectiva::insert(['declaracionJurada_id' => $this->idDeclaracion]);
+            $isAprobado = true;
         }
 
         $DeclaracionJurada->update();
@@ -150,8 +152,12 @@ class ShowDeclaracionJuradaJefe extends Component
         $this->showModalEdit = false;
 
         //Emitir evento a través de JavaScript(ver app.blade.php) para mostrar un mensaje
-        $this->emit('alertBox', 'Documento revisado', 'Espere la respuesta del docente', 'success');
-
+        if($isAprobado){
+            $this->emit('alertBox', 'Documento revisado', 'Ahora ya puede designar la carga horaria al docente', 'success');
+        }else{
+            $this->emit('alertBox', 'Documento revisado', 'Espere la respuesta del docente', 'success');
+        }
+        
         //No es necesario renderizar a la tabla porque es automatico
     }
 

@@ -52,9 +52,12 @@
                             <td class="px-6 py-4">
                                 @if ($item->estado_asignado == 0)
                                 <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-300">
-                                    Asignado
+                                    Pendiente
                                 </span>
                                 @endif
+                            </td>
+                            <td>
+
                             </td>
                         </tr>
                     @endforeach
@@ -63,6 +66,12 @@
             @else
             <div class="px-6 py-4">
                 <span>No existen cargas horarias en este momento</span>
+            </div>
+            @endif
+
+            @if ($cargas->hasPages())
+            <div class="px-6 py-4">
+                {{ $cargas->links() }}
             </div>
             @endif
         </x-table>
