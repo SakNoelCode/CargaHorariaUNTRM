@@ -15,11 +15,6 @@ class CargaLectiva extends Model
 
     protected $guarded = ['id'];
 
-    /*Relaciones Eloquent
-    public function docente(){
-        return $this->belongsTo('App\Models\Docente');
-    }*/
-
     /**
      * Relación eloquent a la inversa 1:1
      * Recuperar la declaración Jurada de la carga Lectiva
@@ -27,5 +22,28 @@ class CargaLectiva extends Model
      */
     public function declaracionJurada(){
         return $this->belongsTo('App\Models\DeclaracionJurada','declaracionJurada_id');
+    }
+
+    /**
+     * Relación eloquent 1:1
+     * Recuperar la carga horaria de la carga Lectiva
+     * @return App\Models\CargaHoraria
+     */
+    public function cargaHoraria(){
+        return $this->hasOne('App\Models\CargaHoraria');
+    }
+
+    /**
+     * Relacion eloquent n:n con el modelo Carga
+     */
+    public function carga(){
+        return $this->belongsToMany('App\Models\Carga','cargalectiva_carga');
+    }
+
+    /**
+     * Relacion eloquent n:n con el modelo Curso
+     */
+    public function curso(){
+        return $this->belongsToMany('App\Models\Curso','cargalectiva_curso');
     }
 }

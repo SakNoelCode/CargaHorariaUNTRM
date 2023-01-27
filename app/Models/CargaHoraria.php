@@ -5,20 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Curso extends Model
+class CargaHoraria extends Model
 {
     use HasFactory;
 
-    protected $table = 'cursos';
-
-    protected $fillable = ['nombre','tipo'];
-
+    protected $table = 'carga_horarias';
+    protected $fillable = ['carga_lectiva_id'];
     protected $guarded = ['id'];
 
     /**
-     * Relacion n:n con el modelo CargaLectiva
+     * Relacion Eloquent 1:1 Inversa
      */
     public function cargaLectiva(){
-        return $this->belongsToMany('App\Models\CargaLectiva','cargalectiva_curso');
+        return $this->belongsTo('App\Models\CargaLectiva');
     }
 }

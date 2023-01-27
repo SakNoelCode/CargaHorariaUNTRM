@@ -14,4 +14,11 @@ class Carga extends Model
     protected $fillable = ['titulo','descripcion'];
 
     protected $guarded = ['id'];
+
+    /**
+     * Relacion n:n con el modelo CargaLectiva
+     */
+    public function cargaLectiva(){
+        return $this->belongsToMany('App\Models\CargaLectiva','cargalectiva_carga');
+    }
 }
