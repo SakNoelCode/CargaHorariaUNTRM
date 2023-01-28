@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CargaLectivaController;
 use App\Http\Controllers\homeController;
 use App\Http\Controllers\wordController;
 use App\Http\Livewire\EditDocente;
@@ -40,6 +41,7 @@ Route::get('/cargasLectivasJefeDepartamento', function () {
     return view('jefedepartamento.cargalectiva.index');
 })->middleware('auth')->name('cargasLectivasJefeDepartamento');
 
+Route::get('/cargasLectivasJefeDepartamento/{id}',[CargaLectivaController::class,'index'])->name('cargalectiva.index');
 
 Route::post(
     'dowloadDeclaracionJurada/{id}',

@@ -57,7 +57,7 @@
                                 @endif
                             </td>
                             <td>
-
+                                <a class="text-indigo-600 hover:text-indigo-900 cursor-pointer" href="{{ route('cargalectiva.index',$item->id) }}">Crear asignación</a>
                             </td>
                         </tr>
                     @endforeach
