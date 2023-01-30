@@ -18,8 +18,8 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <!--link href="{{ asset('css/app.css') }}" rel="stylesheet" ----/>
     <link href="{{ asset('js/app.js') }}" rel="stylesheet" ----->
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!--Swet Alert-->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- Styles -->
     @livewireStyles

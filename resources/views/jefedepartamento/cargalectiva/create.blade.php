@@ -88,10 +88,6 @@
                     <div class="bg-white overflow-hidden sm:rounded-lg">
                         <div class="p-6 sm:px-20 bg-white border-b">
 
-                            <select class="js-example-basic-single" name="state">
-                                <option value="AL">Alabama</option>
-                                <option value="WY">Wyoming</option>
-                            </select>
 
                         </div>
                     </div>
