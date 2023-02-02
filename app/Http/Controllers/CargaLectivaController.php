@@ -24,7 +24,8 @@ class CargaLectivaController extends Controller
             'jefedepartamento.cargalectiva.create',
             [
                 'docente' => $docente,
-                'declaracionJurada' => $declaracionJurada
+                'declaracionJurada' => $declaracionJurada,
+                'cargaLectiva' => $cargaLectiva
             ]
         );
     }

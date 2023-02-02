@@ -3,6 +3,12 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <style>
+    /**Estilos personalizados para la caja se select2 */
+    .select2-container .select2-selection {
+      height: 35px;
+    }
+  </style>
   @endpush
 
   <!--------Boton ------->
@@ -15,51 +21,93 @@
       Asignar curso
     </x-slot>
     <x-slot name='content'>
+
       <!--Curso--->
-      <div class="mb-4">
+      <div class="mb-4" wire:ignore>
         <x-jet-label value='Curso' />
-        <select wire:model.defer='curso' class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm w-full">
-          <option value="" selected>Seleccione:</option>
+        <select id='select2Curso'>
+          <option value=""></option>
           @foreach ($cursos as $item)
           <option value="{{$item->id}}">{{$item->nombre}}</option>
           @endforeach
         </select>
-        <x-jet-input-error for='curso' />
       </div>
 
+      <!--Ciclo--->
+      <div class="mb-4" wire:ignore>
+        <x-jet-label value='Ciclo' />
+        <select class='select2Ciclo'>
+          <option value=""></option>
+          @foreach ($ciclos as $item)
+          <option value="{{$item->id}}">{{$item->descripcion}}</option>
+          @endforeach
+        </select>
+      </div>
 
-
-
-      <div wire:ignore>
-        <select id="states" name="state">
-          <option value="" selected disabled>Seleccione</option>
-          <option value="AL">Alabama</option>
-          <option value="WY">Wyoming</option>
+      <!--Sección--->
+      <div class="mb-4" wire:ignore>
+        <x-jet-label value='Seccion' />
+        <select class='select2Seccion'>
+          <option value=""></option>
+          @foreach ($secciones as $item)
+          <option value="{{$item->id}}">{{$item->descripcion}}</option>
+          @endforeach
         </select>
       </div>
 
 
-
     </x-slot>
+
     <x-slot name='footer'>
-
+      <x-jet-action-message class="mr-4" wire:loading on='save'>Cargando.....</x-jet-action-message>
+      <x-jet-secondary-button class="mr-4" wire:click='closeModal'>Cancelar</x-jet-secondary-button>
+      <x-jet-button wire:click='save' wire:loading.attr='disabled' wire:target='save'>Guardar</x-jet-button>
     </x-slot>
+
   </x-jet-dialog-modal>
 
   @push('js')
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/i18n/es.js"></script>
   <script>
-    // In your Javascript (external .js resource or <script> tag)
+    //Funcion para el select Curso
     $(document).ready(function() {
-      $('.js-example-basic-single').select2();
+      $('#select2Curso').select2({
+        width: '100%',
+        placeholder: "Seleccione:",
+        minimumInputLength: 3,
+        language: "es"
+      });
+      $('#select2Curso').on('change', function(e) {
+        Livewire.emit('listenerReferenceCurso',
+          $('#select2Curso').select2("val"));
+          //console.log($('#select2Curso').select2('val'));
+      });
     });
 
+    //Funcion para el select Ciclo
     $(document).ready(function() {
-      $('#states').select2();
-      $('#states').on('change', function(e) { 
-            Livewire.emit('listenerReferenceHere', 
-            $('#states').select2("val"));
-            console.log( $('#states').select2('val') );
-        });
+      $('.select2Ciclo').select2({
+        width: '100%',
+        placeholder: "Seleccione:",
+        language: "es"
+      });
+      $('.select2Ciclo').on('change', function(e) {
+        Livewire.emit('listenerReferenceCiclo',
+          $('.select2Ciclo').select2("val"));
+      });
+    });
+
+    //Funcion para el select Seccion
+    $(document).ready(function() {
+      $('.select2Seccion').select2({
+        width: '100%',
+        placeholder: "Seleccione:",
+        language: "es"
+      });
+      $('.select2Seccion').on('change', function(e) {
+        Livewire.emit('listenerReferenceSeccion',
+          $('.select2Seccion').select2("val"));
+      });
     });
   </script>
   @endpush

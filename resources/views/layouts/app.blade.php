@@ -69,6 +69,26 @@
             })
         });
 
+         //Escuchar evento para mostrar una alerta
+         Livewire.on('alertMixin', function(icon,message) {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            })
+
+            Toast.fire({
+                icon: icon,
+                title: message
+            })
+        });
+
         //Escuchar evento y mostar una alerta grande
         Livewire.on('alertBox', function(title, message, icon) {
             Swal.fire(

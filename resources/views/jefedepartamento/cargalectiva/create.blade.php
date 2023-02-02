@@ -20,7 +20,7 @@
                                 <div>
                                     <div class="px-8 py-4 flex">
                                         <div class="mr-1 flex-1">
-                                            @livewire('asignar-curso')
+                                            @livewire('asignar-curso',['id'=>$cargaLectiva->id,'idEscuela'=>$docente->escuela->id],key([$cargaLectiva->id,$docente->escuela->id]))
                                         </div>
 
                                         <div class="ml-1 flex-1">
