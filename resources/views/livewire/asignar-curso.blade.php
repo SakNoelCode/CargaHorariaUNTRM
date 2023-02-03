@@ -71,16 +71,10 @@
   <script>
     //Funcion para el select Curso
     $(document).ready(function() {
-      $('#select2Curso').select2({
-        width: '100%',
-        placeholder: "Seleccione:",
-        minimumInputLength: 3,
-        language: "es"
-      });
       $('#select2Curso').on('change', function(e) {
         Livewire.emit('listenerReferenceCurso',
           $('#select2Curso').select2("val"));
-          //console.log($('#select2Curso').select2('val'));
+        //console.log($('#select2Curso').select2('val'));
       });
     });
 
@@ -109,6 +103,42 @@
           $('.select2Seccion').select2("val"));
       });
     });
+
+
+
+    document.addEventListener('livewire:load', function(event) {
+
+      //escuchar el evento OpenMoal de la clase
+      @this.on('openModal', function() {
+
+        let cursos = [];
+
+        $.each(@this.arrayCursos, function(key, value) {
+          cursos.push({
+            id: key,
+            text: value
+          });
+        });
+
+        //Inicializacion del select Curso
+        $('#select2Curso')
+          .empty()
+          .append('<option value=""></option>')
+          .select2({
+            width: '100%',
+            placeholder: "Seleccione:",
+            minimumInputLength: 3,
+            language: "es",
+            data: cursos
+          });
+
+        //Limpieza de selects
+        $("#select2Curso").val(null).trigger('change');
+        $(".select2Ciclo").val(null).trigger('change');
+        $(".select2Seccion").val(null).trigger('change');
+
+      })
+    })
   </script>
   @endpush
 </div>

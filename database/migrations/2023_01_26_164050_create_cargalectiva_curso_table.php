@@ -20,9 +20,9 @@ return new class extends Migration
             $table->foreignId('escuela_id')->constrained('escuelas')->onDelete('cascade');
             $table->foreignId('seccion_id')->constrained('seccions')->onDelete('cascade');
             $table->foreignId('ciclo_id')->constrained('ciclos')->onDelete('cascade');
-            $table->integer('numero_alumnos')->nullable();
-            $table->integer('horas_teoria')->nullable();
-            $table->integer('horas_practica')->nullable();
+            $table->integer('numero_alumnos')->nullable()->default(0);
+            $table->integer('horas_teoria')->nullable()->default(0);
+            $table->integer('horas_practica')->nullable()->default(0);
             $table->timestamps();
         });
     }

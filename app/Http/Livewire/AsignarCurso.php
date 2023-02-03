@@ -14,8 +14,9 @@ class AsignarCurso extends Component
     //Variables
     public $isOpen = false;
     public $cursoId, $cicloId, $seccionId, $cargaLectivaId, $escuelaId;
+    public $arrayCursos;
 
-    protected $listeners = ['listenerReferenceCurso', 'listenerReferenceCiclo', 'listenerReferenceSeccion'];
+    protected $listeners = ['listenerReferenceCurso', 'listenerReferenceCiclo', 'listenerReferenceSeccion', 'renderModal' => 'render'];
 
     public function mount($id, $idEscuela)
     {
@@ -25,10 +26,18 @@ class AsignarCurso extends Component
 
     public function render()
     {
-        $cursos = Curso::all();
+        //Hacer consulta de los cursos que tiene la carga lectiva y transformarlas en array
+        $cursosCargaLectiva = DB::table('carga_lectivas as cl')
+            ->join('cargalectiva_curso as clc', 'cl.id', '=', 'clc.cargalectiva_id')
+            ->where('clc.cargalectiva_id', '=', $this->cargaLectivaId)
+            ->pluck('curso_id')->toArray();
+
+        $cursos = Curso::all()->except($cursosCargaLectiva);
         $ciclos = Ciclo::all();
         $secciones = Seccion::all();
 
+        $this->arrayCursos = $cursos->pluck('nombre','id')->toArray();
+        
         return view('livewire.asignar-curso', compact('cursos', 'ciclos', 'secciones'));
     }
 
@@ -52,6 +61,7 @@ class AsignarCurso extends Component
 
     public function save()
     {
+        //Validaciones
         if ($this->cursoId != null && $this->cicloId != null && $this->seccionId != null) {
 
             DB::table('cargalectiva_curso')->insert([
@@ -64,9 +74,18 @@ class AsignarCurso extends Component
 
             $this->closeModal();
 
+            $this->emitTo('render', 'renderModal');
             $this->emit('alertMixin', 'success', 'Curso asignado exitosamente');
         } else {
             $this->emit('alertMixin', 'error', 'validaciones incorrectas');
+        }
+    }
+
+    //Lanzar evento liveware al Fronted cuando el modal se quiera abrir
+    public function updatingIsOpen()
+    {
+        if ($this->isOpen == false) {
+            $this->emit('openModal');
         }
     }
 }
