@@ -75,6 +75,7 @@ class AsignarCurso extends Component
             $this->closeModal();
 
             $this->emitTo('render', 'renderModal');
+            $this->emitTo('show-carga-lectiva-curso','render_table_carga_lectiva_curso');
             $this->emit('alertMixin', 'success', 'Curso asignado exitosamente');
         } else {
             $this->emit('alertMixin', 'error', 'validaciones incorrectas');
