@@ -24,7 +24,7 @@
                                         </div>
 
                                         <div class="ml-1 flex-1">
-                                            @livewire('asignar-carga')
+                                            @livewire('asignar-carga',['id'=>$cargaLectiva->id],key([$cargaLectiva->id]))
                                         </div>
                                     </div>
                                 </div>
@@ -93,7 +93,7 @@
                     </div>
                 </div>
             </div--->
-
+            <!-----Tabla Cursos Asignados---->
             @livewire('show-carga-lectiva-curso',['id'=>$cargaLectiva->id],key([$cargaLectiva->id]))
 
         </div>
