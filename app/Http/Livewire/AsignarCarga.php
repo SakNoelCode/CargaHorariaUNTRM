@@ -53,6 +53,7 @@ class AsignarCarga extends Component
         }
 
         $this->resetForm();
+        $this->emitTo('show-carga-lectiva-carga','render_table_carga_lectiva_carga');
         $this->emit('alertMixin', 'success', 'Cargas agregadas exitosamente');
     }
 
