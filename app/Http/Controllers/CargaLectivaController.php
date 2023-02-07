@@ -68,11 +68,12 @@ class CargaLectivaController extends Controller
      */
     public function edit($id)
     {
+        /*
         $cargaLectiva =  CargaLectiva::findOrfail($id);
         $cargaLectiva->estado_asignado = 1;
         $cargaLectiva->update();
 
-        return redirect()->route('cargasLectivasJefeDepartamento');
+        return redirect()->route('cargasLectivasJefeDepartamento');*/
     }
 
     /**

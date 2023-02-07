@@ -43,7 +43,7 @@ Route::get('/cargasLectivasJefeDepartamento', function () {
 
 Route::get('/cargasLectivasJefeDepartamento/{id}', [CargaLectivaController::class, 'index'])->name('cargalectiva.index');
 
-Route::get('/edit/{id}', [CargaLectivaController::class, 'edit'])->name('cargalectiva.edit');
+//Route::get('/edit/{id}', [CargaLectivaController::class, 'edit'])->name('cargalectiva.edit');
 
 Route::post(
     'dowloadDeclaracionJurada/{id}',
