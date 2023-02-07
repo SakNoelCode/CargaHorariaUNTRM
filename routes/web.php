@@ -41,7 +41,9 @@ Route::get('/cargasLectivasJefeDepartamento', function () {
     return view('jefedepartamento.cargalectiva.index');
 })->middleware('auth')->name('cargasLectivasJefeDepartamento');
 
-Route::get('/cargasLectivasJefeDepartamento/{id}',[CargaLectivaController::class,'index'])->name('cargalectiva.index');
+Route::get('/cargasLectivasJefeDepartamento/{id}', [CargaLectivaController::class, 'index'])->name('cargalectiva.index');
+
+Route::get('/edit/{id}', [CargaLectivaController::class, 'edit'])->name('cargalectiva.edit');
 
 Route::post(
     'dowloadDeclaracionJurada/{id}',

@@ -15,8 +15,6 @@ class CargaLectivaController extends Controller
     public function index($id)
     {
         $cargaLectiva = CargaLectiva::findorFail($id);
-        //dd($cargaLectiva->declaracionJurada);
-
         $docente = $cargaLectiva->declaracionJurada->docente;
         $declaracionJurada = $cargaLectiva->declaracionJurada;
 
@@ -70,7 +68,11 @@ class CargaLectivaController extends Controller
      */
     public function edit($id)
     {
-        //
+        $cargaLectiva =  CargaLectiva::findOrfail($id);
+        $cargaLectiva->estado_asignado = 1;
+        $cargaLectiva->update();
+
+        return redirect()->route('cargasLectivasJefeDepartamento');
     }
 
     /**

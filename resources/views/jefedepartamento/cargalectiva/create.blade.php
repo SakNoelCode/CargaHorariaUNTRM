@@ -2,7 +2,8 @@
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-            <!------BOX Cabecera Sin Botones---->
+            @if ($cargaLectiva->estado_asignado == 0)
+            <!------BOX Cabecera con Botones---->
             <div class="pt-4">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="bg-white overflow-hidden sm:rounded-lg">
@@ -33,6 +34,25 @@
                     </div>
                 </div>
             </div>
+            @else
+            <!------BOX Cabecera Sin Botones---->
+            <div class="pt-4">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="bg-white overflow-hidden sm:rounded-lg">
+                        <div class="p-6 sm:px-20 bg-white border-b">
+                            <div class="text-2xl">
+                                Ver asignación para la carga horaria
+                            </div>
+
+                            <div class="mt-3 text-gray-500">
+                                La carga horaria ya ha sido asignada, puede revisar los detalles en esta vista.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endif
+
 
             <div class="pt-4">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -83,21 +103,28 @@
                 </div>
             </div>
 
-            <!---div class="pt-4">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="bg-white overflow-hidden sm:rounded-lg">
-                        <div class="p-6 sm:px-20 bg-white border-b">
-
-
-                        </div>
-                    </div>
-                </div>
-            </div--->
             <!-----Tabla Cursos Asignados---->
             @livewire('show-carga-lectiva-curso',['id'=>$cargaLectiva->id],key([$cargaLectiva->id]))
 
-             <!-----Tabla Cargas Asignadas---->
-             @livewire('show-carga-lectiva-carga',['id'=>$cargaLectiva->id],key([$cargaLectiva->id]))
+            <!-----Tabla Cargas Asignadas---->
+            @livewire('show-carga-lectiva-carga',['id'=>$cargaLectiva->id],key([$cargaLectiva->id]))
+
+            @if ($cargaLectiva->estado_asignado == 0)
+            <div class="pt-4">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="bg-gray-100 overflow-hidden sm:rounded-lg">
+                        <div class="p-6 sm:px-20 bg-gray-100 border-b flex">
+                            <form action="{{route('cargalectiva.edit',['id'=>$cargaLectiva->id])}}" style="margin: auto;">
+                                <x-jet-button type='submit'>
+                                    Finalizar asignación
+                                </x-jet-button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endif
+
 
         </div>
     </div>

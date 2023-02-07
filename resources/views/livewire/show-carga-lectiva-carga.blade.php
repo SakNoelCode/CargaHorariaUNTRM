@@ -1,9 +1,9 @@
 <div>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
         <x-table>
             <!-----Cabecera---->
             <div class="px-6 py-4 flex items-center">
-                <span class="font-semibold text-base text-blueGray-700">Cargas Asignadas</span>
+                <span class="font-bold text-base text-gray-900">Cargas Asignadas</span>
             </div>
 
             @if ($cargasAsignadas->count())
@@ -16,9 +16,11 @@
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Titulo de carga
                         </th>
+                        @if ($estadoCargaLectiva == 0)
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Opciones
                         </th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
@@ -30,11 +32,13 @@
                         <td class="px-6 py-4 text-sm font-medium">
                             {{$item->tituloCarga}}
                         </td>
+                        @if ($estadoCargaLectiva == 0)
                         <td class="px-6 py-4 text-sm font-medium">
                             <a class="text-red-600 hover:text-red-900 cursor-pointer" wire:click="deleteId({{$item->id}})">
                                 <i class="fa-solid fa-trash"></i>
                             </a>
                         </td>
+                        @endif
                     </tr>
                     <?php
                     $enumerator++;

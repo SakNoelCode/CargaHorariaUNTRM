@@ -39,27 +39,36 @@
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
                     @foreach ($cargas as $item)
-                        <tr>
-                            <td class="px-6 py-4 text-sm font-medium">
-                                {{$item->id}}
-                            </td>
-                            <td class="px-6 py-4 text-sm font-medium">
-                                {{$item->declaracionJurada->docente->user->name}}
-                            </td>
-                            <td class="px-6 py-4 text-sm font-medium">
-                                {{$item->declaracionJurada->periodo->descripcion}}
-                            </td>
-                            <td class="px-6 py-4">
-                                @if ($item->estado_asignado == 0)
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-300">
-                                    Pendiente
-                                </span>
-                                @endif
-                            </td>
-                            <td>
-                                <a class="text-indigo-600 hover:text-indigo-900 cursor-pointer" href="{{ route('cargalectiva.index',$item->id) }}">Crear asignación</a>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td class="px-6 py-4 text-sm font-medium">
+                            {{$item->id}}
+                        </td>
+                        <td class="px-6 py-4 text-sm font-medium">
+                            {{$item->declaracionJurada->docente->user->name}}
+                        </td>
+                        <td class="px-6 py-4 text-sm font-medium">
+                            {{$item->declaracionJurada->periodo->descripcion}}
+                        </td>
+                        <td class="px-6 py-4">
+                            @if ($item->estado_asignado == 0)
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-300">
+                                Pendiente
+                            </span>
+                            @else
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-300">
+                                Asignado
+                            </span>
+                            @endif
+
+                        </td>
+                        <td>
+                            @if ($item->estado_asignado == 0)
+                            <a class="text-indigo-600 hover:text-indigo-900 cursor-pointer" href="{{ route('cargalectiva.index',$item->id) }}">Crear asignación</a>
+                            @else
+                            <a class="text-indigo-600 hover:text-indigo-900 cursor-pointer" href="{{ route('cargalectiva.index',$item->id) }}">Ver asignación</a>
+                            @endif
+                        </td>
+                    </tr>
                     @endforeach
                 </tbody>
             </table>

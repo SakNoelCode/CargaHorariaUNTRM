@@ -2,12 +2,13 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\CargaLectiva;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class ShowCargaLectivaCarga extends Component
 {
-    public $cargaLectivaId;
+    public $cargaLectivaId, $estadoCargaLectiva;
     public $enumerator = 1;
     public $isOpenModalDelete = false;
     public $deleteId;
@@ -17,6 +18,7 @@ class ShowCargaLectivaCarga extends Component
     public function mount($id)
     {
         $this->cargaLectivaId = $id;
+        $this->estadoCargaLectiva = CargaLectiva::find($id)->estado_asignado;
     }
 
     public function render()
