@@ -98,4 +98,20 @@ class CargaLectivaController extends Controller
     {
         //
     }
+
+    public function cargaLectivaLlenar($id)
+    {
+        $cargaLectiva = CargaLectiva::findorFail($id);
+        $docente = $cargaLectiva->declaracionJurada->docente;
+        $declaracionJurada = $cargaLectiva->declaracionJurada;
+
+        return view(
+            'docente.cargalectiva.create',
+            [
+                'docente' => $docente,
+                'declaracionJurada' => $declaracionJurada,
+                'cargaLectiva' => $cargaLectiva
+            ]
+        );
+    }
 }

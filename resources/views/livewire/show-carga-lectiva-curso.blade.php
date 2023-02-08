@@ -24,6 +24,23 @@
                             Opciones
                         </th>
                         @endif
+                        @if ($isDocente)
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            N° de alummnos
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Hrs. teoría
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Hrs. práctica
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Completado
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Total horas
+                        </th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
@@ -45,6 +62,23 @@
                             </a>
                         </td>
                         @endif
+                        @if ($isDocente)
+                        <td class="px-6 py-4 text-sm font-medium">
+
+                        </td>
+                        <td class="px-6 py-4 text-sm font-medium">
+
+                        </td>
+                        <td class="px-6 py-4 text-sm font-medium">
+
+                        </td>
+                        <td class="px-6 py-4 text-sm font-medium">
+                            <a class="text-indigo-600 hover:text-indigo-900 cursor-pointer" wire:click="edit({{$item->id}})">Completar</a>
+                        </td>
+                        <td class="px-6 py-4 text-sm font-medium">
+
+                        </td>
+                        @endif
                     </tr>
                     @endforeach
                 </tbody>
@@ -57,6 +91,7 @@
         </x-table>
     </div>
 
+    <!----------Modal delete-------------->
     <x-jet-confirmation-modal wire:model='isOpenModalDelete'>
         <x-slot name='title'>
             Eliminar curso
@@ -69,5 +104,38 @@
             <x-jet-button wire:click='delete' wire:loading.attr='disabled' wire:target='delete'>Guardar</x-jet-button>
         </x-slot>
     </x-jet-confirmation-modal>
+
+    <!------Modal editar----->
+    <x-jet-dialog-modal wire:model='isOpenmodaledit'>
+        <x-slot name='title'>
+            Completar datos
+        </x-slot>
+        <x-slot name='content'>
+
+            <div class="mb-4">
+                <x-jet-label value='Numero de alumnos:'/>
+                <x-jet-input type='number' class="w-full" wire:model.defer='numAlumnos' />
+                <x-jet-input-error for='numAlumnos' />
+            </div>
+
+            <div class="mb-4">
+                <x-jet-label value='Horas de teoría:' />
+                <x-jet-input type='number' class="w-full" wire:model.defer='horasTeoria' />
+                <x-jet-input-error for='horasTeoria' />
+            </div>
+
+            <div class="mb-4">
+                <x-jet-label value='Horas de práctica:' />
+                <x-jet-input type='number' class="w-full" wire:model.defer='horasPractica' />
+                <x-jet-input-error for='horasPractica' />
+            </div>
+
+        </x-slot>
+        <x-slot name='footer'>
+            <x-jet-action-message class="mr-4" wire:loading on='update'>Cargando.....</x-jet-action-message>
+            <x-jet-secondary-button class="mr-4" wire:click='close' wire:loading.attr='disabled' wire:target='update,close'>Cerrar</x-jet-secondary-button>
+            <x-jet-button wire:click='update' wire:loading.attr='disabled' wire:target='update,close'>Guardar</x-jet-button>
+        </x-slot>
+    </x-jet-dialog-modal>
 
 </div>

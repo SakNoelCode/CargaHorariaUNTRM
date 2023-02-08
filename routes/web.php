@@ -3,9 +3,8 @@
 use App\Http\Controllers\CargaLectivaController;
 use App\Http\Controllers\homeController;
 use App\Http\Controllers\wordController;
-use App\Http\Livewire\EditDocente;
 use Illuminate\Support\Facades\Route;
-use App\Http\Livewire\ShowUsers;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +41,7 @@ Route::get('/cargasLectivasJefeDepartamento', function () {
 })->middleware('auth')->name('cargasLectivasJefeDepartamento');
 
 Route::get('/cargasLectivasJefeDepartamento/{id}', [CargaLectivaController::class, 'index'])->name('cargalectiva.index');
+Route::get('/cargasLectivasDocente/{id}',[CargaLectivaController::class,'cargaLectivaLlenar'])->name('cargalectiva.llenar');
 
 //Route::get('/edit/{id}', [CargaLectivaController::class, 'edit'])->name('cargalectiva.edit');
 

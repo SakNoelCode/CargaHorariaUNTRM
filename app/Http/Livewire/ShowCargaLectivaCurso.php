@@ -11,14 +11,28 @@ class ShowCargaLectivaCurso extends Component
 
     public $cargaLectivaId, $estadoCargaLectiva;
     public $isOpenModalDelete = false;
+    public $isOpenmodaledit = false;
     public $deleteId;
+    public $isDocente;
+
+    //Variables para editar curso
+    public $idCurso;
+    public $numAlumnos, $horasTeoria, $horasPractica;
+
+    protected $rules = [
+        'numAlumnos' => 'required',
+        'horasTeoria' => 'required',
+        'horasPractica' => 'required'
+
+    ];
 
     protected $listeners = ['render_table_carga_lectiva_curso' => 'render'];
 
-    public function mount($id)
+    public function mount($id, $isDocente)
     {
         $this->cargaLectivaId = $id;
         $this->estadoCargaLectiva = CargaLectiva::find($id)->estado_asignado;
+        $this->isDocente = $isDocente;
     }
 
     public function render()
@@ -51,5 +65,37 @@ class ShowCargaLectivaCurso extends Component
             ->delete();
         $this->isOpenModalDelete = false;
         $this->emit('alertMixin', 'success', 'Curso eliminado exitosamente');
+    }
+
+    public function edit($id)
+    {
+        $this->idCurso = $id;
+        $this->isOpenmodaledit = true;
+    }
+
+    public function close()
+    {
+        $this->isOpenmodaledit = false;
+    }
+
+    public function update()
+    {
+        $this->validate();
+    }
+
+    public function resetFormEdit()
+    {
+        $this->reset([
+            'numAlumnos',
+            'horasTeoria',
+            'horasPractica'
+        ]);
+    }
+
+    public function updatingIsOpenmodaledit()
+    {
+        if ($this->isOpenmodaledit == false) {
+            dd('maldita sea');
+        }
     }
 }

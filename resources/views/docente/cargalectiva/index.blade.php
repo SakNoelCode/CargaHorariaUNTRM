@@ -1,24 +1,27 @@
 <x-app-layout>
+
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-            <!------BOX Cabecera---->
-            <x-cabecerabox>
-                <x-slot name='title'>
-                    Carga Horaria
-                </x-slot>
-                <x-slot name='descripcion'>
-                    En esta sección podrá generar y gestionar sus cargas lectivas.
-                </x-slot>
-                <x-slot name='botones'>
-                    <div class="px-6 py-4 flex justify-end">
-                        @livewire('create-docente')
+            <!------BOX Cabecera Sin Botones---->
+            <div class="pt-4">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="bg-white overflow-hidden sm:rounded-lg">
+                        <div class="p-6 sm:px-20 bg-white border-b">
+                            <div class="text-2xl">
+                                Carga Horaria
+                            </div>
+
+                            <div class="mt-3 text-gray-500">
+                                En esta sección podrá completar algunos datos sobre los cursos y cargas que se le ha sido asignado.
+                            </div>
+                        </div>
                     </div>
-                </x-slot>
-            </x-cabecerabox>
+                </div>
+            </div>
 
             <!---Box Tabla--->
-            @livewire('show-declaracion-jurada')
+            @livewire('show-carga-horaria-docente')
 
 
         </div>

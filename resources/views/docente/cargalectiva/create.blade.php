@@ -2,57 +2,22 @@
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-            @if ($cargaLectiva->estado_asignado == 0)
-            <!------BOX Cabecera con Botones---->
-            <div class="pt-4">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="bg-white overflow-hidden sm:rounded-lg">
-                        <div class="p-6 sm:px-20 bg-white border-b">
-                            <div class="grid grid-cols-1 md:grid-cols-2">
-                                <div>
-                                    <div class="text-2xl">
-                                        Crear Asignación para la carga Horaria
-                                    </div>
-
-                                    <div class="mt-3 text-gray-500">
-                                        En esta sección podrá asignar cursos y cargas para el horario del docente.
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="px-8 py-4 flex">
-                                        <div class="mr-1 flex-1">
-                                            @livewire('asignar-curso',['id'=>$cargaLectiva->id,'idEscuela'=>$docente->escuela->id],key([$cargaLectiva->id,$docente->escuela->id]))
-                                        </div>
-
-                                        <div class="ml-1 flex-1">
-                                            @livewire('asignar-carga',['id'=>$cargaLectiva->id],key([$cargaLectiva->id]))
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @else
-            <!------BOX Cabecera Sin Botones---->
             <div class="pt-4">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="bg-white overflow-hidden sm:rounded-lg">
                         <div class="p-6 sm:px-20 bg-white border-b">
                             <div class="text-2xl">
-                                Ver asignación para la carga horaria
+                                Declaracion de carga horaria
                             </div>
 
                             <div class="mt-3 text-gray-500">
-                                La carga horaria ya ha sido asignada, puede revisar los detalles en esta vista.
+                                En esta sección deberá llenar el total de alumnos por curso, además de las horas de los cursos y cargas que se le ha sido asignado.
+                                Recuerde que deberá completar el total de horas según su modalidad.
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            @endif
-
 
             <div class="pt-4">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -89,7 +54,7 @@
                                         </div>
                                         <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                             <dt class="text-base font-medium text-gray-500">Modalidad</dt>
-                                            <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{$docente->modalidade->descripcion}}</dd>
+                                            <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{$docente->modalidade->descripcion}}: {{$docente->modalidade->horas}} horas</dd>
                                         </div>
                                         <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                             <dt class="text-base font-medium text-gray-500">Periodo</dt>
@@ -104,16 +69,8 @@
             </div>
 
             <!-----Tabla Cursos Asignados---->
-            @livewire('show-carga-lectiva-curso',['id'=>$cargaLectiva->id,'isDocente'=>false],key([$cargaLectiva->id]))
+            @livewire('show-carga-lectiva-curso',['id'=>$cargaLectiva->id,'isDocente'=>true],key([$cargaLectiva->id]))
 
-            <!-----Tabla Cargas Asignadas---->
-            @livewire('show-carga-lectiva-carga',['id'=>$cargaLectiva->id],key([$cargaLectiva->id]))
-
-            <!-----Botón Finalizar Asignación---->
-            @if ($cargaLectiva->estado_asignado == 0)
-            @livewire('button-finalizar-asignacion',['id'=>$cargaLectiva->id],key([$cargaLectiva->id]))
-            @endif
-            
         </div>
     </div>
 </x-app-layout>
