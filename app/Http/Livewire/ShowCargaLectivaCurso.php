@@ -21,7 +21,7 @@ class ShowCargaLectivaCurso extends Component
 
     //Variables para calcular las horas totales
     public $totalHorasArray;
-    public $totalHoras = 0;
+    public $totalHoras;
 
     protected $rules = [
         'numAlumnos' => 'required|numeric',
@@ -59,8 +59,9 @@ class ShowCargaLectivaCurso extends Component
             ->orderBy('clc.id')
             ->get();
 
+        //Calculo del total de horas
+        $this->totalHoras = 0;
         $this->totalHorasArray = $cursosAsignados->toArray();
-
         foreach ($this->totalHorasArray as $item) {
             $this->totalHoras +=  $item->totalHoras;
         }

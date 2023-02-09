@@ -4,6 +4,7 @@
             <!-----Cabecera---->
             <div class="px-6 py-4 flex items-center">
                 <span class="font-bold text-base text-blue-900">Cursos Asignados</span>
+                @json($totalHoras)
             </div>
 
             @if ($cursosAsignados->count())
