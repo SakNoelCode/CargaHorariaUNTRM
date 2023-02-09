@@ -11,7 +11,7 @@ class ShowCargaLectivaCurso extends Component
 
     public $cargaLectivaId, $estadoCargaLectiva;
     public $isOpenModalDelete = false;
-    public $isOpenmodaledit = false;
+    public $isOpenModalEdit = false;
     public $deleteId;
     public $isDocente;
 
@@ -19,10 +19,14 @@ class ShowCargaLectivaCurso extends Component
     public $idCurso;
     public $numAlumnos, $horasTeoria, $horasPractica;
 
+    //Variables para calcular las horas totales
+    public $totalHorasArray;
+    public $totalHoras = 0;
+
     protected $rules = [
-        'numAlumnos' => 'required',
-        'horasTeoria' => 'required',
-        'horasPractica' => 'required'
+        'numAlumnos' => 'required|numeric',
+        'horasTeoria' => 'required|numeric',
+        'horasPractica' => 'required|numeric'
 
     ];
 
@@ -41,9 +45,26 @@ class ShowCargaLectivaCurso extends Component
             ->join('cursos as c', 'c.id', '=', 'clc.curso_id')
             ->join('ciclos as ci', 'ci.id', '=', 'clc.ciclo_id')
             ->join('seccions as s', 's.id', '=', 'clc.seccion_id')
-            ->select('clc.id as id', 'c.nombre as nombreCurso', 'ci.descripcion as descripcionCiclo', 's.descripcion as descripcionSeccion')
+            ->select(
+                (DB::raw('clc.horas_teoria + clc.horas_practica as totalHoras')),
+                'clc.id as id',
+                'c.nombre as nombreCurso',
+                'ci.descripcion as descripcionCiclo',
+                's.descripcion as descripcionSeccion',
+                'clc.numero_alumnos as numAlumnos',
+                'clc.horas_teoria as horasTeoria',
+                'clc.horas_practica as horasPractica'
+            )
             ->where('clc.cargalectiva_id', '=', $this->cargaLectivaId)
+            ->orderBy('clc.id')
             ->get();
+
+        $this->totalHorasArray = $cursosAsignados->toArray();
+
+        foreach ($this->totalHorasArray as $item) {
+            $this->totalHoras +=  $item->totalHoras;
+        }
+        //dd($this->totalHoras);
 
         /*foreach ($cursosAsignados as $item) {
             dd($item->nombre);
@@ -69,18 +90,47 @@ class ShowCargaLectivaCurso extends Component
 
     public function edit($id)
     {
+        $this->resetFormEdit();
+        $this->resetFormEditValidation();
         $this->idCurso = $id;
-        $this->isOpenmodaledit = true;
+
+        //Hacer consulta si existen registros
+        $cargaLectiva_curso = DB::table('cargalectiva_curso')
+            ->where('id', $id)
+            ->first();
+
+        if ($cargaLectiva_curso->numero_alumnos != 0) {
+            $this->numAlumnos = $cargaLectiva_curso->numero_alumnos;
+        }
+        if ($cargaLectiva_curso->horas_teoria != 0) {
+            $this->horasTeoria = $cargaLectiva_curso->horas_teoria;
+        }
+        if ($cargaLectiva_curso->horas_practica != 0) {
+            $this->horasPractica = $cargaLectiva_curso->horas_practica;
+        }
+
+        $this->isOpenModalEdit = true;
     }
 
     public function close()
     {
-        $this->isOpenmodaledit = false;
+        $this->isOpenModalEdit = false;
     }
 
     public function update()
     {
         $this->validate();
+
+        $curso = DB::table('cargalectiva_curso')
+            ->where('id', $this->idCurso)
+            ->update([
+                'numero_alumnos' => $this->numAlumnos,
+                'horas_teoria' => $this->horasTeoria,
+                'horas_practica' => $this->horasPractica
+            ]);
+
+        $this->close();
+        $this->emit('alertMixin', 'success', 'Curso completado exitosamente');
     }
 
     public function resetFormEdit()
@@ -92,10 +142,10 @@ class ShowCargaLectivaCurso extends Component
         ]);
     }
 
-    public function updatingIsOpenmodaledit()
+    public function resetFormEditValidation()
     {
-        if ($this->isOpenmodaledit == false) {
-            dd('maldita sea');
-        }
+        //Borrar avisos de validación
+        $this->resetErrorBag();
+        $this->resetValidation();
     }
 }

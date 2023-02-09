@@ -35,7 +35,7 @@
                             Hrs. práctica
                         </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Completado
+                            Acciones
                         </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Total horas
@@ -64,19 +64,19 @@
                         @endif
                         @if ($isDocente)
                         <td class="px-6 py-4 text-sm font-medium">
-
+                            {{$item->numAlumnos}}
                         </td>
                         <td class="px-6 py-4 text-sm font-medium">
-
+                            {{$item->horasTeoria}}
                         </td>
                         <td class="px-6 py-4 text-sm font-medium">
-
+                            {{$item->horasPractica}}
                         </td>
                         <td class="px-6 py-4 text-sm font-medium">
-                            <a class="text-indigo-600 hover:text-indigo-900 cursor-pointer" wire:click="edit({{$item->id}})">Completar</a>
+                            <a class="text-indigo-600 hover:text-indigo-900 cursor-pointer" wire:click="edit({{$item->id}})">{{$item->totalHoras==0 ? 'Completar' : 'Editar'}}</a>
                         </td>
                         <td class="px-6 py-4 text-sm font-medium">
-
+                            <span>{{$item->totalHoras}}</span>
                         </td>
                         @endif
                     </tr>
@@ -106,27 +106,27 @@
     </x-jet-confirmation-modal>
 
     <!------Modal editar----->
-    <x-jet-dialog-modal wire:model='isOpenmodaledit'>
+    <x-jet-dialog-modal wire:model='isOpenModalEdit'>
         <x-slot name='title'>
             Completar datos
         </x-slot>
         <x-slot name='content'>
 
             <div class="mb-4">
-                <x-jet-label value='Numero de alumnos:'/>
-                <x-jet-input type='number' class="w-full" wire:model.defer='numAlumnos' />
+                <x-jet-label value='Numero de alumnos:' />
+                <x-jet-input type='number' step="1" pattern="\d+" class="w-full" wire:model.defer='numAlumnos' />
                 <x-jet-input-error for='numAlumnos' />
             </div>
 
             <div class="mb-4">
                 <x-jet-label value='Horas de teoría:' />
-                <x-jet-input type='number' class="w-full" wire:model.defer='horasTeoria' />
+                <x-jet-input type='number' min='1' class="w-full" wire:model.defer='horasTeoria' />
                 <x-jet-input-error for='horasTeoria' />
             </div>
 
             <div class="mb-4">
                 <x-jet-label value='Horas de práctica:' />
-                <x-jet-input type='number' class="w-full" wire:model.defer='horasPractica' />
+                <x-jet-input type='number' min='1' class="w-full" wire:model.defer='horasPractica' />
                 <x-jet-input-error for='horasPractica' />
             </div>
 
