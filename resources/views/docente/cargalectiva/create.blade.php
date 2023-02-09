@@ -71,6 +71,9 @@
             <!-----Tabla Cursos Asignados---->
             @livewire('show-carga-lectiva-curso',['id'=>$cargaLectiva->id,'isDocente'=>true],key([$cargaLectiva->id]))
 
+            <!-----Tabla Cargas Asignados---->
+            @livewire('show-carga-lectiva-carga',['id'=>$cargaLectiva->id,'isDocente'=>true],key($cargaLectiva->id))
+
         </div>
     </div>
 </x-app-layout>

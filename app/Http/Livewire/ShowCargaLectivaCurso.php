@@ -64,11 +64,6 @@ class ShowCargaLectivaCurso extends Component
         foreach ($this->totalHorasArray as $item) {
             $this->totalHoras +=  $item->totalHoras;
         }
-        //dd($this->totalHoras);
-
-        /*foreach ($cursosAsignados as $item) {
-            dd($item->nombre);
-        }*/
 
         return view('livewire.show-carga-lectiva-curso', ['cursosAsignados' => $cursosAsignados]);
     }

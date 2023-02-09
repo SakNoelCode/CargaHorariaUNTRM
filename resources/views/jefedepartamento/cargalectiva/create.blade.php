@@ -107,7 +107,7 @@
             @livewire('show-carga-lectiva-curso',['id'=>$cargaLectiva->id,'isDocente'=>false],key([$cargaLectiva->id]))
 
             <!-----Tabla Cargas Asignadas---->
-            @livewire('show-carga-lectiva-carga',['id'=>$cargaLectiva->id],key([$cargaLectiva->id]))
+            @livewire('show-carga-lectiva-carga',['id'=>$cargaLectiva->id,'isDocente'=>false],key([$cargaLectiva->id]))
 
             <!-----Botón Finalizar Asignación---->
             @if ($cargaLectiva->estado_asignado == 0)

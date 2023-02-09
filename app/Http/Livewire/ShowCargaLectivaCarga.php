@@ -12,13 +12,15 @@ class ShowCargaLectivaCarga extends Component
     public $enumerator = 1;
     public $isOpenModalDelete = false;
     public $deleteId;
+    public $isDocente;
 
     protected $listeners = ['render_table_carga_lectiva_carga' => 'render'];
 
-    public function mount($id)
+    public function mount($id,$isDocente)
     {
         $this->cargaLectivaId = $id;
         $this->estadoCargaLectiva = CargaLectiva::find($id)->estado_asignado;
+        $this->isDocente = $isDocente;
     }
 
     public function render()
