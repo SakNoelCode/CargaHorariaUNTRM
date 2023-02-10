@@ -12,7 +12,7 @@
 
                             <div class="mt-3 text-gray-500">
                                 En esta sección deberá llenar el total de alumnos por curso, además de las horas de los cursos y cargas que se le ha sido asignado.
-                                Recuerde que deberá completar el total de horas según su modalidad.
+                                Recuerde que deberá completar el total de horas según su modalidad. <span class="font-bold">De lo contrario no podrá terminar su asignación</span>
                             </div>
                         </div>
                     </div>

@@ -126,4 +126,16 @@
             <x-jet-button wire:click='update' wire:loading.attr='disabled' wire:target='update,closeFormEdit'>Guardar</x-jet-button>
         </x-slot>
     </x-jet-dialog-modal>
+
+    @push('js')
+    <script>
+        /*
+        document.addEventListener('livewire:load', function(event) {
+
+            if (@this.isDocente) {
+                Livewire.emit('passingParametrosCarga', @this.totalHoras, @this.isCompletoCargas);
+            }
+        });*/
+    </script>
+    @endpush
 </div>

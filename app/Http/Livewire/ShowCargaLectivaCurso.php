@@ -61,18 +61,8 @@ class ShowCargaLectivaCurso extends Component
             ->get();
 
         //Calculo del total de horas
-        $this->totalHoras = 0;
-        $this->isCompletoCursos = true;
         $this->totalHorasArray = $cursosAsignados->toArray();
-        //dd($this->totalHorasArray);
-        foreach ($this->totalHorasArray as $item) {
-            //Suma de horas en cursos
-            $this->totalHoras +=  $item->totalHoras;
-            //comprobacion si todos los cursos están completos
-            if($item->totalHoras == 0){
-                $this->isCompletoCursos = false;
-            }
-        }
+        $this->calcularHorasAndLlenado();
 
         return view('livewire.show-carga-lectiva-curso', ['cursosAsignados' => $cursosAsignados]);
     }
@@ -135,6 +125,7 @@ class ShowCargaLectivaCurso extends Component
 
         $this->close();
         $this->emit('alertMixin', 'success', 'Curso completado exitosamente');
+        $this->emitTo('button-terminar-llenado','UpdateParametrosCurso');
     }
 
     public function resetFormEdit()
@@ -151,5 +142,21 @@ class ShowCargaLectivaCurso extends Component
         //Borrar avisos de validación
         $this->resetErrorBag();
         $this->resetValidation();
+    }
+
+    public function calcularHorasAndLlenado()
+    {
+        //Inicializacion de variables
+        $this->totalHoras = 0;
+        $this->isCompletoCursos = true;
+
+        foreach ($this->totalHorasArray as $item) {
+            //Suma de horas en cursos
+            $this->totalHoras +=  $item->totalHoras;
+            //comprobacion si todos los cursos están completos
+            if ($item->totalHoras == 0) {
+                $this->isCompletoCursos = false;
+            }
+        }
     }
 }
