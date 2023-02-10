@@ -14,6 +14,7 @@
             <div class="px-6 py-4 flex items-center">
                 <span class="font-bold text-base text-gray-900">Cargas Asignadas</span>
                 @json($totalHoras)
+                @json($isCompletoCargas)
             </div>
 
             @if ($cargasAsignadas->count())

@@ -19,7 +19,8 @@ class ShowCargaLectivaCarga extends Component
     public $idCarga;
     public $descripcion, $cantHoras;
 
-    //Variables para calcular las horas totales
+    //Variables para calcular las horas totales}
+    public $isCompletoCargas;
     public $totalHorasArray;
     public $totalHoras;
 
@@ -46,10 +47,14 @@ class ShowCargaLectivaCarga extends Component
             ->get();
 
         //Calculo del total de horas
+        $this->isCompletoCargas = true;
         $this->totalHoras = 0;
         $this->totalHorasArray = $cargasAsignadas->toArray();
         foreach ($this->totalHorasArray as $item) {
             $this->totalHoras +=  $item->cantHoras;
+            if($item->cantHoras == 0){
+                $this->isCompletoCargas = false;
+            }
         }
 
         return view('livewire.show-carga-lectiva-carga', compact('cargasAsignadas'));

@@ -74,6 +74,9 @@
             <!-----Tabla Cargas Asignados---->
             @livewire('show-carga-lectiva-carga',['id'=>$cargaLectiva->id,'isDocente'=>true],key($cargaLectiva->id))
 
+            <!-----Botón Terminar llenado---->
+            @livewire('button-terminar-llenado',['id'=>$cargaLectiva->id],key([$cargaLectiva->id]))
+
         </div>
     </div>
 </x-app-layout>

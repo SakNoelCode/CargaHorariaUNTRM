@@ -20,6 +20,7 @@ class ShowCargaLectivaCurso extends Component
     public $numAlumnos, $horasTeoria, $horasPractica;
 
     //Variables para calcular las horas totales
+    public $isCompletoCursos;
     public $totalHorasArray;
     public $totalHoras;
 
@@ -61,9 +62,16 @@ class ShowCargaLectivaCurso extends Component
 
         //Calculo del total de horas
         $this->totalHoras = 0;
+        $this->isCompletoCursos = true;
         $this->totalHorasArray = $cursosAsignados->toArray();
+        //dd($this->totalHorasArray);
         foreach ($this->totalHorasArray as $item) {
+            //Suma de horas en cursos
             $this->totalHoras +=  $item->totalHoras;
+            //comprobacion si todos los cursos están completos
+            if($item->totalHoras == 0){
+                $this->isCompletoCursos = false;
+            }
         }
 
         return view('livewire.show-carga-lectiva-curso', ['cursosAsignados' => $cursosAsignados]);
