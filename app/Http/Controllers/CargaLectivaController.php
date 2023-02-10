@@ -114,4 +114,12 @@ class CargaLectivaController extends Controller
             ]
         );
     }
+
+    public function cargaLectivaHorario($id)
+    {
+        $cargaLectiva = CargaLectiva::findorFail($id);
+        return view('docente.cargalectiva.cargahoraria', [
+            'cargaLectiva' => $cargaLectiva
+        ]);
+    }
 }

@@ -81,11 +81,11 @@
                         </td>
                         <td class="px-6 py-4">
                             <a href="{{ route('cargalectiva.llenar',$item->id) }}">
-                                <x-jet-secondary-button>
-                                    Asignacion carga
-                                </x-jet-secondary-button>
+                                <x-jet-secondary-button>Asignacion carga</x-jet-secondary-button>
                             </a>
-                            <x-jet-secondary-button>Declaracion carga</x-jet-secondary-button>
+                            <a href="{{route('cargalectiva.horario',$item->id)}}">
+                                <x-jet-secondary-button>Declaracion carga</x-jet-secondary-button>
+                            </a>
                         </td>
                         <td class="px-6 py-4 flex justify-center">
                             <a class="cursor-pointer text-gray-600 mr-4">

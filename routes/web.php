@@ -42,7 +42,7 @@ Route::get('/cargasLectivasJefeDepartamento', function () {
 
 Route::get('/cargasLectivasJefeDepartamento/{id}', [CargaLectivaController::class, 'index'])->name('cargalectiva.index');
 Route::get('/cargasLectivasDocente/{id}',[CargaLectivaController::class,'cargaLectivaLlenar'])->name('cargalectiva.llenar');
-
+Route::get('/cargasLectivasDocenteHorario/{id}',[CargaLectivaController::class,'cargaLectivaHorario'])->name('cargalectiva.horario');
 //Route::get('/edit/{id}', [CargaLectivaController::class, 'edit'])->name('cargalectiva.edit');
 
 Route::post(
