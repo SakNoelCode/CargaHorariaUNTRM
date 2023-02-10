@@ -13,8 +13,6 @@
             <!-----Cabecera---->
             <div class="px-6 py-4 flex items-center">
                 <span class="font-bold text-base text-gray-900">Cargas Asignadas</span>
-                @json($totalHoras)
-                @json($isCompletoCargas)
             </div>
 
             @if ($cargasAsignadas->count())
@@ -39,9 +37,11 @@
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Horas
                         </th>
+                        @if ($estadoCargaLectivaTerminado == 0)
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Acciones
                         </th>
+                        @endif
                         @endif
                     </tr>
                 </thead>
@@ -68,9 +68,11 @@
                         <td class="px-6 py-4 text-sm font-medium">
                             {{$item->cantHoras}}
                         </td>
+                        @if ($estadoCargaLectivaTerminado == 0)
                         <td class="px-6 py-4 text-sm font-medium">
                             <a class="text-indigo-600 hover:text-indigo-900 cursor-pointer" wire:click="edit({{$item->id}})">{{$item->cantHoras==0 ? 'Completar' : 'Editar'}}</a>
                         </td>
+                        @endif
                         @endif
                     </tr>
                     <?php

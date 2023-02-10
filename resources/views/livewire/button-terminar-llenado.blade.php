@@ -13,7 +13,7 @@
                     @json($isCompletoCarga)
                     @json($totalHorasCurso)
                     @json($isCompletoCurso)---------->
-                    @if ($isCompletoCarga && $isCompletoCurso && $totalHoras == 40)
+                    @if ($isCompletoCarga && $isCompletoCurso && $totalHoras == 40 && $estadoCargaLectivaTerminado == 0)
                     <x-jet-button wire:click="$set('isOpenModalConfirm',true)" wire:loading.attr='disabled' class="mr-4">
                         Terminar llenado
                     </x-jet-button>

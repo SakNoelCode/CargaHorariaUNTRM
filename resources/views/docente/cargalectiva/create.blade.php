@@ -7,13 +7,19 @@
                     <div class="bg-white overflow-hidden sm:rounded-lg">
                         <div class="p-6 sm:px-20 bg-white border-b">
                             <div class="text-2xl">
-                                Declaracion de carga horaria
+                                Asignación de carga horaria
                             </div>
-
+                            @if ($cargaLectiva->estado_terminado == 0)
                             <div class="mt-3 text-gray-500">
                                 En esta sección deberá llenar el total de alumnos por curso, además de las horas de los cursos y cargas que se le ha sido asignado.
                                 Recuerde que deberá completar el total de horas según su modalidad. <span class="font-bold">De lo contrario no podrá terminar su asignación</span>
                             </div>
+                            @endif
+                            @if ($cargaLectiva->estado_terminado == 1)
+                            <div class="mt-3 text-gray-500">
+                                La asignación de carga horaria ya ha sido completada. Puede revisar los detalles en esta vista.
+                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>

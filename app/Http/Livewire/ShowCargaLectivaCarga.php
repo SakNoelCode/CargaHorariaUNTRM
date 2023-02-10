@@ -8,7 +8,7 @@ use Livewire\Component;
 
 class ShowCargaLectivaCarga extends Component
 {
-    public $cargaLectivaId, $estadoCargaLectiva;
+    public $cargaLectivaId, $estadoCargaLectiva,$estadoCargaLectivaTerminado;
     public $enumerator = 1;
     public $isOpenModalDelete = false;
     public $isOpenModalEdit = false;
@@ -35,6 +35,7 @@ class ShowCargaLectivaCarga extends Component
     {
         $this->cargaLectivaId = $id;
         $this->estadoCargaLectiva = CargaLectiva::find($id)->estado_asignado;
+        $this->estadoCargaLectivaTerminado = CargaLectiva::find($id)->estado_terminado;
         $this->isDocente = $isDocente;
     }
 

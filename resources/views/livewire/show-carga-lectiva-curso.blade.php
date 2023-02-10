@@ -4,8 +4,6 @@
             <!-----Cabecera---->
             <div class="px-6 py-4 flex items-center">
                 <span class="font-bold text-base text-blue-900">Cursos Asignados</span>
-                @json($totalHoras)
-                @json($isCompletoCursos)
             </div>
 
             @if ($cursosAsignados->count())
@@ -36,9 +34,11 @@
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Hrs. práctica
                         </th>
+                        @if ($estadoCargaLectivaTerminado == 0)
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Acciones
                         </th>
+                        @endif
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Total horas
                         </th>
@@ -74,9 +74,11 @@
                         <td class="px-6 py-4 text-sm font-medium">
                             {{$item->horasPractica}}
                         </td>
+                        @if ($estadoCargaLectivaTerminado == 0)
                         <td class="px-6 py-4 text-sm font-medium">
                             <a class="text-indigo-600 hover:text-indigo-900 cursor-pointer" wire:click="edit({{$item->id}})">{{$item->totalHoras==0 ? 'Completar' : 'Editar'}}</a>
                         </td>
+                        @endif
                         <td class="px-6 py-4 text-sm font-medium">
                             <span>{{$item->totalHoras}}</span>
                         </td>

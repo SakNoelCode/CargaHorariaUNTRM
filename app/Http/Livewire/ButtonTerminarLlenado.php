@@ -3,12 +3,13 @@
 namespace App\Http\Livewire;
 
 use App\Models\CargaHoraria;
+use App\Models\CargaLectiva;
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 
 class ButtonTerminarLlenado extends Component
 {
-    public $cargaLectivaId;
+    public $cargaLectivaId, $estadoCargaLectivaTerminado;
     public $isOpenModalConfirm = false;
 
     //Variables para calculo de hora total
@@ -22,6 +23,7 @@ class ButtonTerminarLlenado extends Component
     public function mount($id)
     {
         $this->cargaLectivaId = $id;
+        $this->estadoCargaLectivaTerminado = CargaLectiva::find($id)->estado_terminado;
     }
 
     public function render()
@@ -69,7 +71,7 @@ class ButtonTerminarLlenado extends Component
             'estado_terminado' => 0
         ]);
 
-        return redirect()->route('cargasLectivasDocente')->with('success','message');
+        return redirect()->route('cargasLectivasDocente')->with('success', 'message');
     }
 
     public function calculateHorasAndStatus()
