@@ -38,6 +38,9 @@
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Opcciones
                         </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Documentos
+                        </th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
@@ -83,7 +86,14 @@
                                 </x-jet-secondary-button>
                             </a>
                             <x-jet-secondary-button>Declaracion carga</x-jet-secondary-button>
-                            <x-jet-button>Horario semanal</x-jet-button>
+                        </td>
+                        <td class="px-6 py-4 flex justify-center">
+                            <a class="cursor-pointer text-gray-600 mr-4">
+                                <i class="fa-solid fa-file"></i>
+                            </a>
+                            <a class="cursor-pointer text-gray-600 ml-4">
+                                <i class="fa-solid fa-calendar-days"></i>
+                            </a>
                         </td>
                     </tr>
                     <?php
