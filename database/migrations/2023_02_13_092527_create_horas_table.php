@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('hora_inicio');
             $table->string('hora_fin');
+            $table->string('sistema_horario');
             $table->timestamps();
         });
     }

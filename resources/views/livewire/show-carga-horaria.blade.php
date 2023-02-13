@@ -18,7 +18,7 @@
 
         <x-slot name='form'>
 
-            <!----Curso--->
+
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-label for='curso' value='Curso:' />
                 <select id="curso" wire:model.defer="idCurso" class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full">
@@ -30,7 +30,7 @@
                 <x-jet-input-error for='idCurso' class="mt-2" />
             </div>
 
-            <!---Horas Curso--->
+
             <div class="col-span-6 sm:col-span-4" id="horasCurso">
                 <div class="mb-2 text-gray-600">Seleccione la hora que va a completar:</div>
                 <div class="flex justify-between">
@@ -45,55 +45,59 @@
                 </div>
             </div>
 
-            <!-----Local--->
+
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-label for='aula' value='Local - Aula:' />
                 <select disabled id="aula" wire:model.defer='idAula' class="bg-gray-100 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full">
-                    <option value="" selected>Seleccione</option>
+                    <option value="null" selected>Seleccione</option>
                     @foreach ($aulas as $item)
                     <option value="{{$item->id}}">{{$item->local->descripcion}} - {{$item->descripcion}}</option>
                     @endforeach
                 </select>
+                <x-jet-input-error for='idAula' class="mt-2" />
             </div>
 
-            <!------------Día------------------->
+
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-label for='dia' value='Día:' />
                 <select disabled id="dia" wire:model.defer='dia' class="bg-gray-100 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full">
-                    <option value="" selected>Seleccione</option>
+                    <option value="null" selected>Seleccione</option>
                 </select>
+                <x-jet-input-error for='dia' class="mt-2" />
             </div>
 
-            <!----------------Hora Inicio------------------>
+
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-label for='horaInicio' value='Hora Inicio:' />
                 <select disabled id="horaInicio" wire:model.defer='horaInicio' class="bg-gray-100 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full">
-                    <option value="" selected>Seleccione</option>
+                    <option value="null" selected>Seleccione</option>
+                    @foreach ($horas as $item)
+                    <option value="{{$item->id}}">{{$item->hora_inicio}}&nbsp;{{$item->sistema_horario}}</option>
+                    @endforeach
                 </select>
+                <x-jet-input-error for='horaInicio' class="mt-2" />
             </div>
 
-            <!----------------Hora Fin------------------>
+
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-label for='horaFin' value='Hora Fin:' />
-                <select disabled id="horaFin" wire:model.defer='horaFin' class="bg-gray-100 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full">
-                    <option value="" selected>Seleccione</option>
+                <select disabled id="horaFin" wire:model.defer='horaFinal' class="bg-gray-100 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full">
+                    <option value="null" selected>Automático</option>
+                    @foreach ($horas as $item)
+                    <option value="{{$item->id}}">{{$item->hora_fin}}&nbsp;{{$item->sistema_horario}}</option>
+                    @endforeach
                 </select>
             </div>
 
-            <!----Curso--->
-            <!---div class="col-span-6 sm:col-span-4">
-                <x-jet-label for='cursoExample' value='Seleccione un curso:' />
-                <x-jet-input id="cursoExample" type='text' class="mt-1 block w-full" wire:model.defer="nameCurso" autocomplete="curso" />
-                <x-jet-input-error for='nameCurso' class="mt-2" />
-            </div---------------------->
 
         </x-slot>
+
 
         <x-slot name='actions'>
 
             <x-jet-action-message class="mr-3" on='saved'>Guardando</x-jet-action-message>
 
-            <x-jet-button wire:loading.attr="disabled">Guardar</x-jet-button>
+            <x-jet-button id="btn_submit" disabled wire:loading.attr="disabled">Guardar</x-jet-button>
 
         </x-slot>
 
@@ -102,9 +106,10 @@
     @push('js')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
     <script>
-        //Variables globales
+        /*
         elementHorasCurso = document.getElementById('horasCurso');
         let horaSelected = '';
+        let valuehoraSelected;
 
         let diasDeLaSemana = [{
                 text: 'Lunes',
@@ -137,9 +142,14 @@
                 if (selectedOption != 'null') {
                     //console.log(selectedOption);
                     Livewire.emit('CursoSeleccionado', selectedOption)
+                    Livewire.emit('refreshAula')
+                    Livewire.emit('refreshHoraInicio')
                     showHorasCurso();
                 } else {
                     hideHorasCurso();
+                    desactivateInputAula();
+                    desactivateInputDia();
+                    desactivateHoraInicio();
                 }
             });
 
@@ -147,18 +157,51 @@
                 $('#horasTeoria').addClass('bg-green-300');
                 $('#horasPractica').removeClass('bg-green-300');
                 activateInputAula();
-                activateInputDia();
+                //resetInputDia();
+                resetHoraInicio();
+                resetHoraFin();
+                desactivateInputDia()
+                desactivateHoraInicio();
+                desactivateSubmit();
                 llenarDias();
                 horaSelected = 'teorica';
+                valuehoraSelected = $('#horasTeoria').val();
             });
 
             $("#horasPracticaLabel").click(function() {
                 $('#horasPractica').addClass('bg-green-300');
                 $('#horasTeoria').removeClass('bg-green-300');
                 activateInputAula();
-                activateInputDia();
+                //resetInputDia();
+                resetHoraInicio();
+                resetHoraFin();
+                desactivateInputDia();
+                desactivateHoraInicio();
+                desactivateSubmit();
                 llenarDias();
                 horaSelected = 'practica';
+                valuehoraSelected = $('#horasPractica').val();
+            });
+
+            $("#aula").change(function() {
+                var selectedOption = $(this).val();
+                activateInputDia();
+                resetHoraFin();
+                desactivateSubmit();
+            });
+
+
+            $("#dia").change(function() {
+                var selectedOption = $(this).val();
+                activateHoraInicio();
+                resetHoraFin();
+                desactivateSubmit();
+            });
+
+
+            $("#horaInicio").change(function() {
+                var selectedOption = $(this).val();
+                calculateHoraFinal(selectedOption);
             });
 
         });
@@ -174,21 +217,90 @@
         function activateInputAula() {
             $('#aula').removeAttr('disabled');
             $('#aula').removeClass('bg-gray-100');
+            resetInputAula();
+        }
+
+        function desactivateInputAula() {
+            $('#aula').attr('disabled', 'disabled');
+            $('#aula').addClass('bg-gray-100');
+            resetInputAula();
+        }
+
+        function resetInputAula() {
+            $('#aula').val('null');
         }
 
         function activateInputDia() {
             $('#dia').removeAttr('disabled');
             $('#dia').removeClass('bg-gray-100');
+            resetInputDia();
+        }
+
+        function desactivateInputDia() {
+            $('#dia').attr('disabled', 'disabled');
+            $('#dia').addClass('bg-gray-100');
+            resetInputDia();
+        }
+
+        function resetInputDia() {
+            $('#dia').val('null');
+        }
+
+        function activateHoraInicio() {
+            $('#horaInicio').removeAttr('disabled');
+            $('#horaInicio').removeClass('bg-gray-100');
+            resetHoraInicio();
+        }
+
+        function desactivateHoraInicio() {
+            $('#horaInicio').attr('disabled', 'disabled');
+            $('#horaInicio').addClass('bg-gray-100');
+            resetHoraInicio();
+        }
+
+        function resetHoraInicio() {
+            $('#horaInicio').val('null');
+        }
+
+        function resetHoraFin() {
+            $('#horaFin').val('null');
+        }
+
+        function activateSubmit() {
+            $('#btn_submit').removeAttr('disabled');
+        }
+
+        function desactivateSubmit() {
+            $('#btn_submit').attr('disabled', 'disabled');
         }
 
         function llenarDias() {
-            $.each(diasDeLaSemana, function(index, value) {
-                $("#dia").append($("<option>", {
-                    value: value.id,
-                    text: value.text
-                }));
-            });
+
+            if ($("#dia").children().length == 1) {
+                //console.log('Select Vacio');
+                $.each(diasDeLaSemana, function(index, value) {
+                    $("#dia").append($("<option>", {
+                        value: value.id,
+                        text: value.text
+                    }));
+                });
+            }
         }
+
+        function calculateHoraFinal(selectedOption) {
+            let cantHoras = parseInt(valuehoraSelected);
+            let horaSeleccionada = parseInt(selectedOption);
+
+            //Se resta -1 para compensar que tiene el valor del ID es 1
+            $('#horaFin').val((cantHoras + horaSeleccionada - 1));
+            //console.log($('#aula').val());
+            activateSubmit();
+
+        }*/
+    </script>
+
+    <script>
+
     </script>
     @endpush
 
