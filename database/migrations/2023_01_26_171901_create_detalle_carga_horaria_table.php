@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('detalle_carga_horaria', function (Blueprint $table) {
             $table->id();
             $table->foreignId('cargahoraria_id')->constrained('carga_horarias')->onDelete('cascade');
-            $table->foreignId('cargalectiva_carga_id')->constrained('cargalectiva_carga')->onDelete('cascade');
-            $table->foreignId('cargalectiva_curso_id')->constrained('cargalectiva_curso')->onDelete('cascade');
+            $table->foreignId('cargalectiva_carga_id')->nullable()->constrained('cargalectiva_carga')->onDelete('cascade');
+            $table->foreignId('cargalectiva_curso_id')->nullable()->constrained('cargalectiva_curso')->onDelete('cascade');
             $table->foreignId('aula_id')->constrained('aulas')->onDelete('cascade');
             $table->string('dia',45);
             $table->string('tipo',45);

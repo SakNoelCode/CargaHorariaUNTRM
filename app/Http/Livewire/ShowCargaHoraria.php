@@ -8,21 +8,17 @@ use App\Models\Hora;
 use Illuminate\Queue\Listener;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use Illuminate\Support\Collection;
+use Livewire\Livewire;
 
 class ShowCargaHoraria extends Component
 {
     public $cargaLectivaId, $cargaHorariaId;
     public $idCurso, $horasTeoriaCurso, $horasPracticaCurso;
     public $idAula, $dia, $horaInicio, $horaFinal;
-    public $tipo, $isTeorico, $isPractico;
+    public $tipo;
 
-    protected $listeners =
-    [
-        'CursoSeleccionado' => 'llenarHorasCurso',
-        'refreshAula',
-        'refreshHoraInicio',
-        'tipoHora'
-    ];
+    protected $listeners = [];
 
     protected $rules = [
         'idCurso' => 'required',
@@ -51,11 +47,19 @@ class ShowCargaHoraria extends Component
 
         $aulas = Aula::all();
         $horas = Hora::all();
+        $dias = collect([
+            ['name' => 'Lunes', 'value' => 1],
+            ['name' => 'Martes', 'value' => 2],
+            ['name' => 'Miércoles', 'value' => 3],
+            ['name' => 'Jueves', 'value' => 4],
+            ['name' => 'Viernes', 'value' => 5],
+        ]);
 
-        return view('livewire.show-carga-horaria', compact('cargaLectivaCurso', 'aulas', 'horas'));
+        return view('livewire.show-carga-horaria', compact('cargaLectivaCurso', 'aulas', 'horas', 'dias'));
     }
 
-    public function updateCurso()
+
+    public function save()
     {
         $this->validate();
 
@@ -78,19 +82,18 @@ class ShowCargaHoraria extends Component
                 break;
         }
 
-        //dd('Hola');
-
-        /*
         DB::table('detalle_carga_horaria')->insert([
             'cargahoraria_id' => $this->cargaHorariaId,
-            'cargalectiva_carga_id' => 0,
             'cargalectiva_curso_id' => $this->idCurso,
             'aula_id' => $this->idAula,
             'dia' => $valorDia,
             'tipo' => $this->tipo,
             'hora_inicio_id' => $this->horaInicio,
             'hora_fin_id' => $this->horaFinal
-        ]);*/
+        ]);
+
+        $this->resetForm();
+        $this->emit('alertMixin', 'success', 'Operación exitosa');
     }
 
     public function llenarHorasCurso($selectOption)
@@ -103,22 +106,80 @@ class ShowCargaHoraria extends Component
         $this->horasPracticaCurso = $horasCurso->horas_practica;
     }
 
-    public function refreshAula()
+    public function updatedIdCurso()
     {
-        $this->reset([
-            'idAula'
-        ]);
+        if ($this->idCurso != '') {
+            $this->emit('showTipoCurso');
+        } else {
+            $this->emit('hideTipoCurso');
+        }
     }
 
-    public function refreshHoraInicio()
+    public function updatedTipo()
     {
-        $this->reset([
-            'horaInicio'
-        ]);
+        if ($this->tipo != '') {
+            $this->llenarHorasCurso($this->idCurso);
+            $this->emit('showTipoCurso');
+            $this->emit('showMensaje');
+        } else {
+            $this->emit('showTipoCurso');
+            $this->emit('hideMensaje');
+        }
     }
 
-    public function tipoHora($value)
+    public function updatedIdAula()
     {
-        $this->tipo = $value;
+        $this->emit('showTipoCurso');
+        $this->emit('showMensaje');
+    }
+
+    public function updatedDia()
+    {
+        $this->emit('showTipoCurso');
+        $this->emit('showMensaje');
+    }
+
+    public function updatedHoraInicio()
+    {
+        $this->emit('showTipoCurso');
+        $this->emit('showMensaje');
+        $this->calculateHoraFinal();
+    }
+
+    public function updatedHoraFinal()
+    {
+        /* $this->emit('showTipoCurso');
+        $this->emit('showMensaje');*/
+    }
+
+    public function calculateHoraFinal()
+    {
+        if ($this->horaInicio != '') {
+            if ($this->tipo == 'teorico') {
+                $horaFinal = $this->horaInicio + $this->horasTeoriaCurso;
+                $this->horaFinal = $horaFinal - 1;
+            }
+            if ($this->tipo == 'practico') {
+                $horaFinal = $this->horaInicio + $this->horasPracticaCurso;
+                $this->horaFinal = $horaFinal - 1;
+            }
+        }
+    }
+
+    public function resetForm()
+    {
+        $this->reset([
+            'idCurso',
+            'tipo',
+            'horasTeoriaCurso',
+            'horasPracticaCurso',
+            'idAula',
+            'dia',
+            'horaInicio',
+            'horaFinal'
+        ]);
+
+        $this->resetErrorBag();
+        $this->resetValidation();
     }
 }

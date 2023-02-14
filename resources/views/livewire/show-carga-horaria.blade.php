@@ -2,11 +2,17 @@
 
     @push('css')
     <style>
+        #tipoCurso {
+            display: none;
+        }
 
+        #mensaje {
+            display: none;
+        }
     </style>
     @endpush
 
-    <x-jet-form-section submit='updateCurso' class="mt-4">
+    <x-jet-form-section submit='save' class="mt-4">
 
         <x-slot name='title'>
             Asignar Horario para el curso
@@ -21,8 +27,8 @@
 
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-label for='curso' value='Curso:' />
-                <select id="curso" wire:model.defer="idCurso" class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full">
-                    <option value="null" selected>Seleccione</option>
+                <select id="curso" wire:model="idCurso" class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full">
+                    <option value="" selected>Seleccione</option>
                     @foreach ($cargaLectivaCurso as $item)
                     <option value="{{$item->id}}">{{$item->nombre}}</option>
                     @endforeach
@@ -30,26 +36,33 @@
                 <x-jet-input-error for='idCurso' class="mt-2" />
             </div>
 
+            <div id="tipoCurso" class="col-span-6 sm:col-span-4">
+                <x-jet-label for='tipo' value='Seleccione las horas a completar:' />
+                <select id="tipo" wire:model="tipo" class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full">
+                    <option value="" selected>Seleccione</option>
+                    <option value="teorico">Teoricas</option>
+                    <option value="practico">Practicas</option>
+                </select>
+                <x-jet-input-error for='tipo' class="mt-2" />
+            </div>
 
-            <div class="col-span-6 sm:col-span-4" id="horasCurso">
-                <div class="mb-2 text-gray-600">Seleccione la hora que va a completar:</div>
-                <div class="flex justify-between">
-                    <div class="mr-3">
-                        <x-jet-label for='horasTeoria' id="horasTeoriaLabel" value='Horas de Teoría' class="cursor-pointer" />
-                        <x-jet-input disabled id="horasTeoria" type='text' class="mt-1 bg-gray-100" wire:model.defer='horasTeoriaCurso' />
-                    </div>
-                    <div class="ml-3">
-                        <x-jet-label for='horasPractica' id="horasPracticaLabel" value='Horas de Práctica' class="cursor-pointer" />
-                        <x-jet-input disabled id="horasPractica" type='text' class="mt-1 bg-gray-100" wire:model.defer='horasPracticaCurso' />
-                    </div>
-                </div>
+            <!---div id="hola" class="col-span-6 sm:col-span-4">
+                <div class="mb-2 text-gray-600">Completar Horas Teóricas:</div>
+            </div--->
+            <div id="mensaje" class="col-span-6 sm:col-span-4">
+                @if ($tipo == 'teorico')
+                <div class="mb-2 text-gray-600">Horas Teoría: {{$horasTeoriaCurso}}</div>
+                @endif
+                @if ($tipo == 'practico')
+                <div class="mb-2 text-gray-600">Horas Practica: {{$horasPracticaCurso}}</div>
+                @endif
             </div>
 
 
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-label for='aula' value='Local - Aula:' />
-                <select disabled id="aula" wire:model.defer='idAula' class="bg-gray-100 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full">
-                    <option value="null" selected>Seleccione</option>
+                <select id="aula" wire:model='idAula' class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full">
+                    <option value="" selected>Seleccione</option>
                     @foreach ($aulas as $item)
                     <option value="{{$item->id}}">{{$item->local->descripcion}} - {{$item->descripcion}}</option>
                     @endforeach
@@ -60,8 +73,11 @@
 
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-label for='dia' value='Día:' />
-                <select disabled id="dia" wire:model.defer='dia' class="bg-gray-100 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full">
-                    <option value="null" selected>Seleccione</option>
+                <select id="dia" wire:model='dia' class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full">
+                    <option value="" selected>Seleccione</option>
+                    @foreach ($dias as $item)
+                    <option value="{{$item['value']}}">{{$item['name']}}</option>
+                    @endforeach
                 </select>
                 <x-jet-input-error for='dia' class="mt-2" />
             </div>
@@ -69,8 +85,8 @@
 
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-label for='horaInicio' value='Hora Inicio:' />
-                <select disabled id="horaInicio" wire:model.defer='horaInicio' class="bg-gray-100 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full">
-                    <option value="null" selected>Seleccione</option>
+                <select id="horaInicio" wire:model='horaInicio' class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full">
+                    <option value="" selected>Seleccione</option>
                     @foreach ($horas as $item)
                     <option value="{{$item->id}}">{{$item->hora_inicio}}&nbsp;{{$item->sistema_horario}}</option>
                     @endforeach
@@ -80,13 +96,14 @@
 
 
             <div class="col-span-6 sm:col-span-4">
-                <x-jet-label for='horaFin' value='Hora Fin:' />
-                <select disabled id="horaFin" wire:model.defer='horaFinal' class="bg-gray-100 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full">
-                    <option value="null" selected>Automático</option>
+                <x-jet-label for='horaFinal' value='Hora Fin:' />
+                <select disabled id="horaFinal" wire:model='horaFinal' class="bg-gray-100 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full">
+                    <option value="" selected>Automático</option>
                     @foreach ($horas as $item)
                     <option value="{{$item->id}}">{{$item->hora_fin}}&nbsp;{{$item->sistema_horario}}</option>
                     @endforeach
                 </select>
+                <x-jet-input-error for='horaFinal' class="mt-2" />
             </div>
 
 
@@ -97,7 +114,7 @@
 
             <x-jet-action-message class="mr-3" on='saved'>Guardando</x-jet-action-message>
 
-            <x-jet-button id="btn_submit" disabled wire:loading.attr="disabled">Guardar</x-jet-button>
+            <x-jet-button id="btn_submit" wire:loading.attr="disabled">Guardar</x-jet-button>
 
         </x-slot>
 
@@ -105,7 +122,7 @@
 
     @push('js')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
-    <script>
+    <!---script>
         /*
         elementHorasCurso = document.getElementById('horasCurso');
         let horaSelected = '';
@@ -297,10 +314,41 @@
             activateSubmit();
 
         }*/
-    </script>
+    </script----->
 
     <script>
+        //Escuhar evento que vienen del modelo
+        Livewire.on('showTipoCurso', event => {
+            showTipoCurso();
+        })
 
+        Livewire.on('hideTipoCurso', event => {
+            hideTipoCurso();
+        })
+
+        Livewire.on('showMensaje', event => {
+            showMensaje();
+        })
+
+        Livewire.on('hideMensaje', event => {
+            hideMensaje();
+        })
+
+        function hideTipoCurso() {
+            $('#tipoCurso').css("display", "none");
+        }
+
+        function showTipoCurso() {
+            $('#tipoCurso').css("display", "block");
+        }
+
+        function hideMensaje() {
+            $('#mensaje').css("display", "none");
+        }
+
+        function showMensaje() {
+            $('#mensaje').css("display", "block");
+        }
     </script>
     @endpush
 
