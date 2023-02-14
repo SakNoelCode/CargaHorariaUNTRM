@@ -46,22 +46,29 @@
                 <x-jet-input-error for='tipo' class="mt-2" />
             </div>
 
-            <!---div id="hola" class="col-span-6 sm:col-span-4">
-                <div class="mb-2 text-gray-600">Completar Horas Teóricas:</div>
-            </div--->
+            <!--------------Mensaje----------->
             <div id="mensaje" class="col-span-6 sm:col-span-4">
                 @if ($tipo == 'teorico')
+                @if ($havehorasTeoriaCurso)
+                <div class="mb-2 text-gray-600">Las horas teóricas ya han sido completadas</div>
+                @else
                 <div class="mb-2 text-gray-600">Horas Teoría: {{$horasTeoriaCurso}}</div>
                 @endif
+                @endif
+
                 @if ($tipo == 'practico')
+                @if ($havehorasPracticaCurso)
+                <div class="mb-2 text-gray-600">Las horas prácticas ya han sido completadas</div>
+                @else
                 <div class="mb-2 text-gray-600">Horas Practica: {{$horasPracticaCurso}}</div>
+                @endif
                 @endif
             </div>
 
 
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-label for='aula' value='Local - Aula:' />
-                <select id="aula" wire:model='idAula' class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full">
+                <select disabled id="aula" wire:model='idAula' class="bg-gray-100 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full">
                     <option value="" selected>Seleccione</option>
                     @foreach ($aulas as $item)
                     <option value="{{$item->id}}">{{$item->local->descripcion}} - {{$item->descripcion}}</option>
@@ -73,11 +80,13 @@
 
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-label for='dia' value='Día:' />
-                <select id="dia" wire:model='dia' class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full">
+                <select disabled id="dia" wire:model='dia' class="bg-gray-100 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full">
                     <option value="" selected>Seleccione</option>
-                    @foreach ($dias as $item)
-                    <option value="{{$item['value']}}">{{$item['name']}}</option>
-                    @endforeach
+                    <option value="lunes" selected>Lunes</option>
+                    <option value="martes" selected>Martes</option>
+                    <option value="miercoles" selected>Miercoles</option>
+                    <option value="jueves" selected>Jueves</option>
+                    <option value="viernes" selected>Viernes</option>
                 </select>
                 <x-jet-input-error for='dia' class="mt-2" />
             </div>
@@ -85,7 +94,7 @@
 
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-label for='horaInicio' value='Hora Inicio:' />
-                <select id="horaInicio" wire:model='horaInicio' class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full">
+                <select disabled id="horaInicio" wire:model='horaInicio' class="bg-gray-100 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full">
                     <option value="" selected>Seleccione</option>
                     @foreach ($horas as $item)
                     <option value="{{$item->id}}">{{$item->hora_inicio}}&nbsp;{{$item->sistema_horario}}</option>
@@ -322,32 +331,44 @@
             showTipoCurso();
         })
 
-        Livewire.on('hideTipoCurso', event => {
-            hideTipoCurso();
-        })
-
         Livewire.on('showMensaje', event => {
             showMensaje();
         })
 
-        Livewire.on('hideMensaje', event => {
-            hideMensaje();
+        Livewire.on('activateAula', event => {
+            activateAula();
         })
 
-        function hideTipoCurso() {
-            $('#tipoCurso').css("display", "none");
-        }
+        Livewire.on('activateDia', event => {
+            activateDia();
+        })
 
+        Livewire.on('activateHoraInicio', event => {
+            activateHoraInicio();
+        })
+
+        //Manejo del Input Tipo Curso
         function showTipoCurso() {
             $('#tipoCurso').css("display", "block");
         }
 
-        function hideMensaje() {
-            $('#mensaje').css("display", "none");
-        }
-
         function showMensaje() {
             $('#mensaje').css("display", "block");
+        }
+
+        function activateAula() {
+            $('#aula').removeAttr('disabled');
+            $('#aula').removeClass('bg-gray-100');
+        }
+
+        function activateDia() {
+            $('#dia').removeAttr('disabled');
+            $('#dia').removeClass('bg-gray-100');
+        }
+
+        function activateHoraInicio() {
+            $('#horaInicio').removeAttr('disabled');
+            $('#horaInicio').removeClass('bg-gray-100');
         }
     </script>
     @endpush

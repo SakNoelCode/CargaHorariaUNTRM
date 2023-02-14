@@ -5,11 +5,9 @@ namespace App\Http\Livewire;
 use App\Models\Aula;
 use App\Models\CargaHoraria;
 use App\Models\Hora;
-use Illuminate\Queue\Listener;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
-use Illuminate\Support\Collection;
-use Livewire\Livewire;
+
 
 class ShowCargaHoraria extends Component
 {
@@ -17,6 +15,10 @@ class ShowCargaHoraria extends Component
     public $idCurso, $horasTeoriaCurso, $horasPracticaCurso;
     public $idAula, $dia, $horaInicio, $horaFinal;
     public $tipo;
+
+    //Variables para comprobaciones
+    public $havehorasTeoriaCurso = false, $havehorasPracticaCurso = false;
+    public $horas;
 
     protected $listeners = [];
 
@@ -46,16 +48,10 @@ class ShowCargaHoraria extends Component
             ->get();
 
         $aulas = Aula::all();
-        $horas = Hora::all();
-        $dias = collect([
-            ['name' => 'Lunes', 'value' => 1],
-            ['name' => 'Martes', 'value' => 2],
-            ['name' => 'Miércoles', 'value' => 3],
-            ['name' => 'Jueves', 'value' => 4],
-            ['name' => 'Viernes', 'value' => 5],
-        ]);
 
-        return view('livewire.show-carga-horaria', compact('cargaLectivaCurso', 'aulas', 'horas', 'dias'));
+        $this->horas = Hora::all();
+
+        return view('livewire.show-carga-horaria', compact('cargaLectivaCurso', 'aulas'));
     }
 
 
@@ -63,30 +59,11 @@ class ShowCargaHoraria extends Component
     {
         $this->validate();
 
-        $valorDia = '';
-        switch ($this->dia) {
-            case 1:
-                $valorDia = 'Lunes';
-                break;
-            case 2:
-                $valorDia = 'Martes';
-                break;
-            case 3:
-                $valorDia = 'Miércoles';
-                break;
-            case 4:
-                $valorDia = 'Jueves';
-                break;
-            case 5:
-                $valorDia = 'Viernes';
-                break;
-        }
-
         DB::table('detalle_carga_horaria')->insert([
             'cargahoraria_id' => $this->cargaHorariaId,
             'cargalectiva_curso_id' => $this->idCurso,
             'aula_id' => $this->idAula,
-            'dia' => $valorDia,
+            'dia' => $this->dia,
             'tipo' => $this->tipo,
             'hora_inicio_id' => $this->horaInicio,
             'hora_fin_id' => $this->horaFinal
@@ -99,19 +76,96 @@ class ShowCargaHoraria extends Component
     public function llenarHorasCurso($selectOption)
     {
         $horasCurso = DB::table('cargalectiva_curso as clc')
-            ->select('clc.horas_teoria', 'clc.horas_practica')
+            ->select('clc.id', 'clc.horas_teoria', 'clc.horas_practica')
             ->where('clc.id', '=', $selectOption)
             ->first();
+
+        $horasCursoCumplidas = DB::table('detalle_carga_horaria as dch')
+            ->join('cargalectiva_curso as clc', 'clc.id', '=', 'dch.cargalectiva_curso_id')
+            ->select('clc.id', 'dch.tipo')
+            ->where('dch.cargalectiva_curso_id', $this->idCurso)
+            ->where('dch.tipo',$this->tipo)
+            ->get();
+
+        //dd($horasCursoCumplidas);
+        if ($horasCursoCumplidas->count()) {
+            foreach ($horasCursoCumplidas as $item) {
+               // dd($item);
+                if ($item->tipo == 'teorico') {
+                    $this->havehorasTeoriaCurso = true;
+                }
+
+                if ($item->tipo == 'practico') {
+                    $this->havehorasPracticaCurso = true;
+                }
+            }
+        }else{
+            $this->havehorasTeoriaCurso = false;
+            $this->havehorasPracticaCurso = false;
+        }
+        //dd($this->havehorasPracticaCurso);
+        //$horasFinal = $horasCurso->except($horasCursoCumplidas);
         $this->horasTeoriaCurso = $horasCurso->horas_teoria;
         $this->horasPracticaCurso = $horasCurso->horas_practica;
+    }
+
+    public function comprobarHoras()
+    {
+        $horas = Hora::all();
+
+        $horasOcupadas = DB::table('detalle_carga_horaria as dch')
+            ->join('horas as h', 'h.id', 'dch.hora_inicio_id')
+            ->select('h.id', 'dch.cargahoraria_id', 'dch.hora_inicio_id', 'dch.hora_fin_id')
+            ->where('cargahoraria_id', $this->cargaHorariaId)
+            ->where('dch.dia', $this->dia)
+            ->get();
+
+        $values = [];
+        if ($horasOcupadas->count()) {
+            foreach ($horasOcupadas as $item) {
+                array_push($values, $this->getValuesBetween($item->hora_inicio_id, $item->hora_fin_id));
+            }
+
+            //Conversion de array bidimensional a unidimensional
+            $string = json_encode($values);
+            $array = json_decode($string, true);
+            $result = [];
+            foreach ($array as $sub_array) {
+                foreach ($sub_array as $value) {
+                    array_push($result, $value);
+                }
+            }
+           // $this->horas = $horas->except($result);
+           ////Aqui nos hemos quedado
+        }
+    }
+
+    public function getValuesBetween($start, $end)
+    {
+        $values = [];
+        for ($i = $start; $i <= $end; $i++) {
+            array_push($values, $i);
+        }
+        return $values;
     }
 
     public function updatedIdCurso()
     {
         if ($this->idCurso != '') {
             $this->emit('showTipoCurso');
+
+            //resetear valores cuando cambia de opcion
+            $this->tipo = '';
+            $this->idAula = '';
+            $this->dia = '';
+            $this->horaInicio = '';
+            $this->horaFinal = '';
         } else {
-            $this->emit('hideTipoCurso');
+            //resetear valores cuando selecciona la opcion vacia
+            $this->idAula = '';
+            $this->dia = '';
+            $this->horaInicio = '';
+            $this->horaFinal = '';
         }
     }
 
@@ -121,9 +175,22 @@ class ShowCargaHoraria extends Component
             $this->llenarHorasCurso($this->idCurso);
             $this->emit('showTipoCurso');
             $this->emit('showMensaje');
+
+            if (!$this->havehorasPracticaCurso || !$this->havehorasTeoriaCurso) {
+                $this->emit('activateAula');
+            }
+
+            $this->idAula = '';
+            $this->dia = '';
+            $this->horaInicio = '';
+            $this->horaFinal = '';
         } else {
             $this->emit('showTipoCurso');
-            $this->emit('hideMensaje');
+
+            $this->idAula = '';
+            $this->dia = '';
+            $this->horaInicio = '';
+            $this->horaFinal = '';
         }
     }
 
@@ -131,19 +198,51 @@ class ShowCargaHoraria extends Component
     {
         $this->emit('showTipoCurso');
         $this->emit('showMensaje');
+        $this->emit('activateAula');
+
+        if ($this->idAula != '') {
+            $this->emit('activateDia');
+            $this->dia = '';
+            $this->horaInicio = '';
+            $this->horaFinal = '';
+        } else {
+            $this->dia = '';
+            $this->horaInicio = '';
+            $this->horaFinal = '';
+        }
     }
 
     public function updatedDia()
     {
         $this->emit('showTipoCurso');
         $this->emit('showMensaje');
+        $this->emit('activateAula');
+        $this->emit('activateDia');
+
+        if ($this->dia != '') {
+            $this->comprobarHoras();
+            $this->emit('activateHoraInicio');
+            $this->horaInicio = '';
+            $this->horaFinal = '';
+        } else {
+            $this->horaInicio = '';
+            $this->horaFinal = '';
+        }
     }
 
     public function updatedHoraInicio()
     {
         $this->emit('showTipoCurso');
         $this->emit('showMensaje');
-        $this->calculateHoraFinal();
+        $this->emit('activateAula');
+        $this->emit('activateDia');
+        $this->emit('activateHoraInicio');
+
+        if ($this->horaInicio != '') {
+            $this->calculateHoraFinal();
+        } else {
+            $this->horaFinal = '';
+        }
     }
 
     public function updatedHoraFinal()
