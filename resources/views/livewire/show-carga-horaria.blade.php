@@ -91,18 +91,23 @@
                 <x-jet-input-error for='dia' class="mt-2" />
             </div>
 
-
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-label for='horaInicio' value='Hora Inicio:' />
                 <select disabled id="horaInicio" wire:model='horaInicio' class="bg-gray-100 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full">
                     <option value="" selected>Seleccione</option>
-                    @foreach ($horas as $item)
+                    @if ($haveHorasOcupadas)
+                    @foreach ($arrayHoras as $item)
                     <option value="{{$item->id}}">{{$item->hora_inicio}}&nbsp;{{$item->sistema_horario}}</option>
                     @endforeach
+                    @endif
+                    @if ($haveHorasLibres)
+                    @foreach ($arrayHoras as $item)
+                    <option value="{{$item->id}}">{{$item->hora_inicio}}&nbsp;{{$item->sistema_horario}}</option>
+                    @endforeach
+                    @endif
                 </select>
                 <x-jet-input-error for='horaInicio' class="mt-2" />
             </div>
-
 
             <div class="col-span-6 sm:col-span-4">
                 <x-jet-label for='horaFinal' value='Hora Fin:' />
@@ -347,6 +352,10 @@
             activateHoraInicio();
         })
 
+        /*  Livewire.on('comprobarHoras', horas => {
+              console.log(horas);
+          })*/
+
         //Manejo del Input Tipo Curso
         function showTipoCurso() {
             $('#tipoCurso').css("display", "block");
@@ -370,6 +379,29 @@
             $('#horaInicio').removeAttr('disabled');
             $('#horaInicio').removeClass('bg-gray-100');
         }
+
+        /*  function llenarHoraInicioSelect() {
+              let horas = [];
+              $.each(@this.arrayHoras, function(key, value) {
+                  horas.push({
+                      id: key,
+                      text: value
+                  });
+              });
+
+              eliminarElemento(horas,1);
+
+              //Inicializacion del select Hora
+              $('#horaInicio')
+                  .empty()
+                  .append('<option value=""></option>')
+                  .select2({
+                      width: '100%',
+                      placeholder: "Seleccione:",
+                      language: "es",
+                      data: horas
+                  });
+          }*/
     </script>
     @endpush
 
