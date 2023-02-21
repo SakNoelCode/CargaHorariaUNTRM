@@ -21,6 +21,11 @@
 
             @livewire('show-carga-horaria',['id'=>$cargaLectiva->id],key([$cargaLectiva->id]))
 
+        
+            <x-jet-section-border />
+
+            @livewire('show-asignar-horario-carga',['id'=>$cargaLectiva->id],key([$cargaLectiva->id]))
+
         </div>
     </div>
 
