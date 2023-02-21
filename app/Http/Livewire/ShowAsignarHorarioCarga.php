@@ -309,5 +309,8 @@ class ShowAsignarHorarioCarga extends Component
             'haveHorasOcupadasCarga',
             'haveHorasLibresCarga'
         ]);
+
+        $this->resetErrorBag();
+        $this->resetValidation();
     }
 }

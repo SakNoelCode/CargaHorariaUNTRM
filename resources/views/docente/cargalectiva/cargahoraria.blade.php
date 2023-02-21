@@ -19,12 +19,16 @@
                 </div>
             </div---->
 
-            @livewire('show-carga-horaria',['id'=>$cargaLectiva->id],key([$cargaLectiva->id]))
 
+            @livewire('show-asignar-horario-curso',['id'=>$cargaLectiva->id],key([$cargaLectiva->id]))
         
             <x-jet-section-border />
 
             @livewire('show-asignar-horario-carga',['id'=>$cargaLectiva->id],key([$cargaLectiva->id]))
+
+            <x-jet-section-border />
+
+
 
         </div>
     </div>
