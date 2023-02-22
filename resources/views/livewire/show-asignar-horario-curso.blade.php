@@ -84,7 +84,7 @@
                     <option value="lunes" selected>Lunes</option>
                     <option value="martes" selected>Martes</option>
                     <option value="miercoles" selected>Miercoles</option>
-                    <option value="jueves" selected>Jueves</option>
+                    <option value="ueves" selected>Jueves</option>
                     <option value="viernes" selected>Viernes</option>
                 </select>
                 <x-jet-input-error for='diaCurso' class="mt-2" />
