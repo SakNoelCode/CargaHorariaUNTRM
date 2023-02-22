@@ -5,25 +5,35 @@ namespace App\Http\Livewire;
 use App\Models\Carga;
 use Illuminate\Support\Facades\DB;
 use App\Models\CargaHoraria;
+use App\Models\CargaLectiva;
 use App\Models\Curso;
 use Livewire\Component;
 
 
 class ShowCargaHoraria extends Component
 {
-    public $cargaLectivaId, $cargaHorariaId;
+    public $cargaLectivaId, $cargaHorariaId, $modalidad;
     public $totalHoras = 0;
 
     //Variables para eliminar detalle
     public $idDelete, $isOpenModalDelete = false;
+
+    //Variables para terminar el llenado
+    public $isOpenModalConfirm = false;
+
+    protected $listeners = ['render-table' => 'render'];
 
     public function mount($id)
     {
         $cargaHoraria = CargaHoraria::where('cargalectiva_id', '=', $id)
             ->first();
 
+        $cargaLectiva = CargaLectiva::where('id', '=', $id)
+            ->first();
+
         $this->cargaLectivaId = $id;
         $this->cargaHorariaId = $cargaHoraria->id;
+        $this->modalidad = $cargaLectiva->declaracionJurada->docente->modalidade->horas;
     }
 
     public function render()
@@ -76,6 +86,11 @@ class ShowCargaHoraria extends Component
         $this->isOpenModalDelete = false;
     }
 
+    public function closeModalLlenado()
+    {
+        $this->isOpenModalConfirm = false;
+    }
+
     public function deleteId($id)
     {
         $this->idDelete = $id;
@@ -90,5 +105,21 @@ class ShowCargaHoraria extends Component
 
         $this->isOpenModalDelete = false;
         $this->emit('alertMixin', 'success', 'Registro eliminado exitosamente');
+    }
+
+    public function terminarLlenado()
+    {
+        $horario =  DB::table('carga_horarias')
+            ->where('id', '=', $this->cargaHorariaId)
+            ->update([
+                'estado_terminado' => 1
+            ]);
+
+        return redirect()->route('cargasLectivasDocente')->with('successHorario', 'message');
+    }
+
+    public function back()
+    {
+        return redirect()->route('cargasLectivasDocente');
     }
 }

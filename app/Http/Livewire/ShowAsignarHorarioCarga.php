@@ -62,6 +62,7 @@ class ShowAsignarHorarioCarga extends Component
         ]);
 
         $this->resetFormCarga();
+        $this->emitTo('show-carga-horaria','render-table');
         $this->emit('alertMixin', 'success', 'Operación exitosa');
     }
 

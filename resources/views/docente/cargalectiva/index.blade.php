@@ -10,6 +10,16 @@
     </script>
     @endif
 
+    @if(session('successHorario'))
+    <script>
+        Swal.fire(
+            'Operación exitosa',
+            'Asignación de horario finalizada',
+            'success'
+        )
+    </script>
+    @endif
+
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 

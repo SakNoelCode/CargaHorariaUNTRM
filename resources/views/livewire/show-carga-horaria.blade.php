@@ -1,6 +1,6 @@
 <div>
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
         <x-table>
             <!-----Cabecera---->
             <div class="px-6 py-4 flex items-center">
@@ -98,14 +98,14 @@
                         </td>
                     </tr>
                     @endforeach
-                    <tr>
+                    <!---tr>
                         <td class="px-6 py-4 text-sm font-medium" colspan="7">
                             <div class="text-right">
                                 <span class="font-bold mr-3">Total de Horas: {{$totalHoras}}</span>
                             </div>
                         </td>
 
-                    </tr>
+                    </tr--->
                 </tbody>
             </table>
             @else
@@ -114,6 +114,32 @@
             </div>
             @endif
         </x-table>
+    </div>
+
+
+    <div class="">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-gray-100 overflow-hidden sm:rounded-lg">
+                <div class="p-6 sm:px-20 bg-white border-b flex justify-end">
+                    <div class="text-gray-500 font-bold">
+                        Total de horas: {{$totalHoras}}
+                    </div>
+                </div>
+                <div class="p-6 sm:px-20 bg-gray-100 border-b flex justify-center">
+
+                    @if ($totalHoras == $modalidad)
+                    <x-jet-button wire:click="$set('isOpenModalConfirm',true)" wire:loading.attr='disabled' class="mr-4">
+                        Terminar llenado
+                    </x-jet-button>
+                    @else
+                    <x-jet-secondary-button wire:click='back' wire:loading.attr='disabled'>
+                        Volver
+                    </x-jet-secondary-button>
+                    @endif
+
+                </div>
+            </div>
+        </div>
     </div>
 
 
@@ -128,6 +154,20 @@
         <x-slot name='footer'>
             <x-jet-secondary-button class="mr-4" wire:click="close" wire:loading.attr='disabled' wire:target='delete,close'>Cancelar</x-jet-secondary-button>
             <x-jet-button wire:click='delete' wire:loading.attr='disabled' wire:target='delete,close'>Guardar</x-jet-button>
+        </x-slot>
+    </x-jet-confirmation-modal>
+
+    <!-------------Modal Terminar llenado--->
+    <x-jet-confirmation-modal wire:model='isOpenModalConfirm'>
+        <x-slot name='title'>
+            Terminar llenado
+        </x-slot>
+        <x-slot name='content'>
+            ¿Esta seguro que quiere terminar el llenado? No se podrán aplicar más cambios depués de esta acción.
+        </x-slot>
+        <x-slot name='footer'>
+            <x-jet-secondary-button class="mr-4" wire:click="closeModalLlenado" wire:loading.attr='disabled' wire:target='terminarLlenado,closeModalLlenado'>Cancelar</x-jet-secondary-button>
+            <x-jet-button wire:click='terminarLlenado' wire:loading.attr='disabled' wire:target='terminarLlenado,closeModalLlenado'>Guardar</x-jet-button>
         </x-slot>
     </x-jet-confirmation-modal>
 
