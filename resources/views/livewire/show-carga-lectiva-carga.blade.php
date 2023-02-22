@@ -62,9 +62,18 @@
                         </td>
                         @endif
                         @if ($isDocente)
+
+                        <!----------------Descripcion de la carga------------------->
+                        @if ($item->descripcion == '')
+                        <td class="px-6 py-4 text-sm font-medium text-gray-500">
+                            {{$item->descripcionCarga}}
+                        </td>
+                        @else
                         <td class="px-6 py-4 text-sm font-medium">
                             {{$item->descripcion}}
                         </td>
+                        @endif
+
                         <td class="px-6 py-4 text-sm font-medium">
                             {{$item->cantHoras}}
                         </td>

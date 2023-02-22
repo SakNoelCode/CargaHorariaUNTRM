@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CargaHoraria;
 use App\Models\CargaLectiva;
 use Illuminate\Http\Request;
 
@@ -118,8 +119,11 @@ class CargaLectivaController extends Controller
     public function cargaLectivaHorario($id)
     {
         $cargaLectiva = CargaLectiva::findorFail($id);
+        $cargaHoraria = CargaHoraria::where('cargalectiva_id',$cargaLectiva->id)->first();
+
         return view('docente.cargalectiva.cargahoraria', [
-            'cargaLectiva' => $cargaLectiva
+            'cargaLectiva' => $cargaLectiva,
+            'cargaHoraria' => $cargaHoraria
         ]);
     }
 }

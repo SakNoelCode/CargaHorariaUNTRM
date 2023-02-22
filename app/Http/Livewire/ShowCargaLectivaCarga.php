@@ -43,7 +43,7 @@ class ShowCargaLectivaCarga extends Component
     {
         $cargasAsignadas = DB::table('cargalectiva_carga as clc')
             ->join('cargas as c', 'c.id', '=', 'clc.carga_id')
-            ->select('clc.id as id', 'c.titulo as tituloCarga', 'clc.descripcion as descripcion', 'clc.cantidad_horas as cantHoras')
+            ->select('clc.id as id', 'c.descripcion as descripcionCarga' ,'c.titulo as tituloCarga', 'clc.descripcion as descripcion', 'clc.cantidad_horas as cantHoras')
             ->where('clc.cargalectiva_id', '=', $this->cargaLectivaId)
             ->get();
 

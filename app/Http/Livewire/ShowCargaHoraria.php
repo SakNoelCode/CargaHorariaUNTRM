@@ -12,7 +12,7 @@ use Livewire\Component;
 
 class ShowCargaHoraria extends Component
 {
-    public $cargaLectivaId, $cargaHorariaId, $modalidad;
+    public $cargaLectivaId, $cargaHorariaId, $estadoCargaHorariaId, $modalidad;
     public $totalHoras = 0;
 
     //Variables para eliminar detalle
@@ -33,6 +33,7 @@ class ShowCargaHoraria extends Component
 
         $this->cargaLectivaId = $id;
         $this->cargaHorariaId = $cargaHoraria->id;
+        $this->estadoCargaHorariaId = $cargaHoraria->estado_terminado;
         $this->modalidad = $cargaLectiva->declaracionJurada->docente->modalidade->horas;
     }
 

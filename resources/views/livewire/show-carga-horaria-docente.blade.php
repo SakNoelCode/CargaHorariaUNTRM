@@ -75,25 +75,53 @@
                             @endif
                         </td>
                         <td class="px-6 py-4">
+                            @foreach ($cargaHoraria as $c)
+                            @if ($c->cargalectiva_id == $item->id && $c->estado_terminado == 1)
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-300">
+                                Terminado
+                            </span>
+                            <?php $isHorarioReady = true; ?>
+                            @break
+                            @endif
+
+                            @if ($c->cargalectiva_id == $item->id && $c->estado_terminado == 0)
                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-300">
                                 Pendiente
                             </span>
+                            <?php $isHorarioReady = false; ?>
+                            @break
+                            @endif
+                            @endforeach
+
                         </td>
                         <td class="px-6 py-4">
+                            @if ($item->estado_asignado == 1)
                             <a href="{{ route('cargalectiva.llenar',$item->id) }}">
                                 <x-jet-secondary-button>Asignacion carga</x-jet-secondary-button>
                             </a>
+                            @endif
+
+                            @if ($item->estado_terminado == 1)
                             <a href="{{route('cargalectiva.horario',$item->id)}}">
                                 <x-jet-secondary-button>Declaracion carga</x-jet-secondary-button>
                             </a>
+                            @endif
+
                         </td>
                         <td class="px-6 py-4 flex justify-center">
+
+                            @if ($item->estado_terminado == 1)
                             <a class="cursor-pointer text-gray-600 mr-4">
                                 <i class="fa-solid fa-file"></i>
                             </a>
+                            @endif
+
+                            @if ($isHorarioReady)
                             <a class="cursor-pointer text-gray-600 ml-4">
                                 <i class="fa-solid fa-calendar-days"></i>
-                            </a>
+                            </a>   
+                            @endif
+
                         </td>
                     </tr>
                     <?php

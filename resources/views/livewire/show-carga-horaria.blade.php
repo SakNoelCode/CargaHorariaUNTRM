@@ -3,9 +3,11 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
         <x-table>
             <!-----Cabecera---->
+            @if ($estadoCargaHorariaId == 0)
             <div class="px-6 py-4 flex items-center">
                 <span class="font-bold text-base text-gray-600">Registro de Horario Semanal</span>
             </div>
+            @endif
 
             @if ($detalle_carga_horaria->count())
             <table class="min-w-full divide-y divide-gray-200">
@@ -29,9 +31,11 @@
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Horas
                         </th>
+                        @if ($estadoCargaHorariaId == 0)
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Opcciones
                         </th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
@@ -91,11 +95,14 @@
                             @endif
                         </td>
 
+                        @if ($estadoCargaHorariaId == 0)
                         <td class="px-6 py-4 text-sm font-medium">
                             <a class="text-red-600 hover:text-red-900 cursor-pointer" wire:click="deleteId({{$item->idDetalle}})">
                                 <i class="fa-solid fa-trash"></i>
                             </a>
                         </td>
+                        @endif
+
                     </tr>
                     @endforeach
                     <!---tr>
@@ -127,7 +134,7 @@
                 </div>
                 <div class="p-6 sm:px-20 bg-gray-100 border-b flex justify-center">
 
-                    @if ($totalHoras == $modalidad)
+                    @if ($totalHoras == $modalidad && $estadoCargaHorariaId == 0)
                     <x-jet-button wire:click="$set('isOpenModalConfirm',true)" wire:loading.attr='disabled' class="mr-4">
                         Terminar llenado
                     </x-jet-button>
