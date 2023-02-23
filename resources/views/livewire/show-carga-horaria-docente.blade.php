@@ -111,9 +111,10 @@
                         <td class="px-6 py-4 flex justify-center">
 
                             @if ($item->estado_terminado == 1)
-                            <a class="cursor-pointer text-gray-600 mr-4">
-                                <i class="fa-solid fa-file"></i>
-                            </a>
+                            <form action="{{ route('declaracionCargaHoraria.dowload',['id' => $item->id])}}" method="post">
+                                @csrf
+                                <button class="cursor-pointer text-gray-600 mr-4" type="submit"><i class="fa-solid fa-file"></i></button>
+                            </form>
                             @endif
 
                             @if ($isHorarioReady)

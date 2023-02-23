@@ -41,15 +41,14 @@ Route::get('/cargasLectivasJefeDepartamento', function () {
 })->middleware('auth')->name('cargasLectivasJefeDepartamento');
 
 Route::get('/cargasLectivasJefeDepartamento/{id}', [CargaLectivaController::class, 'index'])->name('cargalectiva.index');
-Route::get('/cargasLectivasDocente/{id}',[CargaLectivaController::class,'cargaLectivaLlenar'])->name('cargalectiva.llenar');
-Route::get('/cargasLectivasDocenteHorario/{id}',[CargaLectivaController::class,'cargaLectivaHorario'])->name('cargalectiva.horario');
+Route::get('/cargasLectivasDocente/{id}', [CargaLectivaController::class, 'cargaLectivaLlenar'])->name('cargalectiva.llenar');
+Route::get('/cargasLectivasDocenteHorario/{id}', [CargaLectivaController::class, 'cargaLectivaHorario'])->name('cargalectiva.horario');
 //Route::get('/edit/{id}', [CargaLectivaController::class, 'edit'])->name('cargalectiva.edit');
 
-Route::post(
-    'dowloadDeclaracionJurada/{id}',
-    [wordController::class, 'downloadDeclaracion']
-)
-    ->name('declaracionJurada.dowload');
+//Rutas descargas de documentos
+Route::post('dowloadDeclaracionJurada/{id}',[wordController::class, 'downloadDeclaracion'])->name('declaracionJurada.dowload');
+Route::post('dowloadDeclaracionCargaHoraria/{id}',[wordController::class, 'downloadDeclaracionCargaHoraria'])->name('declaracionCargaHoraria.dowload');
+
 
 //Rutas para el inicio de sesión
 Route::middleware([
