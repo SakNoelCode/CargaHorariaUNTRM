@@ -3,12 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\CargaLectiva;
-use App\Models\Condicione;
 use App\Models\DeclaracionJurada;
 use Carbon\Carbon;
-use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
+use PhpOffice\PhpWord\Style\Font;
 
 class wordController extends Controller
 {
@@ -20,17 +18,24 @@ class wordController extends Controller
         $declaracion = DeclaracionJurada::findOrfail($id);
 
         // Creating the new document...
-        $phpWord = new \PhpOffice\PhpWord\TemplateProcessor('plantillaDeclaracionJurada.docx');
+        $phpWord = new \PhpOffice\PhpWord\TemplateProcessor('templates/plantillaDeclaracionJurada.docx');
 
+        $fecha = Carbon::now();
+
+        mb_internal_encoding('UTF-8');
         //Variables
         $phpWord->setValues([
-            'name' => $declaracion->docente->user->name,
+            'name' => mb_strtoupper($declaracion->docente->user->name),
             'condicion' => $declaracion->docente->condicione->descripcion,
-            'categoria' => $declaracion->docente->categoria->descripcion,
-            'modalidad' => $declaracion->docente->modalidade->descripcion,
+            'categoria' => mb_strtoupper($declaracion->docente->categoria->descripcion),
+            'modalidad' => mb_strtoupper($declaracion->docente->modalidade->descripcion),
             'facultad' => $declaracion->docente->escuela->facultad->descripcion,
             'escuela' => $declaracion->docente->escuela->descripcion,
-            'dni' => $declaracion->docente->user->dni
+            'dni' => $declaracion->docente->user->dni,
+            'ciudad' => 'Bagua',
+            'dia' => $fecha->day,
+            'mes' => $this->getMes($fecha->month),
+            'year' => $fecha->year
         ]);
 
         //Save to path
@@ -45,11 +50,17 @@ class wordController extends Controller
     public function downloadDeclaracionCargaHoraria($id)
     {
         //Variables
-        $id = 1;
+        $idCurso = 1;
+        $idCarga = 2;
         $arrayCurso = [];
+        $arrayCarga = [];
         $totalCurso = 0;
+        //$totalCarga = 0;
+        $totalHorasCurso = 0;
+        $totalHorasCarga = 0;
+        $totalHoras = 0;
         $fecha = Carbon::now();
-        $fechaMes = $this->getMes($fecha->month);
+        mb_internal_encoding('UTF-8'); //Soporte para carácteres especiales 
 
         //Consulta a la base de datos
         $cargaLectiva = CargaLectiva::findOrfail($id);
@@ -70,48 +81,82 @@ class wordController extends Controller
             ->where('cargalectiva_id', $cargaLectiva->id)
             ->get();
 
+        $cargas = DB::table('cargalectiva_carga as clc')
+            ->join('cargas as c', 'c.id', 'clc.carga_id')
+            ->select('c.titulo', 'c.descripcion as dCarga', 'clc.descripcion as descripcionCarga', 'clc.cantidad_horas')
+            ->where('cargalectiva_id', $cargaLectiva->id)
+            ->get();
+
         //Utilizando la plantilla 
         $phpWord = new \PhpOffice\PhpWord\TemplateProcessor('templates/plantillaDeclaracionCargaHoraria.docx');
 
         //Creando la data 
         $phpWord->setValues([
             'universidad' => 'UNIVERSIDAD NACIONAL TORIBIO RODRIGUEZ DE MENDOZA DE AMAZONAS',
-            'facultad' => $cargaLectiva->declaracionJurada->docente->escuela->facultad->descripcion,
-            'escuela' => $cargaLectiva->declaracionJurada->docente->escuela->descripcion,
+            'facultad' =>  mb_strtoupper($cargaLectiva->declaracionJurada->docente->escuela->facultad->descripcion),
+            'escuela' =>  mb_strtoupper($cargaLectiva->declaracionJurada->docente->escuela->descripcion),
             'nombreDocente' => $cargaLectiva->declaracionJurada->docente->user->name,
             'condicionDocente' => $cargaLectiva->declaracionJurada->docente->condicione->descripcion,
             'categoriaDocente' => $cargaLectiva->declaracionJurada->docente->categoria->descripcion,
             'md' => $cargaLectiva->declaracionJurada->docente->modalidade->descripcion,
             'hm' => $cargaLectiva->declaracionJurada->docente->modalidade->horas,
             'semestre' => $cargaLectiva->declaracionJurada->periodo->descripcion,
-            'inicioSemestre' => $cargaLectiva->declaracionJurada->periodo->inicio_periodo,
-            'finSemestre' => $cargaLectiva->declaracionJurada->periodo->fin_periodo,
+            'inicioSemestre' => Carbon::createFromFormat('Y-m-d', $cargaLectiva->declaracionJurada->periodo->inicio_periodo)->format('d-m-Y'),
+            'finSemestre' => Carbon::createFromFormat('Y-m-d', $cargaLectiva->declaracionJurada->periodo->fin_periodo)->format('d-m-Y'),
             'ciudad' => 'Bagua',
             'numFecha' => $fecha->day,
-            'mesFecha' => $fechaMes,
+            'mesFecha' => $this->getMes($fecha->month),
             'yearFecha' => $fecha->year
         ]);
 
         foreach ($cursos as $item) {
             $totalCurso = $item->horas_teoria + $item->horas_practica;
             $values = [[
-                'id' => $id,
+                'i' => $idCurso,
                 'nombreCurso' => $item->nombre,
-                'tipo' => $item->tipo,
-                'ciclo' => $item->descripcion,
-                'seccion' => $item->desSeccion,
-                'numalu' => $item->numero_alumnos,
+                'tip' => $item->tipo,
+                'cic' => $item->descripcion,
+                'sec' => mb_strtoupper($item->desSeccion),
+                'num' => $item->numero_alumnos,
                 'ht' => $item->horas_teoria,
                 'hp' => $item->horas_practica,
                 'tot' => $totalCurso
             ]];
-            $id++;
+            $idCurso++;
+            $totalHorasCurso += $totalCurso;
             array_push($arrayCurso, $values);
         }
 
-        $phpWord->cloneRowAndSetValues('id', $arrayCurso);
+        foreach ($cargas as $item) {
+            $values = [[
+                'idCarga' => $idCarga,
+                'tituloCarga' => mb_strtoupper($item->titulo),
+                'dCarga' => $item->dCarga,
+                'descripcionCarga' => $item->descripcionCarga,
+                'totC' => $item->cantidad_horas
+            ]];
+            $idCarga++;
+            $totalHorasCarga += $item->cantidad_horas;
+            array_push($arrayCarga, $values);
+        }
 
-        
+        //Convertir arreglo tridimensional en bidimesional
+        $bidimensionalArrayCurso = [];
+        foreach ($arrayCurso as $item) {
+            $bidimensionalArrayCurso = array_merge($bidimensionalArrayCurso, $item);
+        }
+
+        $bidimensionalArrayCarga = [];
+        foreach ($arrayCarga as $item) {
+            $bidimensionalArrayCarga = array_merge($bidimensionalArrayCarga, $item);
+        }
+
+        $phpWord->cloneRowAndSetValues('i', $bidimensionalArrayCurso);
+        $phpWord->cloneRowAndSetValues('idCarga', $bidimensionalArrayCarga);
+
+        $totalHoras = $totalHorasCarga + $totalHorasCurso;
+        $phpWord->setValue('total', $totalHoras);
+
         //Save to path
         $pathToSave = 'storage/documents/CargaHoraria.docx';
         $phpWord->saveAs($pathToSave);
@@ -126,40 +171,40 @@ class wordController extends Controller
         $mes = '';
         switch ($month) {
             case 1:
-                $mes = 'Enero';
+                $mes = 'enero';
                 break;
             case 2:
-                $mes = 'Febrero';
+                $mes = 'febrero';
                 break;
             case 3:
-                $mes = 'Marzo';
+                $mes = 'marzo';
                 break;
             case 4:
-                $mes = 'Abril';
+                $mes = 'abril';
                 break;
             case 5:
-                $mes = 'Mayo';
+                $mes = 'mayo';
                 break;
             case 6:
-                $mes = 'Junio';
+                $mes = 'junio';
                 break;
             case 7:
-                $mes = 'Julio';
+                $mes = 'julio';
                 break;
             case 8:
-                $mes = 'Agosto';
+                $mes = 'agosto';
                 break;
             case 9:
-                $mes = 'Septiembre';
+                $mes = 'septiembre';
                 break;
             case 10:
-                $mes = 'Octubre';
+                $mes = 'octubre';
                 break;
             case 11:
-                $mes = 'Noviembre';
+                $mes = 'noviembre';
                 break;
             case 12:
-                $mes = 'Diciembre';
+                $mes = 'diciembre';
                 break;
         }
 
