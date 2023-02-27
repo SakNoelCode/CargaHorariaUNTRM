@@ -22,33 +22,33 @@ Route::get('/', [homeController::class, 'show'])->name('home');
 //Route::get('/users',ShowUsers::class);
 Route::get('/users', function () {
     return view('admin.users.index');
-})->middleware('auth')->name('users');
+})->middleware(['auth','isAdmin'])->name('users');
 
 Route::get('/declaracionesjuradasDocente', function () {
     return view('docente.declaracionjurada.index');
-})->middleware('auth')->name('declaracionesjuradasDocente');
+})->middleware(['auth','isDocente'])->name('declaracionesjuradasDocente');
 
 Route::get('/cargasLectivasDocente', function () {
     return view('docente.cargalectiva.index');
-})->middleware('auth')->name('cargasLectivasDocente');
+})->middleware(['auth','isDocente'])->name('cargasLectivasDocente');
 
 Route::get('/declaracionesjuradasJefeDepartamento', function () {
     return view('jefedepartamento.declaracionjurada.index');
-})->middleware('auth')->name('declaracionesjuradasJefeDepartamento');
+})->middleware(['auth','isJefe'])->name('declaracionesjuradasJefeDepartamento');
 
 Route::get('/cargasLectivasJefeDepartamento', function () {
     return view('jefedepartamento.cargalectiva.index');
-})->middleware('auth')->name('cargasLectivasJefeDepartamento');
+})->middleware(['auth','isJefe'])->name('cargasLectivasJefeDepartamento');
 
-Route::get('/cargasLectivasJefeDepartamento/{id}', [CargaLectivaController::class, 'index'])->name('cargalectiva.index')->middleware('auth');
-Route::get('/cargasLectivasDocente/{id}', [CargaLectivaController::class, 'cargaLectivaLlenar'])->name('cargalectiva.llenar')->middleware('auth');
-Route::get('/cargasLectivasDocenteHorario/{id}', [CargaLectivaController::class, 'cargaLectivaHorario'])->name('cargalectiva.horario')->middleware('auth');
+Route::get('/cargasLectivasJefeDepartamento/{id}', [CargaLectivaController::class, 'index'])->name('cargalectiva.index')->middleware(['auth','isJefe']);
+Route::get('/cargasLectivasDocente/{id}', [CargaLectivaController::class, 'cargaLectivaLlenar'])->name('cargalectiva.llenar')->middleware(['auth','isDocente']);
+Route::get('/cargasLectivasDocenteHorario/{id}', [CargaLectivaController::class, 'cargaLectivaHorario'])->name('cargalectiva.horario')->middleware(['auth','isDocente']);
 //Route::get('/edit/{id}', [CargaLectivaController::class, 'edit'])->name('cargalectiva.edit');
 
 //Rutas descargas de documentos
-Route::post('dowloadDeclaracionJurada/{id}',[wordController::class, 'downloadDeclaracion'])->name('declaracionJurada.dowload')->middleware('auth');
-Route::post('dowloadDeclaracionCargaHoraria/{id}',[wordController::class, 'downloadDeclaracionCargaHoraria'])->name('declaracionCargaHoraria.dowload')->middleware('auth');
-Route::post('downloadHorario/{id}',[wordController::class, 'downloadHorario'])->name('horario.download')->middleware('auth');
+Route::post('dowloadDeclaracionJurada/{id}',[wordController::class, 'downloadDeclaracion'])->name('declaracionJurada.dowload')->middleware(['auth','isDocente']);
+Route::post('dowloadDeclaracionCargaHoraria/{id}',[wordController::class, 'downloadDeclaracionCargaHoraria'])->name('declaracionCargaHoraria.dowload')->middleware(['auth','isDocente']);
+Route::post('downloadHorario/{id}',[wordController::class, 'downloadHorario'])->name('horario.download')->middleware(['auth','isDocente']);
 
 
 //Rutas para el inicio de sesión
@@ -61,3 +61,8 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
+//Rutas para denegacion de permisos
+Route::get('/401',function(){
+    return view('pages.401');
+})->name('error.401')->middleware('auth');

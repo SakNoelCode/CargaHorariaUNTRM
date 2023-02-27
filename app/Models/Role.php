@@ -17,6 +17,6 @@ class Role extends Model
 
     //Relaciones Eloquent
     public function user(){
-        return $this->hasMany('App\Models\User');
+        return $this->hasMany('App\Models\User','rol_id','id');
     }
 }
