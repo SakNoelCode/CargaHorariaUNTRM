@@ -34,6 +34,7 @@
 
                             <div class="mt-3 text-gray-500">
                                 En esta sección podrá completar algunos datos sobre los cursos y cargas que se le ha sido asignado.
+                                En la opción documentos podrá descargar los formatos de Declaración de carga Horaria y el Horario semanal respectivamente.
                             </div>
                         </div>
                     </div>
