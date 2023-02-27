@@ -118,9 +118,10 @@
                             @endif
 
                             @if ($isHorarioReady)
-                            <a class="cursor-pointer text-gray-600 ml-4">
-                                <i class="fa-solid fa-calendar-days"></i>
-                            </a>   
+                            <form action="{{ route('horario.download',['id'=> $item->id]) }}" method="post">
+                                @csrf
+                                <button class="cursor-pointer text-gray-600 mr-4" type="submit"><i class="fa-solid fa-calendar-days"></i></button>
+                            </form>
                             @endif
 
                         </td>

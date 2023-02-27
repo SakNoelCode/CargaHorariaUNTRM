@@ -48,6 +48,7 @@ Route::get('/cargasLectivasDocenteHorario/{id}', [CargaLectivaController::class,
 //Rutas descargas de documentos
 Route::post('dowloadDeclaracionJurada/{id}',[wordController::class, 'downloadDeclaracion'])->name('declaracionJurada.dowload');
 Route::post('dowloadDeclaracionCargaHoraria/{id}',[wordController::class, 'downloadDeclaracionCargaHoraria'])->name('declaracionCargaHoraria.dowload');
+Route::post('downloadHorario/{id}',[wordController::class, 'downloadHorario'])->name('horario.download');
 
 
 //Rutas para el inicio de sesión

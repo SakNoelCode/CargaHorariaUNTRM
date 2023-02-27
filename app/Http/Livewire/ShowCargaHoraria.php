@@ -50,6 +50,7 @@ class ShowCargaHoraria extends Component
                 'h.hora_inicio',
                 'hf.hora_fin',
                 'h.sistema_horario',
+                'hf.sistema_horario as sisHorarioFin',
                 'dch.cargalectiva_carga_id',
                 'dch.cargalectiva_curso_id',
                 'a.descripcion as descripcionAula',

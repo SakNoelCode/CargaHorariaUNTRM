@@ -6,7 +6,6 @@ use App\Models\CargaLectiva;
 use App\Models\DeclaracionJurada;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-use PhpOffice\PhpWord\Style\Font;
 
 class wordController extends Controller
 {
@@ -163,6 +162,140 @@ class wordController extends Controller
 
         //DownLoad Document Generate
         $file_path = public_path('storage/documents/CargaHoraria.docx');
+        return response()->download($file_path);
+    }
+
+    public function downloadHorario($id)
+    {
+        $cargaLectiva = CargaLectiva::findOrfail($id);
+
+        $cargaHoraria = DB::table('carga_horarias')
+            ->where('cargalectiva_id', $cargaLectiva->id)
+            ->first();
+
+        $detalle_carga_horaria = DB::table('detalle_carga_horaria as dch')
+            ->select(
+                'dch.id as idDetalle',
+                'dch.dia',
+                'h.id',
+                'h.hora_inicio',
+                'hf.hora_fin',
+                'h.sistema_horario as sisHorarioInicio',
+                'hf.sistema_horario as sisHorarioFin',
+                'dch.cargalectiva_carga_id',
+                'dch.cargalectiva_curso_id',
+                'a.descripcion as descripcionAula',
+                'l.descripcion as descripcionLocal',
+                'dch.tipo',
+                'dch.hora_inicio_id',
+                'dch.hora_fin_id'
+            )
+            ->join('horas as h', 'h.id', 'dch.hora_inicio_id')
+            ->join('horas as hf', 'hf.id', 'dch.hora_fin_id')
+            ->join('aulas as a', 'a.id', 'dch.aula_id')
+            ->join('locals as l', 'l.id', 'a.local_id')
+            ->where('cargahoraria_id', '=', $cargaHoraria->id)
+            ->orderBy('dch.dia', 'asc')
+            ->orderBy('h.id', 'asc')
+            ->get();
+
+        $cargas = DB::table('cargalectiva_carga as clc')
+            ->select('clc.id', 'c.titulo')
+            ->join('cargas as c', 'c.id', 'clc.carga_id')
+            ->where('clc.cargalectiva_id', '=', $cargaLectiva->id)
+            ->get();
+
+        $cursos = DB::table('cargalectiva_curso as clc')
+            ->select('clc.id', 'c.nombre')
+            ->join('cursos as c', 'c.id', 'clc.curso_id')
+            ->where('clc.cargalectiva_id', '=', $cargaLectiva->id)
+            ->get();
+
+        $i = 1;
+        $horasTotal = 0;
+        $arrayCursoCarga = [];
+        $fecha = Carbon::now();
+        mb_internal_encoding('UTF-8'); //Soporte para carácteres especiales 
+
+        //Utilizando la plantilla 
+        $template = new \PhpOffice\PhpWord\TemplateProcessor('templates/plantillaHorario.docx');
+
+        //Creando la data 
+        $template->setValues([
+            'facultad' =>  mb_strtoupper($cargaLectiva->declaracionJurada->docente->escuela->facultad->descripcion),
+            'escuela' =>  mb_strtoupper($cargaLectiva->declaracionJurada->docente->escuela->descripcion),
+            'docente' => $cargaLectiva->declaracionJurada->docente->user->name,
+            'semestre' => $cargaLectiva->declaracionJurada->periodo->descripcion,
+            'ciudad' => 'Bagua',
+            'dia' => $fecha->day,
+            'mes' => $this->getMes($fecha->month),
+            'year' => $fecha->year
+        ]);
+
+
+        foreach ($detalle_carga_horaria as $item) {
+
+            //Comprobaciones 
+            $dia = ucfirst($item->dia);
+            if ($dia == 'Ueves') {
+                $dia = 'Jueves';
+            }
+
+            $horario = $item->hora_inicio . ' ' . $item->sisHorarioInicio . ' - ' . $item->hora_fin . ' ' . $item->sisHorarioFin;
+
+            $cursocarga = '';
+            if ($item->cargalectiva_curso_id != null) {
+                foreach ($cursos as $c) {
+                    if ($c->id == $item->cargalectiva_curso_id) {
+                        $cursocarga = $c->nombre;
+                    }
+                }
+            }
+            if ($item->cargalectiva_carga_id != null) {
+                foreach ($cargas as $c) {
+                    if ($c->id == $item->cargalectiva_carga_id) {
+                        $cursocarga = $c->titulo;
+                    }
+                }
+            }
+
+            $horas = 0;
+            if ($item->hora_inicio_id == $item->hora_fin_id) {
+                $horas = 1;
+            } else {
+                $horas = $item->hora_fin_id - $item->hora_inicio_id + 1;
+            }
+
+            //dd($cursocarga);
+            $values = [[
+                'i' => $i,
+                'day' => $dia,
+                'horario' => $horario,
+                'cursocarga' => ucfirst($cursocarga),
+                'local' => mb_strtoupper($item->descripcionLocal),
+                'aula' => mb_strtoupper($item->descripcionAula),
+                'tipo' => $item->tipo,
+                'horas' => $horas
+            ]];
+            $i++;
+            $horasTotal += $horas;
+            array_push($arrayCursoCarga, $values);
+        }
+
+        $bidimensionalArrayCursoCarga = [];
+        foreach ($arrayCursoCarga as $item) {
+            $bidimensionalArrayCursoCarga = array_merge($bidimensionalArrayCursoCarga, $item);
+        }
+
+        $template->cloneRowAndSetValues('i', $bidimensionalArrayCursoCarga);
+        $template->setValue('total', $horasTotal);
+
+        //Save to path
+        $pathToSave = 'storage/documents/Horario.docx';
+        $template->saveAs($pathToSave);
+
+        //DownLoad Document Generate
+        $file_path = public_path('storage/documents/Horario.docx');
         return response()->download($file_path);
     }
 

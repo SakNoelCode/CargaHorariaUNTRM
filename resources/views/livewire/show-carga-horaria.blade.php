@@ -49,7 +49,7 @@
                             @endif
                         </td>
                         <td class="px-6 py-4 text-sm font-medium">
-                            {{$item->hora_inicio}}&nbsp;{{$item->sistema_horario}}&nbsp; - &nbsp;{{$item->hora_fin}}&nbsp;{{$item->sistema_horario}}
+                            {{$item->hora_inicio}}&nbsp;{{$item->sistema_horario}}&nbsp; - &nbsp;{{$item->hora_fin}}&nbsp;{{$item->sisHorarioFin}}
                         </td>
                         <td class="px-6 py-4 text-sm font-medium">
                             @if ($item->cargalectiva_carga_id != null)
