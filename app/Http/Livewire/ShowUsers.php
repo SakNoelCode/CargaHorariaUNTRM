@@ -10,7 +10,6 @@ class ShowUsers extends Component
 {
     use WithPagination;
     public $search, $numberOfRecords = "5";
-    public $open_edit = true;
 
     //Escuchar eventos 
     protected $listeners = ['render_table_users' => 'render'];
