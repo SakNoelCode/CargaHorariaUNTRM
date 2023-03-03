@@ -44,10 +44,10 @@
                             {{$item->id}}
                         </td>
                         <td class="px-6 py-4 text-sm font-medium">
-                            {{$item->declaracionJurada->docente->user->name}}
+                            {{$item->nameDocente}}
                         </td>
                         <td class="px-6 py-4 text-sm font-medium">
-                            {{$item->declaracionJurada->periodo->descripcion}}
+                            {{$item->periodo}}
                         </td>
                         <td class="px-6 py-4">
                             @if ($item->estado_asignado == 0)

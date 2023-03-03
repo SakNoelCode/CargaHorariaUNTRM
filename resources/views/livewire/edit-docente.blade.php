@@ -4,7 +4,7 @@
 
     <x-jet-dialog-modal wire:model='IsOpen'>
         <x-slot name='title'>
-            Editar docente
+            Editar docente 
         </x-slot>
 
         <x-slot name='content'>
@@ -96,21 +96,19 @@
             </div>
 
             <!-------Status------>
-            <div class="">
-                <div class="flex justify-start mx-10">
-                    <div class="form-check form-switch">
-                        <input wire:model.defer='status' class="form-check-input appearance-none w-9 -ml-10 rounded-full float-left h-5 align-top bg-white bg-no-repeat bg-contain focus:outline-none cursor-pointer shadow-sm" type="checkbox" role="switch" id="cboEstado">
-                        <label class="form-check-label inline-block text-gray-800" for="cboEstado">Estado</label>
-                    </div>
-                </div>
+            <div class="block mb-2">
+                <label for="status-{{$idUser}}" class="flex items-center">
+                    <x-jet-checkbox id="status-{{$idUser}}" wire:model.defer='status'/>
+                    <span class="ml-2 text-sm text-gray-600">{{ __('Estado') }}</span>
+                </label>
             </div>
 
         </x-slot>
 
         <x-slot name='footer'>
             <x-jet-action-message class="mr-4" wire:loading on='save'>Cargando....</x-jet-action-message>
-            <x-jet-secondary-button class="mr-4" wire:click="$set('IsOpen',false)">Cancelar</x-jet-secondary-button>
-            <x-jet-button wire:click='save' wire:loading.attr='disabled' wire:target='save'>Actualizar </x-jet-button>
+            <x-jet-secondary-button class="mr-4" wire:click="closeEditDocente" wire:loading.attr='disabled' wire:target='save,closeEditDocente'>Cancelar</x-jet-secondary-button>
+            <x-jet-button wire:click='save' wire:loading.attr='disabled' wire:target='save,closeEditDocente'>Actualizar </x-jet-button>
         </x-slot>
     </x-jet-dialog-modal>
 </div>

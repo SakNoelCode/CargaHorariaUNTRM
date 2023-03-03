@@ -11,7 +11,6 @@ use Livewire\Component;
 
 class EditJefeDepartamento extends Component
 {
-    public $originalName,$originalDni,$originalEmail,$originalEscuelaId,$originalStatus=false;
     public $isOpen = false;
     public $idUser, $idJefe, $name, $dni, $email, $status;
     public $escuela_id;
@@ -32,25 +31,20 @@ class EditJefeDepartamento extends Component
     {
         $user = User::find($id);
         $this->idUser = $user->id;
-        $this->originalName = $user->name;
-        $this->originalDni = $user->dni;
-        $this->originalEmail = $user->email;
         $this->idJefe = $user->jefeDepartamento->id;
-        $this->originalEscuelaId = $user->jefeDepartamento->escuela_id;
-
-        if ($user->status == 'ACTIVO') {
-            $this->originalStatus = true;
-        }
-
-        $this->asignarValores();
     }
 
     public function asignarValores(){
-        $this->name = $this->originalName;
-        $this->dni= $this->originalDni;
-        $this->email = $this->originalEmail;
-        $this->escuela_id = $this->originalEscuelaId;
-        $this->status = $this->originalStatus;
+        $user = User::find($this->idUser);
+        $this->name = $user->name;
+        $this->dni= $user->dni;
+        $this->email = $user->email;
+        $this->escuela_id = $user->jefeDepartamento->escuela_id;
+        if($user->status == 'ACTIVO'){
+            $this->status = true;
+        }else{
+            $this->status = false;
+        }
     }
 
     public function render()
@@ -92,10 +86,10 @@ class EditJefeDepartamento extends Component
         }
 
         //Clean Fields
-        $this->cleanFields();
+        $this->closeEditJefe();
     }
 
-    public function cleanFields()
+    public function closeEditJefe()
     {
         $this->reset([
             'isOpen'

@@ -32,6 +32,17 @@ class CreateDocente extends Component
         'modalidad_id' => 'required'
     ];
 
+    protected $validationAttributes = [
+        'name' => 'nombre',
+        'dni' => 'DNI',
+        'email' => 'correo electrónico',
+        'escuela_id' => 'escuela',
+        'condicion_id' => 'condición',
+        'categoria_id' => 'categoría',
+        'modalidad_id' => 'modalidad',
+        'password' => 'contraseña'
+    ];
+
     public function render()
     {
         $escuelas = Escuela::all();
@@ -49,11 +60,6 @@ class CreateDocente extends Component
             ]
         );
     }
-
-    /*Función para validar dinamicamente
-    public function updated($propertyName){
-        $this->validateOnly($propertyName);
-    }*/
 
     //Función para guardar un docente
     public function save()

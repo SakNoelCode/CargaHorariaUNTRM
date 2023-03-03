@@ -15,7 +15,7 @@
             <div class="flex">
                 <!----Nombre--->
                 <div class="mb-4 flex-1 mr-4">
-                    <x-jet-label value='Nombres' />
+                    <x-jet-label value='Nombre completo' />
                     <x-jet-input type='text' class="w-full" wire:model.defer='name' />
                     <x-jet-input-error for='name' />
                 </div>
@@ -108,8 +108,8 @@
 
         <x-slot name='footer'>
             <x-jet-action-message class="mr-4" wire:loading on='save'>Cargando....</x-jet-action-message>
-            <x-jet-secondary-button class="mr-4" wire:click="cleanFields">Cancelar</x-jet-secondary-button>
-            <x-jet-button wire:click='save' wire:loading.attr='disabled' wire:target='save'>Guardar</x-jet-button>
+            <x-jet-secondary-button class="mr-4" wire:click="cleanFields" wire:loading.attr='disabled' wire:target='save,cleanFields'>Cancelar</x-jet-secondary-button>
+            <x-jet-button wire:click='save' wire:loading.attr='disabled' wire:target='save,cleanFields'>Guardar</x-jet-button>
         </x-slot>
     </x-jet-dialog-modal>
 </div>

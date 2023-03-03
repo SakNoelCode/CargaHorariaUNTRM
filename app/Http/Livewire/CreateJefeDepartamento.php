@@ -25,6 +25,14 @@ class CreateJefeDepartamento extends Component
         'escuela_id' => 'required|unique:jefe_departamentos,escuela_id'
     ];
 
+    protected $validationAttributes = [
+        'name' => 'nombre',
+        'dni' => 'DNI',
+        'email' => 'correo electrónico',
+        'escuela_id' => 'escuela',
+        'password' => 'contraseña'
+    ];
+
     public function render()
     {
         $escuelas = Escuela::all();
