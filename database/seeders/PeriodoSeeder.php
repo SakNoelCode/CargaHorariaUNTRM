@@ -16,16 +16,6 @@ class PeriodoSeeder extends Seeder
     {
         Periodo::insert([
             [
-                'descripcion' => '2022-I',
-                'inicio_periodo' => '2022/04/25',
-                'fin_periodo' => '2022/06/24'
-            ],
-            [
-                'descripcion' => '2022-II',
-                'inicio_periodo' => '2022/08/25',
-                'fin_periodo' => '2022/12/15'
-            ],
-            [
                 'descripcion' => '2023-I',
                 'inicio_periodo' => '2023/04/06',
                 'fin_periodo' => '2023/06/15'
@@ -34,6 +24,16 @@ class PeriodoSeeder extends Seeder
                 'descripcion' => '2023-II',
                 'inicio_periodo' => '2023/08/03',
                 'fin_periodo' => '2023/12/21'
+            ],
+            [
+                'descripcion' => '2024-I',
+                'inicio_periodo' => '2024-04-12',
+                'fin_periodo' => '2024-06-28'
+            ],
+            [
+                'descripcion' => '2024-II',
+                'inicio_periodo' => '2024-08-05',
+                'fin_periodo' => '2024-12-23'
             ]
         ]);
     }
