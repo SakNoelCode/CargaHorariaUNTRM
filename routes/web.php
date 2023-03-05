@@ -66,3 +66,10 @@ Route::middleware([
 Route::get('/401',function(){
     return view('pages.401');
 })->name('error.401')->middleware('auth');
+
+Route::get('/guide',function(){
+    return view('doc.index');
+});
+Route::get('/docu',function(){
+    return view('doc.docu');
+});
