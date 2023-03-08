@@ -26,6 +26,14 @@ class EditJefeDepartamento extends Component
         ];
     }
 
+    //Atributos personalizados
+    protected $validationAttributes = [
+        'name' => 'nombres',
+        'dni' => 'DNI',
+        'email' => 'correo eléctronico',
+        'escuela_id' => 'escuela'
+    ];
+
     //Constructor
     public function mount($id)
     {

@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\CargaLectiva;
 use App\Models\DeclaracionJurada;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -16,7 +17,7 @@ class ShowDeclaracionJuradaJefe extends Component
 
     //Variables del la declaracion jurada
     public $idDeclaracion, $nameDocente, $periodo, $observaciones, $estado;
-
+    public $escuelaJefeId;
 
     /**
      * Query String para la variable numberOfRecords
@@ -37,13 +38,24 @@ class ShowDeclaracionJuradaJefe extends Component
         ];
     }
 
+    public function mount()
+    {
+        $this->escuelaJefeId = Auth::user()->jefeDepartamento->escuela->id;
+    }
+
 
     public function render()
     {
-        $declaraciones = DeclaracionJurada::orderBy('updated_at', 'desc')
-            ->where('estado_enviado', 1)
-            ->orWhere('estado', 'observado')
-            ->orWhere('estado', 'rechazado')
+        $escuela_id = $this->escuelaJefeId;
+
+        $declaraciones = DeclaracionJurada::whereHas('docente', function ($query) use ($escuela_id) {
+            $query->where('escuela_id', $escuela_id);
+        })->where(function ($query) {
+            $query->where('estado_enviado', 1)
+                ->orWhere('estado', 'observado')
+                ->orWhere('estado', 'rechazado');
+        })
+            ->orderBy('updated_at', 'asc')
             ->paginate($this->numberOfRecords);
 
         return view('livewire.show-declaracion-jurada-jefe', compact('declaraciones'));
@@ -118,6 +130,11 @@ class ShowDeclaracionJuradaJefe extends Component
         $this->showModalEdit = false;
     }
 
+    public function closeModalView()
+    {
+        $this->showModalView = false;
+    }
+
 
     /**
      * Función que valida todos los campos y realiza una actualización en la base
@@ -152,17 +169,17 @@ class ShowDeclaracionJuradaJefe extends Component
         $this->showModalEdit = false;
 
         //Emitir evento a través de JavaScript(ver app.blade.php) para mostrar un mensaje
-        if($isAprobado){
+        if ($isAprobado) {
             $this->emit('alertBox', 'Documento revisado', 'Ahora ya puede designar la carga horaria al docente', 'success');
-        }else{
+        } else {
             $this->emit('alertBox', 'Documento revisado', 'Espere la respuesta del docente', 'success');
         }
-        
+
         //No es necesario renderizar a la tabla porque es automatico
     }
 
     /**
-     * Ciclo de vida(resetear la pagina cada vez que busquemos un valor)
+     * Ciclo de vida(resetear la pagina cada vez que cambiemos un valor)
      */
     public function UpdatingNumberOfRecords()
     {

@@ -104,8 +104,8 @@
             ¿Esta seguro que quiere eliminar el curso?
         </x-slot>
         <x-slot name='footer'>
-            <x-jet-secondary-button class="mr-4" wire:click="$set('isOpenModalDelete',false)">Cancelar</x-jet-secondary-button>
-            <x-jet-button wire:click='delete' wire:loading.attr='disabled' wire:target='delete'>Guardar</x-jet-button>
+            <x-jet-secondary-button class="mr-4" wire:click="closeModalDelete" wire:loading.attr='disabled' wire:target='delete,closeModalDelete'>Cancelar</x-jet-secondary-button>
+            <x-jet-button wire:click='delete' wire:loading.attr='disabled' wire:target='delete,closeModalDelete'>Guardar</x-jet-button>
         </x-slot>
     </x-jet-confirmation-modal>
 

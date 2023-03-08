@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\CargaLectiva;
 use Illuminate\Support\Facades\DB;
 use App\Models\Ciclo;
 use App\Models\Curso;
@@ -16,7 +15,7 @@ class AsignarCurso extends Component
     public $cursoId, $cicloId, $seccionId, $cargaLectivaId, $escuelaId;
     public $arrayCursos;
 
-    protected $listeners = ['listenerReferenceCurso', 'listenerReferenceCiclo', 'listenerReferenceSeccion', 'renderModal' => 'render'];
+    protected $listeners = ['listenerReferenceCurso', 'listenerReferenceCiclo', 'listenerReferenceSeccion'];
 
     public function mount($id, $idEscuela)
     {
@@ -74,7 +73,7 @@ class AsignarCurso extends Component
 
             $this->closeModal();
 
-            $this->emitTo('render', 'renderModal');
+           // $this->emitTo('render', 'renderModal');
             $this->emitTo('show-carga-lectiva-curso','render_table_carga_lectiva_curso');
             $this->emit('alertMixin', 'success', 'Curso asignado exitosamente');
         } else {

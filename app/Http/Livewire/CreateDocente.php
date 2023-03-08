@@ -99,6 +99,7 @@ class CreateDocente extends Component
         $this->cleanFields();
     }
 
+    //Limpiar campos
     public function cleanFields()
     {
         $this->reset([

@@ -44,4 +44,8 @@ class ShowUsers extends Component
     {
         $this->resetPage();
     }
+
+    public function updatingNumberOfRecords(){
+        $this->resetPage();
+    }
 }

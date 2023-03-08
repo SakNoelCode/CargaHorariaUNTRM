@@ -18,6 +18,14 @@ class AsignarCarga extends Component
         'cargasSelected' => 'required'
     ];
 
+    protected $messages = [
+        'cargasSelected.required' => 'Debe seleccionar al menos una carga'
+    ];
+
+    protected $validationAttributes = [
+        'cargasSelected' => 'cargas'
+    ];
+
     public function mount($id)
     {
         $this->cargaLectivaId = $id;
@@ -53,7 +61,7 @@ class AsignarCarga extends Component
         }
 
         $this->resetForm();
-        $this->emitTo('show-carga-lectiva-carga','render_table_carga_lectiva_carga');
+        $this->emitTo('show-carga-lectiva-carga', 'render_table_carga_lectiva_carga');
         $this->emit('alertMixin', 'success', 'Cargas agregadas exitosamente');
     }
 

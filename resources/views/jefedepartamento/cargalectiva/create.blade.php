@@ -112,8 +112,22 @@
             <!-----Botón Finalizar Asignación---->
             @if ($cargaLectiva->estado_asignado == 0)
             @livewire('button-finalizar-asignacion',['id'=>$cargaLectiva->id],key([$cargaLectiva->id]))
+            @else
+            <div class="pt-4">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="bg-gray-100 overflow-hidden sm:rounded-lg">
+                        <div class="p-6 sm:px-20 bg-gray-100 border-b flex justify-center">
+                            <form action="{{ route('cargasLectivasJefeDepartamento') }}">
+                                <x-jet-button>
+                                    Volver
+                                </x-jet-button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
             @endif
-            
+
         </div>
     </div>
 </x-app-layout>

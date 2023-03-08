@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\CargaLectiva;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;

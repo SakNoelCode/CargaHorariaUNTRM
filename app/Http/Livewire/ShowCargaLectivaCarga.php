@@ -29,6 +29,10 @@ class ShowCargaLectivaCarga extends Component
         'cantHoras' => 'required|numeric'
     ];
 
+    protected $validationAttributes = [
+        'cantHoras' => 'cantidad de horas'
+    ];
+
     protected $listeners = ['render_table_carga_lectiva_carga' => 'render'];
 
     public function mount($id, $isDocente)

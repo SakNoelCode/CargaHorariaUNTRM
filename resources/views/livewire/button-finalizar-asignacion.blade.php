@@ -2,8 +2,8 @@
     <div class="pt-4">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-gray-100 overflow-hidden sm:rounded-lg">
-                <div class="p-6 sm:px-20 bg-gray-100 border-b flex">
-                    <x-jet-button style="margin: auto;" wire:click="$set('isOpenModalConfirm',true)">
+                <div class="p-6 sm:px-20 bg-gray-100 border-b flex justify-center">
+                    <x-jet-button wire:click="$set('isOpenModalConfirm',true)">
                         Finalizar asignación
                     </x-jet-button>
                 </div>

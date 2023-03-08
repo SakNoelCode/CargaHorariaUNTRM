@@ -34,6 +34,17 @@ class EditDocente extends Component
         ];
     }
 
+    //Atributos personalizados
+    protected $validationAttributes = [
+        'name' => 'nombres',
+        'dni' => 'DNI',
+        'email' => 'correo eléctronico',
+        'escuela_id' => 'escuela',
+        'condicion_id' => 'condicion',
+        'categoria_id' => 'categoría',
+        'modalidad_id' => 'modalidad'
+    ];
+
     //Constructor
     public function mount($id)
     {

@@ -16,6 +16,10 @@ class CreateDeclaracionJurada extends Component
         'periodo_id' => 'required'
     ];
 
+    protected $validationAttributes = [
+        'periodo_id' => 'periodo',
+    ];
+
     public function mount()
     {
         $this->nameDocente = Auth::user()->name;

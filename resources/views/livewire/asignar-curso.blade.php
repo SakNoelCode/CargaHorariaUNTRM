@@ -60,8 +60,8 @@
 
     <x-slot name='footer'>
       <x-jet-action-message class="mr-4" wire:loading.delay on='save'>Cargando.....</x-jet-action-message>
-      <x-jet-secondary-button class="mr-4" wire:click='closeModal'>Cerrar</x-jet-secondary-button>
-      <x-jet-button wire:click='save' wire:loading.attr='disabled' wire:target='save'>Guardar</x-jet-button>
+      <x-jet-secondary-button class="mr-4" wire:click='closeModal' wire:loading.attr='disabled' wire:target='save,closeModal'>Cerrar</x-jet-secondary-button>
+      <x-jet-button wire:click='save' wire:loading.attr='disabled' wire:target='save,closeModal'>Guardar</x-jet-button>
     </x-slot>
 
   </x-jet-dialog-modal>

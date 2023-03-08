@@ -166,7 +166,6 @@
             @if ($estado == 'enviado')
             <div class="mb-4">
                 <x-jet-label value='Documento enviado: (descargar)' />
-                {{---{{var_export($documento)}}---}}
                 <a class="cursor-pointer" wire:click='download'><i class="fa fa-download"></i></a>
             </div>
             @endif
@@ -175,10 +174,10 @@
 
         <x-slot name='footer'>
             <x-jet-action-message class="mr-4" wire:loading on='update'>Cargando....</x-jet-action-message>
-            <x-jet-secondary-button class="mr-4" wire:click="$set('isOpen',false)">Cancelar</x-jet-secondary-button>
+            <x-jet-secondary-button class="mr-4" wire:click="resetFields" wire:loading.attr='disabled' wire:target='update,documento,resetFields'>Cancelar</x-jet-secondary-button>
 
             @if ($estado == 'generado' || $estado=='observado')
-            <x-jet-button wire:click='update' wire:loading.attr='disabled' wire:target='update,documento'>Enviar</x-jet-button>
+            <x-jet-button wire:click='update' wire:loading.attr='disabled' wire:target='update,documento,resetFields'>Enviar</x-jet-button>
             @endif
 
         </x-slot>

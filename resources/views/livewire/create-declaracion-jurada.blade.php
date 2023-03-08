@@ -31,8 +31,8 @@
 
         <x-slot name='footer'>
             <x-jet-action-message class="mr-4" wire:loading on='save'>Cargando....</x-jet-action-message>
-            <x-jet-secondary-button class="mr-4" wire:click="cleanFields">Cancelar</x-jet-secondary-button>
-            <x-jet-button wire:click='save' wire:loading.attr='disabled' wire:target='save'>Generar</x-jet-button>
+            <x-jet-secondary-button class="mr-4" wire:click="cleanFields" wire:loading.attr='disabled' wire:target='save,cleanFields'>Cancelar</x-jet-secondary-button>
+            <x-jet-button wire:click='save' wire:loading.attr='disabled' wire:target='save,cleanFields'>Generar</x-jet-button>
         </x-slot>
     </x-jet-dialog-modal>
 </div>

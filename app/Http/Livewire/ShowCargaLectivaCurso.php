@@ -31,6 +31,10 @@ class ShowCargaLectivaCurso extends Component
 
     ];
 
+    protected $validationAttributes = [
+        'numAlumnos' => 'número de alumnos'
+    ];
+
     protected $listeners = ['render_table_carga_lectiva_curso' => 'render'];
 
     public function mount($id, $isDocente)
@@ -159,5 +163,9 @@ class ShowCargaLectivaCurso extends Component
                 $this->isCompletoCursos = false;
             }
         }
+    }
+
+    public function closeModalDelete(){
+        $this->isOpenModalDelete = false;
     }
 }
