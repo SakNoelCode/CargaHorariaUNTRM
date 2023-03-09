@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
         User::insert([
             [
                 'name' => 'Arcangel',
-                'email' => '7494213381@untrm.edu.pe',
+                'email' => 'admin@untrm.edu.pe',
                 'dni' => '74942133',
                 'password' => bcrypt('12345678'),
                 'rol_id' => '1'
