@@ -56,7 +56,7 @@ php artisan key:generate
 ```bash
 php artisan migrate
 ```
-4. Ejecute los seeders **(aquí se crearán datos de prueba, incluyendo a los usuarios, consulte las credenciales) **:
+4. Ejecute los seeders **(aquí se crearán datos de prueba, incluyendo a los usuarios, consulte las credenciales)**:
 ```bash
 php artisan db seed
 ```
