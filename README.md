@@ -3,11 +3,13 @@
 # Gestión de carga horaria UNTRM
 ![Img](https://github.com/SakNoelCode/Imagenes_Proyectos/blob/master/Captura%20de%20pantalla%20(5).png)
 
-##Sobre el proyecto
+------------
+
+## Sobre el proyecto
 El siguiente proyecto tiene como finalidad administrar y gestionar todos los procesos que se encargan de asignar un horario a los docentes de la universidad UNTRM. Se construyo usando [laravel 9](https://laravel.com/docs/9.x "laravel 9") y [livewire](https://laravel-livewire.com/docs/2.x/quickstart "livewire").
 
-##Instalar en local
-###Dependencias
+## Instalar en local
+### Dependencias
 - Se debe tener instalado [XAMPP](https://www.apachefriends.org/es/download.html "XAMPP") (versión **PHP** **8.1.12** o superior)  
 - Se debe tener instalado [Composer](https://getcomposer.org/download/ "Composer")
 
@@ -63,15 +65,19 @@ php artisan db seed
 php artisan serve
 ```
 
-##Documentación
+## Documentación
 Encuentré la documentación del sistema [aquí](# "aquí")
 
-##Consideraciones
+## Consideraciones
 - El proyecto trabaja con la versión **8.1.12** de PHP
 - El proyecto trabaja con [Jetstream](https://jetstream.laravel.com/3.x/introduction.html)
 - Al trabajar con Jetstream, automaticamente usa los estilos de [TailwindCSS](https://tailwindcss.com/docs/installation) 
 
+------------
 ![Img](https://github.com/SakNoelCode/Imagenes_Proyectos/blob/master/Captura%20de%20pantalla%20(6).png)
+
+
+
 
 
 
