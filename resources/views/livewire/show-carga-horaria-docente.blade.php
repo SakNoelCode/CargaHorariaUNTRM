@@ -36,7 +36,7 @@
                             Horario
                         </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Opcciones
+                            Opciones
                         </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Documentos
@@ -75,6 +75,7 @@
                             @endif
                         </td>
                         <td class="px-6 py-4">
+                            <?php $isHorarioReady = false; ?>
                             @foreach ($cargaHoraria as $c)
                             @if ($c->cargalectiva_id == $item->id && $c->estado_terminado == 1)
                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-300">
