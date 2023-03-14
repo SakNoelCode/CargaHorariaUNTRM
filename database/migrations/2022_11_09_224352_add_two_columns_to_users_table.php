@@ -29,6 +29,7 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('dni');
+            $table->dropForeign(['rol_id']);
             $table->dropColumn('rol_id');
         });
     }
