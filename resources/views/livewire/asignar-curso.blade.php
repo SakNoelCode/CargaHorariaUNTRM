@@ -33,16 +33,6 @@
         </select>
       </div>
 
-      <!--Ciclo--->
-      <div class="mb-4" wire:ignore>
-        <x-jet-label value='Ciclo' />
-        <select class='select2Ciclo'>
-          <option value=""></option>
-          @foreach ($ciclos as $item)
-          <option value="{{$item->id}}">{{$item->descripcion}}</option>
-          @endforeach
-        </select>
-      </div>
 
       <!--Sección--->
       <div class="mb-4" wire:ignore>
@@ -78,7 +68,7 @@
       });
     });
 
-    //Funcion para el select Ciclo
+    /*Funcion para el select Ciclo
     $(document).ready(function() {
       $('.select2Ciclo').select2({
         width: '100%',
@@ -89,7 +79,7 @@
         Livewire.emit('listenerReferenceCiclo',
           $('.select2Ciclo').select2("val"));
       });
-    });
+    });*/
 
     //Funcion para el select Seccion
     $(document).ready(function() {
@@ -134,7 +124,7 @@
 
         //Limpieza de selects
         $("#select2Curso").val(null).trigger('change');
-        $(".select2Ciclo").val(null).trigger('change');
+        //$(".select2Ciclo").val(null).trigger('change');
         $(".select2Seccion").val(null).trigger('change');
 
       })

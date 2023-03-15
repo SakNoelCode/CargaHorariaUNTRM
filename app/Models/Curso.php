@@ -11,7 +11,7 @@ class Curso extends Model
 
     protected $table = 'cursos';
 
-    protected $fillable = ['nombre','tipo'];
+    protected $fillable = ['nombre','tipo','ciclo_id'];
 
     protected $guarded = ['id'];
 
@@ -21,4 +21,9 @@ class Curso extends Model
     public function cargaLectiva(){
         return $this->belongsToMany('App\Models\CargaLectiva','cargalectiva_curso');
     }
+
+    public function ciclo(){
+        return $this->belongsTo(Ciclo::class,'ciclo_id','id');
+    }
+
 }

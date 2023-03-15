@@ -3,7 +3,6 @@
 namespace App\Http\Livewire;
 
 use Illuminate\Support\Facades\DB;
-use App\Models\Ciclo;
 use App\Models\Curso;
 use App\Models\Seccion;
 use Livewire\Component;
@@ -15,7 +14,7 @@ class AsignarCurso extends Component
     public $cursoId, $cicloId, $seccionId, $cargaLectivaId, $escuelaId;
     public $arrayCursos;
 
-    protected $listeners = ['listenerReferenceCurso', 'listenerReferenceCiclo', 'listenerReferenceSeccion'];
+    protected $listeners = ['listenerReferenceCurso', 'listenerReferenceSeccion'];
 
     public function mount($id, $idEscuela)
     {
@@ -32,22 +31,23 @@ class AsignarCurso extends Component
             ->pluck('curso_id')->toArray();
 
         $cursos = Curso::all()->except($cursosCargaLectiva);
-        $ciclos = Ciclo::all();
+        //$ciclos = Ciclo::all();
         $secciones = Seccion::all();
 
         $this->arrayCursos = $cursos->pluck('nombre','id')->toArray();
         
-        return view('livewire.asignar-curso', compact('cursos', 'ciclos', 'secciones'));
+        return view('livewire.asignar-curso', compact('cursos', 'secciones'));
     }
 
     public function listenerReferenceCurso($selectedValue)
     {
         $this->cursoId = $selectedValue;
     }
+    /*
     public function listenerReferenceCiclo($selectedValue)
     {
         $this->cicloId = $selectedValue;
-    }
+    }*/
     public function listenerReferenceSeccion($selectedValue)
     {
         $this->seccionId = $selectedValue;
@@ -61,14 +61,16 @@ class AsignarCurso extends Component
     public function save()
     {
         //Validaciones
-        if ($this->cursoId != null && $this->cicloId != null && $this->seccionId != null) {
+        if ($this->cursoId != null && $this->seccionId != null) {
 
+            $curso = Curso::find($this->cursoId);
+            
             DB::table('cargalectiva_curso')->insert([
                 'cargalectiva_id' => $this->cargaLectivaId,
                 'curso_id' => $this->cursoId,
                 'escuela_id' => $this->escuelaId,
                 'seccion_id' => $this->seccionId,
-                'ciclo_id' => $this->cicloId
+                'ciclo_id' => $curso->ciclo->id
             ]);
 
             $this->closeModal();

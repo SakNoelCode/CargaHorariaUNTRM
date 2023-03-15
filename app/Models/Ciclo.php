@@ -14,4 +14,8 @@ class Ciclo extends Model
     protected $fillable = ['descripcion'];
 
     protected $guarded = ['id'];
+
+    public function cursos(){
+        return $this->hasMany(Curso::class,'ciclo_id','id');
+    }
 }

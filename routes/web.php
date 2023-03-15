@@ -24,6 +24,10 @@ Route::get('/users', function () {
     return view('admin.users.index');
 })->middleware(['auth','isAdmin'])->name('users');
 
+Route::get('/cursos', function () {
+    return view('admin.cursos.index');
+})->middleware(['auth','isAdmin'])->name('cursos');
+
 Route::get('/declaracionesjuradasDocente', function () {
     return view('docente.declaracionjurada.index');
 })->middleware(['auth','isDocente'])->name('declaracionesjuradasDocente');
