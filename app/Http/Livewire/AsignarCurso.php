@@ -29,8 +29,14 @@ class AsignarCurso extends Component
             ->join('cargalectiva_curso as clc', 'cl.id', '=', 'clc.cargalectiva_id')
             ->where('clc.cargalectiva_id', '=', $this->cargaLectivaId)
             ->pluck('curso_id')->toArray();
+        
+        $cursosDesactivados = Curso::where('estado',0)->get();
+        $arrayCursosDesactivados = array();
+        foreach($cursosDesactivados as $c){
+            $arrayCursosDesactivados[] = $c->id;
+        }
 
-        $cursos = Curso::all()->except($cursosCargaLectiva);
+        $cursos = Curso::all()->except($cursosCargaLectiva)->except($arrayCursosDesactivados);
         //$ciclos = Ciclo::all();
         $secciones = Seccion::all();
 

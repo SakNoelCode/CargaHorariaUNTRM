@@ -8,7 +8,7 @@
             En esta sección podrá gestionar los cursos.
         </x-slot>
         <x-slot name='botones'>
-            <div class="px-6 py-4 flex justify-end">
+            <div class="px-6 py-4 flex justify-center">
                 @livewire('curso.create')
             </div>
         </x-slot>

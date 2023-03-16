@@ -62,7 +62,12 @@
         <!-- Email -->
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="email" value="{{ __('Email') }}" />
+            @if (Auth::user()->rol_id == 1)
+            <x-jet-input id="email" type="email" class="mt-1 block w-full" wire:model.defer="state.email" />
+            @else
             <x-jet-input disabled id="email" type="email" class="mt-1 block w-full bg-gray-100" wire:model.defer="state.email" />
+            @endif
+            
             <x-jet-input-error for="email" class="mt-2" />
 
             @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::emailVerification()) && ! $this->user->hasVerifiedEmail())
