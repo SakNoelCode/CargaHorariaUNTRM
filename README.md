@@ -6,7 +6,7 @@
 ------------
 
 ## Sobre el proyecto
-El siguiente proyecto tiene como finalidad administrar y gestionar todos los procesos que se encargan de asignar un horario a los docentes de la universidad UNTRM. Se construyo usando [laravel 9](https://laravel.com/docs/9.x "laravel 9") y [livewire](https://laravel-livewire.com/docs/2.x/quickstart "livewire").
+El siguiente proyecto tiene como finalidad administrar y gestionar todos los procesos que se encargan de asignar un horario a los docentes de la universidad UNTRM. Se construyo usando [laravel 10](https://laravel.com/docs/10.x "laravel 9") y [livewire](https://laravel-livewire.com/docs/2.x/quickstart "livewire").
 
 ## Instalar en local
 ### Dependencias
@@ -36,8 +36,10 @@ composer -v
 ```bash
 composer install
 ```
-- Duplique el archivo **.env.example**, al archivo duplicado cambiar de nombre como **.env**, este archivo se debe modificar según las configuraciones de nuestro proyecto, en nuestro caso se deben modificar las conexiones para nuestra base de datos
+- Duplique el archivo **.env.example**, al archivo duplicado cambiar de nombre como **.env**, este archivo se debe modificar según las configuraciones de nuestro proyecto, en nuestro caso se deben modificar las conexiones para nuestra base de datos y el nombre de la aplicación (opcional)
 ```bash
+APP_NAME=Carga_Horaria
+
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
@@ -56,9 +58,9 @@ php artisan key:generate
 ```bash
 php artisan migrate
 ```
-4. Ejecute los seeders **(aquí se crearán datos de prueba, incluyendo a los usuarios, consulte las credenciales)**:
+4. Ejecute los seeders **(aquí se crearán datos de prueba, incluyendo a los usuarios, aquí puede consultar las credenciales para que ingrse a la aplicación)**:
 ```bash
-php artisan db seed
+php artisan db:seed
 ```
 5. Ejecute el proyecto con el comando:
 ```bash
@@ -66,7 +68,7 @@ php artisan serve
 ```
 
 ## Documentación
-Encuentré la documentación del sistema [aquí](# "aquí")
+Encuentré la documentación del sistema [aquí](https://drive.google.com/file/d/1Yt9q5UBhjt6gMKJ1-sm7Vd2Clekcou4O/view?usp=sharing "aquí")
 
 ## Consideraciones
 - El proyecto trabaja con la versión **8.1.12** de PHP
