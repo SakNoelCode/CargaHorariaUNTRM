@@ -5,7 +5,6 @@ namespace App\Http\Livewire;
 use App\Models\CargaLectiva;
 use App\Models\DeclaracionJurada;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithPagination;
 

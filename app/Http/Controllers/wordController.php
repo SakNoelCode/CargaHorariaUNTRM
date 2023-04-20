@@ -91,13 +91,13 @@ class wordController extends Controller
 
         //Creando la data 
         $phpWord->setValues([
-            'universidad' => 'UNIVERSIDAD NACIONAL TORIBIO RODRIGUEZ DE MENDOZA DE AMAZONAS',
+            'universidad' => 'UNIVERSIDAD NACIONAL TORIBIO RODRÍGUEZ DE MENDOZA DE AMAZONAS',
             'facultad' =>  mb_strtoupper($cargaLectiva->declaracionJurada->docente->escuela->facultad->descripcion),
             'escuela' =>  mb_strtoupper($cargaLectiva->declaracionJurada->docente->escuela->descripcion),
             'nombreDocente' => $cargaLectiva->declaracionJurada->docente->user->name,
-            'condicionDocente' => $cargaLectiva->declaracionJurada->docente->condicione->descripcion,
-            'categoriaDocente' => $cargaLectiva->declaracionJurada->docente->categoria->descripcion,
-            'md' => $cargaLectiva->declaracionJurada->docente->modalidade->descripcion,
+            'condicionDocente' => ucfirst($cargaLectiva->declaracionJurada->docente->condicione->descripcion),
+            'categoriaDocente' => ucfirst( $cargaLectiva->declaracionJurada->docente->categoria->descripcion),
+            'md' => ucwords($cargaLectiva->declaracionJurada->docente->modalidade->descripcion),
             'hm' => $cargaLectiva->declaracionJurada->docente->modalidade->horas,
             'semestre' => $cargaLectiva->declaracionJurada->periodo->descripcion,
             'inicioSemestre' => Carbon::createFromFormat('Y-m-d', $cargaLectiva->declaracionJurada->periodo->inicio_periodo)->format('d-m-Y'),
@@ -112,7 +112,7 @@ class wordController extends Controller
             $totalCurso = $item->horas_teoria + $item->horas_practica;
             $values = [[
                 'i' => $idCurso,
-                'nombreCurso' => $item->nombre,
+                'nombreCurso' => ucwords($item->nombre),
                 'tip' => $item->tipo,
                 'cic' => $item->descripcion,
                 'sec' => mb_strtoupper($item->desSeccion),
@@ -240,6 +240,15 @@ class wordController extends Controller
             if ($dia == 'Ueves') {
                 $dia = 'Jueves';
             }
+            if($dia == 'Miercoles'){
+                $dia = 'Miércoles';
+            }
+            if($item->tipo == 'teorico'){
+                $item->tipo = 'teórico';
+            }
+            if($item->tipo == 'practico'){
+                $item->tipo = 'práctico';
+            }
 
             $horario = $item->hora_inicio . ' ' . $item->sisHorarioInicio . ' - ' . $item->hora_fin . ' ' . $item->sisHorarioFin;
 
@@ -271,10 +280,10 @@ class wordController extends Controller
                 'i' => $i,
                 'day' => $dia,
                 'horario' => $horario,
-                'cursocarga' => ucfirst($cursocarga),
+                'cursocarga' => ucwords($cursocarga),
                 'local' => mb_strtoupper($item->descripcionLocal),
                 'aula' => mb_strtoupper($item->descripcionAula),
-                'tipo' => $item->tipo,
+                'tipo' => ucfirst($item->tipo),
                 'horas' => $horas
             ]];
             $i++;

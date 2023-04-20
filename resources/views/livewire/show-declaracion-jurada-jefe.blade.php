@@ -89,10 +89,10 @@
                             </span>
                             @endif
                         </td>
-                        <td class="px-6 py-4 text-sm font-medium">
+                        <td class="px-6 py-4 text-sm font-medium flex justify-start">
                             <!---button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="openModal()"><i class="fa-solid fa-eye"></i></button---->
-                            <a title="Ver documento" class="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" wire:click='openModalViewDocument({{$item}})'><i class="fa-solid fa-eye"></i></a>
-                            <a title="Descargar documento" class="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" wire:click='download({{$item}})'><i class="fa fa-download"></i></a>
+                            <a title="Ver documento" class="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white font-bold mr-2 py-2 px-4 rounded" wire:click='openModalViewDocument({{$item}})'><i class="fa-solid fa-eye"></i></a>
+                            <a title="Descargar documento" class="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white font-bold ml-2 py-2 px-4 rounded" wire:click='download({{$item}})'><i class="fa fa-download"></i></a>
                         </td>
                         <td class="px-6 py-4 text-sm font-medium">
                             <a class="cursor-pointer" wire:click="edit({{$item}})"><i class="fa-solid fa-magnifying-glass"></i></a>

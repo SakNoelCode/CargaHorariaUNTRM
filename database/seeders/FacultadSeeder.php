@@ -16,10 +16,10 @@ class FacultadSeeder extends Seeder
     {
         Facultad::insert([
             [
-                'descripcion' => 'facultad de ingeniería de sistemas y mecánica eléctrica'
+                'descripcion' => 'Ingeniería de Sistemas y Mecánica Eléctrica'
             ],
             [
-                'descripcion' => 'facultad de ingeniería civil y ambiental'
+                'descripcion' => 'Ingeniería Civil y Ambiental'
             ]
         ]);
     }

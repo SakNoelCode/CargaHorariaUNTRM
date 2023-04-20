@@ -8,6 +8,9 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    <!-----Icons--->
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+
     <!-- Fonts -->
     <link rel="stylesheet" href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap">
 
@@ -69,8 +72,8 @@
             })
         });
 
-         //Escuchar evento para mostrar una alerta
-         Livewire.on('alertMixin', function(icon,message) {
+        //Escuchar evento para mostrar una alerta
+        Livewire.on('alertMixin', function(icon, message) {
             const Toast = Swal.mixin({
                 toast: true,
                 position: 'top-end',

@@ -16,11 +16,11 @@ class CargaSeeder extends Seeder
     {
         Carga::insert([
             [
-                'titulo' => 'preparacion y evaluación del aprendizaje',
+                'titulo' => 'preparación y evaluación del aprendizaje',
                 'descripcion' => '(50% del trabajo lectivo)'
             ],
             [
-                'titulo' => 'consejeria',
+                'titulo' => 'consejería',
                 'descripcion' => 'Señalar número y escuela Academico Profesional de los alumnos.'
             ],
             [

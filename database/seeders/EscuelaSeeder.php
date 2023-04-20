@@ -20,7 +20,7 @@ class EscuelaSeeder extends Seeder
                 'facultad_id' => '1'
             ],
             [
-                'descripcion' => 'Mecánica eléctrica',
+                'descripcion' => 'Mecánica Eléctrica',
                 'facultad_id' => '1'
             ]
         ]);

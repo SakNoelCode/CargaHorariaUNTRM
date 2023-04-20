@@ -114,14 +114,14 @@
                             @if ($item->estado_terminado == 1)
                             <form action="{{ route('declaracionCargaHoraria.dowload',['id' => $item->id])}}" method="post">
                                 @csrf
-                                <button class="cursor-pointer text-gray-600 mr-4" type="submit"><i class="fa-solid fa-file"></i></button>
+                                <button title="Declaración de la carga" class="bg-blue-500 hover:bg-blue-700 text-white font-bold mr-2 py-2 px-4 rounded" type="submit"><i class="fa-solid fa-file"></i></button>
                             </form>
                             @endif
 
                             @if ($isHorarioReady)
                             <form action="{{ route('horario.download',['id'=> $item->id]) }}" method="post">
                                 @csrf
-                                <button class="cursor-pointer text-gray-600 mr-4" type="submit"><i class="fa-solid fa-calendar-days"></i></button>
+                                <button title="Horario" class="bg-blue-500 hover:bg-blue-700 text-white font-bold ml-2 py-2 px-4 rounded" type="submit"><i class="fa-solid fa-calendar-days"></i></button>
                             </form>
                             @endif
 
