@@ -3,6 +3,7 @@
 use App\Http\Controllers\CargaLectivaController;
 use App\Http\Controllers\homeController;
 use App\Http\Controllers\wordController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 
@@ -77,3 +78,9 @@ Route::get('/guide',function(){
 Route::get('/docu',function(){
     return view('doc.docu');
 });
+
+//Rutas para el despliegue de la aplicacción
+Route::get('storage-link',function(){
+    Artisan::call('storage:link');
+});
+

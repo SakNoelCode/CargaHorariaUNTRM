@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\CargaLectiva;
 use App\Models\DeclaracionJurada;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -14,6 +15,7 @@ class ShowDeclaracionJuradaJefe extends Component
     //Variables
     public $numeracion = 1, $numberOfRecords = "5";
     public $showModalEdit = false, $showModalView = false, $checkBoxObservaciones = false;
+    public $showModalViewDocument = false, $docxFilePath = null, $htmlContent = null;
 
     //Variables del la declaracion jurada
     public $idDeclaracion, $nameDocente, $periodo, $observaciones, $estado;
@@ -58,6 +60,7 @@ class ShowDeclaracionJuradaJefe extends Component
             ->orderBy('updated_at', 'asc')
             ->paginate($this->numberOfRecords);
 
+        //$htmlDocx = $this->convertDocxToHtml('Hola');
         return view('livewire.show-declaracion-jurada-jefe', compact('declaraciones'));
     }
 
@@ -71,6 +74,32 @@ class ShowDeclaracionJuradaJefe extends Component
         $declaracion = $declaracion;
         $file_path = public_path('storage/documents/' . $declaracion->documento);
         return response()->download($file_path);
+    }
+
+
+    public function openModalViewDocument(DeclaracionJurada $declaracion)
+    {
+        $this->docxFilePath = 'storage/documents/'.$declaracion->documento;
+        $this->htmlContent = $this->convertDocxToHtml($this->docxFilePath);
+        $this->emit('removeHidden');
+    }
+
+    function convertDocxToHtml($docxFilePath)
+    {
+        $phpWord = \PhpOffice\PhpWord\IOFactory::load($docxFilePath);
+
+        // Save the document as HTML
+        $htmlFilePath = $docxFilePath . '.html';
+        $xmlWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'HTML');
+        $xmlWriter->save($htmlFilePath);
+
+        // Read the HTML file
+        $htmlContent = file_get_contents($htmlFilePath);
+
+        // Delete the temporary HTML file
+        unlink($htmlFilePath);
+
+        return $htmlContent;
     }
 
     /**

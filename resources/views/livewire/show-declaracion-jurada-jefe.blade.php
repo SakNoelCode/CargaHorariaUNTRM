@@ -90,7 +90,9 @@
                             @endif
                         </td>
                         <td class="px-6 py-4 text-sm font-medium">
-                            <a class="cursor-pointer" wire:click='download({{$item}})'><i class="fa fa-download"></i></a>
+                            <!---button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="openModal()"><i class="fa-solid fa-eye"></i></button---->
+                            <a title="Ver documento" class="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" wire:click='openModalViewDocument({{$item}})'><i class="fa-solid fa-eye"></i></a>
+                            <a title="Descargar documento" class="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" wire:click='download({{$item}})'><i class="fa fa-download"></i></a>
                         </td>
                         <td class="px-6 py-4 text-sm font-medium">
                             <a class="cursor-pointer" wire:click="edit({{$item}})"><i class="fa-solid fa-magnifying-glass"></i></a>
@@ -176,6 +178,28 @@
     </x-jet-dialog-modal>
 
 
+    <!-- Modal para la visualización del documento-->
+    <div class="fixed z-50 inset-0 overflow-y-auto hidden" id="modalDocument">
+        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+
+            <!-- Fondo oscuro detrás del modal -->
+            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+            </div>
+
+            <!-- Contenido del modal -->
+            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <iframe class="w-full h-screen" srcdoc="{{$htmlContent}}" frameborder="0"></iframe>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-500 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm" onclick="closeModal()">
+                        Cerrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!------------------Modal para mostrar ----------------->
     <x-jet-dialog-modal wire:model='showModalView'>
@@ -230,6 +254,14 @@
             } else {
                 element.style.display = 'none';
             }
+        }
+
+        Livewire.on('removeHidden', event => {
+            document.getElementById('modalDocument').classList.remove('hidden');
+        })
+
+        function closeModal() {
+            document.getElementById('modalDocument').classList.add('hidden');
         }
     </script>
     @endpush
