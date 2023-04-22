@@ -39,6 +39,10 @@ class Docente extends Model
         return $this->hasMany('App\Models\DeclaracionJurada');
     }
 
+    public function especialidades(){
+        return $this->belongsToMany(Especialidade::class)->withTimestamps();
+    }
+
     //Relaciones Eloquent
     public function user(){
         return $this->belongsTo('App\Models\User');

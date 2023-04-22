@@ -54,7 +54,7 @@
             @endif
 
 
-            <!---div class="pt-4">
+            <div class="pt-4">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="bg-white overflow-hidden sm:rounded-lg">
                         <div class="p-6 sm:px-20 bg-white border-b">
@@ -89,11 +89,19 @@
                                         </div>
                                         <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                             <dt class="text-base font-medium text-gray-500">Modalidad</dt>
-                                            <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{$docente->modalidade->descripcion}}</dd>
+                                            <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{$docente->modalidade->descripcion}} : {{$docente->modalidade->horas}} horas semanales</dd>
                                         </div>
                                         <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                             <dt class="text-base font-medium text-gray-500">Periodo</dt>
                                             <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{$declaracionJurada->periodo->descripcion}}</dd>
+                                        </div>
+                                        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <dt class="text-base font-medium text-gray-500">Especialidades</dt>
+                                            <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
+                                                @foreach ($docente->especialidades->toArray() as $item)
+                                                <p> {{ '- '.ucfirst($item['descripcion'])}} </p>
+                                                @endforeach
+                                            </dd>
                                         </div>
                                     </dl>
                                 </x-slot>
@@ -101,7 +109,7 @@
                         </div>
                     </div>
                 </div>
-            </div----->
+            </div>
 
             <!-----Tabla Cursos Asignados---->
             @livewire('show-carga-lectiva-curso',['id'=>$cargaLectiva->id,'isDocente'=>false],key([$cargaLectiva->id]))

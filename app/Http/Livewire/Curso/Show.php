@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Curso;
 
 use App\Models\Ciclo;
 use App\Models\Curso;
+use App\Models\Especialidade;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -13,7 +14,7 @@ class Show extends Component
     public $numRegistros = 5;
     public $search = '';
     public $isOpenEdit = false;
-    public $idCurso, $nameCurso, $tipoCurso, $estadoCurso, $cicloId;
+    public $idCurso, $nameCurso, $tipoCurso, $estadoCurso, $cicloId, $especialidadCurso;
 
     protected $listeners = ['render'];
 
@@ -22,7 +23,8 @@ class Show extends Component
         return [
             'nameCurso' => 'required|unique:cursos,nombre,' . $this->idCurso,
             'tipoCurso' => 'required',
-            'cicloId' => 'required'
+            'cicloId' => 'required',
+            'especialidadCurso' => 'required'
         ];
     }
 
@@ -33,8 +35,9 @@ class Show extends Component
             ->paginate($this->numRegistros);
 
         $ciclos = Ciclo::all();
+        $especialidades = Especialidade::all();
 
-        return view('livewire.curso.show', compact('cursos', 'ciclos'));
+        return view('livewire.curso.show', compact('cursos', 'ciclos','especialidades'));
     }
 
     public function updatingSearch()
@@ -55,6 +58,7 @@ class Show extends Component
         $this->tipoCurso = $item->tipo;
         $this->estadoCurso = $item->estado == 1 ? true : false;
         $this->cicloId = $item->ciclo_id;
+        $this->especialidadCurso = $item->especialidad_id;
         $this->isOpenEdit = true;
     }
 
@@ -67,7 +71,8 @@ class Show extends Component
                 'nombre' =>  strtolower($this->nameCurso),
                 'tipo' => $this->tipoCurso,
                 'estado' => $this->estadoCurso == true ? 1 : 0,
-                'ciclo_id' => $this->cicloId
+                'ciclo_id' => $this->cicloId,
+                'especialidad_id' => $this->especialidadCurso
             ]);
         $this->closeEdit();
         $this->emit('alert', 'curso actualizado exitosamente');

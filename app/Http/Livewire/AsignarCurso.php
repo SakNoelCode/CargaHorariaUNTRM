@@ -2,8 +2,10 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\CargaLectiva;
 use Illuminate\Support\Facades\DB;
 use App\Models\Curso;
+use App\Models\Docente;
 use App\Models\Seccion;
 use Livewire\Component;
 
@@ -12,7 +14,7 @@ class AsignarCurso extends Component
     //Variables
     public $isOpen = false;
     public $cursoId, $cicloId, $seccionId, $cargaLectivaId, $escuelaId;
-    public $arrayCursos;
+    public $arrayCursos,$arrayEspecialidadesDocente = [];
 
     protected $listeners = ['listenerReferenceCurso', 'listenerReferenceSeccion'];
 
@@ -29,19 +31,33 @@ class AsignarCurso extends Component
             ->join('cargalectiva_curso as clc', 'cl.id', '=', 'clc.cargalectiva_id')
             ->where('clc.cargalectiva_id', '=', $this->cargaLectivaId)
             ->pluck('curso_id')->toArray();
-        
-        $cursosDesactivados = Curso::where('estado',0)->get();
+
+        //Obtener los id de las especialidades del docente
+        $docente_id = CargaLectiva::find($this->cargaLectivaId)->declaracionJurada->docente->id;
+        $docente = Docente::with('especialidades')->where('id', $docente_id)->get();
+        foreach ($docente as $item) {
+            foreach($item->especialidades as $e){
+                $this->arrayEspecialidadesDocente[] = $e->id;
+            }
+        }
+
+        //Obtener los cursos desactivados
+        $cursosDesactivados = Curso::where('estado', 0)->get();
         $arrayCursosDesactivados = array();
-        foreach($cursosDesactivados as $c){
+        foreach ($cursosDesactivados as $c) {
             $arrayCursosDesactivados[] = $c->id;
         }
 
-        $cursos = Curso::all()->except($cursosCargaLectiva)->except($arrayCursosDesactivados);
+        //Seleccionar solos los cursos que el el docente tenga como especialidad
+        $cursosEspecialidad = Curso::wherein('especialidad_id',$this->arrayEspecialidadesDocente)->get();    
+
+        //Obtener los cursos
+        $cursos = $cursosEspecialidad->except($cursosCargaLectiva)->except($arrayCursosDesactivados);
         //$ciclos = Ciclo::all();
         $secciones = Seccion::all();
 
-        $this->arrayCursos = $cursos->pluck('nombre','id')->toArray();
-        
+        $this->arrayCursos = $cursos->pluck('nombre', 'id')->toArray();
+
         return view('livewire.asignar-curso', compact('cursos', 'secciones'));
     }
 
@@ -70,7 +86,7 @@ class AsignarCurso extends Component
         if ($this->cursoId != null && $this->seccionId != null) {
 
             $curso = Curso::find($this->cursoId);
-            
+
             DB::table('cargalectiva_curso')->insert([
                 'cargalectiva_id' => $this->cargaLectivaId,
                 'curso_id' => $this->cursoId,
@@ -81,8 +97,8 @@ class AsignarCurso extends Component
 
             $this->closeModal();
 
-           // $this->emitTo('render', 'renderModal');
-            $this->emitTo('show-carga-lectiva-curso','render_table_carga_lectiva_curso');
+            // $this->emitTo('render', 'renderModal');
+            $this->emitTo('show-carga-lectiva-curso', 'render_table_carga_lectiva_curso');
             $this->emit('alertMixin', 'success', 'Curso asignado exitosamente');
         } else {
             $this->emit('alertMixin', 'error', 'validaciones incorrectas');

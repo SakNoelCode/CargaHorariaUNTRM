@@ -11,7 +11,7 @@ class Curso extends Model
 
     protected $table = 'cursos';
 
-    protected $fillable = ['nombre','tipo','ciclo_id'];
+    protected $fillable = ['nombre','tipo','ciclo_id','especialidad_id'];
 
     protected $guarded = ['id'];
 
@@ -24,6 +24,10 @@ class Curso extends Model
 
     public function ciclo(){
         return $this->belongsTo(Ciclo::class,'ciclo_id','id');
+    }
+
+    public function especialidad(){
+        return $this->belongsTo(Especialidade::class);
     }
 
 }

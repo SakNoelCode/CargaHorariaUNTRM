@@ -4,23 +4,26 @@ namespace App\Http\Livewire\Curso;
 
 use App\Models\Ciclo;
 use App\Models\Curso;
+use App\Models\Especialidade;
 use Livewire\Component;
 
 class Create extends Component
 {
     public $isOpen = false;
-    public $nombreCurso, $tipoCurso, $cicloCurso;
+    public $nombreCurso, $tipoCurso, $cicloCurso,$especialidadCurso;
 
     protected $rules  = [
         'nombreCurso' => 'required|unique:cursos,nombre',
         'tipoCurso' => 'required',
-        'cicloCurso' => 'required'
+        'cicloCurso' => 'required',
+        'especialidadCurso' => 'required'
     ];
 
     public function render()
     {
         $ciclos = Ciclo::all();
-        return view('livewire.curso.create', ['ciclos' => $ciclos]);
+        $especialidades = Especialidade::all();
+        return view('livewire.curso.create', ['ciclos' => $ciclos,'especialidades' => $especialidades]);
     }
 
     public function openModal()
@@ -35,7 +38,8 @@ class Create extends Component
         $curso = Curso::create([
             'nombre' => $this->nombreCurso,
             'tipo' => $this->tipoCurso,
-            'ciclo_id' => $this->cicloCurso
+            'ciclo_id' => $this->cicloCurso,
+            'especialidad_id' => $this->especialidadCurso
         ]);
         $this->closeModal();
         $this->emitTo('curso.show','render');
@@ -50,7 +54,7 @@ class Create extends Component
     public function resetForm()
     {
         $this->reset([
-            'nombreCurso', 'tipoCurso', 'cicloCurso'
+            'nombreCurso', 'tipoCurso', 'cicloCurso','especialidadCurso'
         ]);
         $this->resetErrorBag();
         $this->resetValidation();

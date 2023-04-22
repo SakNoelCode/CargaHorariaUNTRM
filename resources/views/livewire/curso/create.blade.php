@@ -37,6 +37,17 @@
                 <x-jet-input-error for='cicloCurso' />
             </div>
 
+            <div class="mb-4">
+                <x-jet-label for='especialidadCurso' value='Especialidad:' />
+                <select id="especialidadCurso" wire:model.defer='especialidadCurso' class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm w-full">
+                    <option value="" selected>Seleccione:</option>
+                    @foreach ($especialidades as $item)
+                    <option value="{{$item->id}}">{{$item->descripcion}}</option>
+                    @endforeach
+                </select>
+                <x-jet-input-error for='especialidadCurso' />
+            </div>
+
         </x-slot>
 
         <x-slot name='footer'>

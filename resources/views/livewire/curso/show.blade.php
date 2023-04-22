@@ -53,6 +53,9 @@
                             Ciclo
                         </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Especialidad
+                        </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Estado
                         </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -76,6 +79,9 @@
                             @if ($item->ciclo != null)
                             {{$item->ciclo->descripcion}}
                             @endif
+                        </td>
+                        <td class="px-6 py-4 text-sm font-medium  text-gray-500">
+                            {{$item->especialidad->descripcion}}
                         </td>
                         <td class="px-6 py-4 text-sm font-medium  text-gray-500">
                             @if ($item->estado == 1)
@@ -135,6 +141,15 @@
                     @endforeach
                 </select>
                 <x-jet-input-error for='cicloId' />
+            </div>
+            <div class="mb-4">
+                <x-jet-label for='especialidadCurso' value='Especialidad:' />
+                <select id="especialidadCurso" wire:model.defer='especialidadCurso' class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm w-full">
+                    @foreach ($especialidades as $item)
+                    <option value="{{$item->id}}">{{$item->descripcion}}</option>
+                    @endforeach
+                </select>
+                <x-jet-input-error for='especialidadCurso' />
             </div>
             <div class="block mb-2">
                 <label for="status-{{$idCurso}}" class="flex items-center">
