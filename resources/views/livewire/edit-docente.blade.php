@@ -1,10 +1,12 @@
 <div>
+    @push('css')
+    @endpush
 
     <a class="text-indigo-600 hover:text-indigo-900 cursor-pointer" wire:click="$set('IsOpen',true)">Editar</a>
 
     <x-jet-dialog-modal wire:model='IsOpen'>
         <x-slot name='title'>
-            Editar docente 
+            Editar docente
         </x-slot>
 
         <x-slot name='content'>
@@ -98,7 +100,7 @@
             <!-------Status------>
             <div class="block mb-2">
                 <label for="status-{{$idUser}}" class="flex items-center">
-                    <x-jet-checkbox id="status-{{$idUser}}" wire:model.defer='status'/>
+                    <x-jet-checkbox id="status-{{$idUser}}" wire:model.defer='status' />
                     <span class="ml-2 text-sm text-gray-600">{{ __('Estado') }}</span>
                 </label>
             </div>
@@ -111,4 +113,8 @@
             <x-jet-button wire:click='save' wire:loading.attr='disabled' wire:target='save,closeEditDocente'>Actualizar </x-jet-button>
         </x-slot>
     </x-jet-dialog-modal>
+
+    @push('js')
+    @endpush
+
 </div>

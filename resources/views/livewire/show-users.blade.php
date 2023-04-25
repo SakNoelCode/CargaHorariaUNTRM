@@ -73,6 +73,9 @@
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Rol
                         </th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Especialidades
+                        </th>
                         <th scope="col" class="relative px-6 py-3">
                             <span class="sr-only">Edit</span>
                         </th>
@@ -121,10 +124,16 @@
                         <td class="px-6 py-4 text-sm text-gray-500">
                             {{$user->descripcion}}
                         </td>
+                        <td class="px-6 py-4 text-sm text-gray-500">
+                            @if($user->descripcion=="docente")
+                            @livewire('docente.edit-especialidad',['id'=>$user->id],key(time().$user->id))
+                            @endif
+                        </td>
                         <td class="px-6 py-4 text-sm font-medium">
                             @if($user->descripcion=="docente")
                             @livewire('edit-docente',['id'=>$user->id],key($user->id))
                             @endif
+
                             @if ($user->descripcion=="jefe departamento")
                             @livewire('edit-jefe-departamento',['id'=>$user->id],key($user->id))
                             @endif

@@ -50,7 +50,7 @@ class EditDocente extends Component
     {
         $user = User::find($id);
         $this->idUser = $user->id;
-        $this->idDocente = $user->docente->id;
+        //$this->idDocente = $user->docente->id;
     }
 
     //Asiganr los valores originales a los modelos que se van a mostrar en la vista
@@ -58,6 +58,7 @@ class EditDocente extends Component
     {
         $user = User::findOrfail($this->idUser);
 
+        $this->idDocente = $user->docente->id;
         $this->name = $user->name;
         $this->dni = $user->dni;
         $this->email = $user->email;
@@ -85,7 +86,7 @@ class EditDocente extends Component
             'escuelas' => $escuelas,
             'condiciones' => $condiciones,
             'categorias' => $categorias,
-            'modalidades' => $modalidades
+            'modalidades' => $modalidades,
         ]);
     }
 
@@ -137,8 +138,8 @@ class EditDocente extends Component
 
     public function updatingisOpen()
     {
-        if ($this->IsOpen == false) {
-
+        if ($this->IsOpen == false) {       
+               
             $this->asignarValores();
             //Borrar avisos de validación
             $this->resetErrorBag();

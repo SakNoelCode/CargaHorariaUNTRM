@@ -20,7 +20,7 @@ class CreateDocente extends Component
     //Variables del modelo
     public $name, $email, $dni, $password, $password_confirmation, $rol_id = 3;
     public $escuela_id = '', $condicion_id = '', $categoria_id = '', $modalidad_id = '', $especialidades_id;
-    public $arrayEspecialidades;
+    //public $arrayEspecialidades;
 
     //validation rules
     protected $rules = [
@@ -54,7 +54,7 @@ class CreateDocente extends Component
         $categorias = Categoria::all();
         $modalidades = Modalidade::all();
         $especialidades = Especialidade::all();
-        $this->arrayEspecialidades = Especialidade::all()->toArray();
+        //$this->arrayEspecialidades = Especialidade::all()->toArray();
 
         return view(
             'livewire.create-docente',
@@ -101,7 +101,7 @@ class CreateDocente extends Component
                 $this->emitTo('show-users', 'render_table_users');
                 $this->emit('alert', 'Usuario creado con éxito');
             } catch (Exception $e) {
-                dd($e);
+                //dd($e);
                 //revertir transaccion
                 DB::rollBack();
             }
