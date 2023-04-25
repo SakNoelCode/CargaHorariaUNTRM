@@ -4,7 +4,7 @@
     <x-jet-dialog-modal wire:model='isOpen'>
 
         <x-slot name='title'>
-            Editar Jefe de departamento
+            Editar Director de Departamento
         </x-slot>
 
         <x-slot name='content'>

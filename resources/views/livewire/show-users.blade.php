@@ -11,8 +11,8 @@
                             </div>
 
                             <div class="mt-3 text-gray-500">
-                                En esta sección podrá gestionar a los docentes y jefes de
-                                departamentos.
+                                En esta sección podrá gestionar a los docentes y a los directores de
+                                departamento.
                             </div>
                         </div>
                         <div>
@@ -122,7 +122,11 @@
                             @endif
                         </td>
                         <td class="px-6 py-4 text-sm text-gray-500">
-                            {{$user->descripcion}}
+                            @if ($user->descripcion == 'jefe departamento')
+                            Director de departamento
+                            @else
+                            {{ucfirst($user->descripcion)}}
+                            @endif
                         </td>
                         <td class="px-6 py-4 text-sm text-gray-500">
                             @if($user->descripcion=="docente")

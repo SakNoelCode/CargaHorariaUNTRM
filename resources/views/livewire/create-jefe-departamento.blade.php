@@ -1,12 +1,12 @@
 <div>
     <x-jet-button wire:click="$set('isOpen',true)">
-        Crear nuevo jefe de departamento
+        Crear nuevo director de departamento
     </x-jet-button>
 
     <x-jet-dialog-modal wire:model='isOpen'>
 
         <x-slot name='title'>
-            Crear nuevo jefe de departamento
+            Crear nuevo director de departamento
         </x-slot>
 
         <x-slot name='content'>
