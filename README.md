@@ -68,7 +68,7 @@ php artisan serve
 ```
 
 ## Documentación
-Encuentré la documentación del sistema [aquí](https://drive.google.com/file/d/1Yt9q5UBhjt6gMKJ1-sm7Vd2Clekcou4O/view?usp=sharing "aquí")
+Encuentré la documentación del sistema [aquí](https://universityproyectx.blogspot.com/2023/05/proyecto-de-carga-horaria-para-la-untrm.html "aquí")
 
 ## Consideraciones
 - El proyecto trabaja con la versión **8.1.12** de PHP
@@ -78,6 +78,8 @@ Encuentré la documentación del sistema [aquí](https://drive.google.com/file/d
 ------------
 ![Img](https://github.com/SakNoelCode/Imagenes_Proyectos/blob/master/Captura%20de%20pantalla%20(6).png)
 
+## Licencia
+- Este proyecto está licenciado bajo la Licencia MIT. Para más información, consulta el archivo [LICENSE](LICENSE).
 
 
 
